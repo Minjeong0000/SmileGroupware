@@ -5,8 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>슬라이드 네비게이터 바</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/emp/attendance/cal.css">
-<script src="${pageContext.request.contextPath}/static/js/cal.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/emp/attendance/cal.css">
+
+<script src="${pageContext.request.contextPath}/js/cal.js"></script>
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.14/index.global.min.js'></script>
