@@ -22,7 +22,7 @@ public class AdminController {
     private final AdminService service;
 
     // 운영자 로그인 화면
-    @GetMapping("/login")
+    @GetMapping("login")
     public String login() {
         return "admin/login";
     }
@@ -37,11 +37,18 @@ public class AdminController {
             HttpSession session = request.getSession();
             session.setAttribute("loginAdminVo", loginAdminVo);
             System.out.println("로그인 성공: " + loginAdminVo.getAdminId());
-            return "common/result";  // 로그인 후 대시보드로 리다이렉트
+            return "admin/home";
         } else {
             System.out.println("로그인 실패: " + vo.getAdminId());
             model.addAttribute("errMsg", "로그인 실패: ID 또는 비밀번호 불일치 또는 계정이 삭제됨");
             return "common/error";
         }
+    }//method
+
+    //운영자 홈화면
+    @GetMapping("home")
+    public String home(){
+        return "admin/adminHome";
     }
+
 }
