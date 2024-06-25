@@ -11,6 +11,9 @@
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.14/index.global.min.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -57,9 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     calendar.render();
 
+
     // 출근, 퇴근 버튼 핸들러
     document.getElementById('checkInBtn').addEventListener('click', function() {
       handleAttendance('출근');
+
+      
       alert('출근 기록이 성공적으로 등록됐습니다.');
     });
 
@@ -92,21 +98,79 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // 출근 시간 저장
       if (type === '출근') {
+        
         attendance[dateStr] = { checkIn: timeStr };
+        document.querySelector("#status").innerHTML = '근무중';
+        document.querySelector("#startTime").innerText = timeStr;
       }
 
       // 퇴근 시간 저장
       if (type === '퇴근') {
         attendance[dateStr].checkOut = timeStr;
+        document.querySelector("#status").innerHTML = "근무종료";
+        document.querySelector("#endTime").innerText= timeStr;
+
+
       }
 
       // 캘린더에 이벤트 추가
-      calendar.addEvent({
-        title: title,
-        start: now,
-        allDay: true,
-        color:type === '출근'? '#2E64FE':'#F7819F'
+      // calendar.addEvent({
+      //   title: title+"zzz",
+      //   start: now,
+      //   allDay: true,
+      //   color:type === '출근'? '#2E64FE':'#F7819F'
+      // });
+
+      //////ajax원래위치
+if(type==='출근'){
+  $.ajax({
+        // url:"/emp/attendance/start",
+        url:"/record/start",
+        type:"get",
+        success: function(data){
+          console.log(data);
+
+        //swy
+        calendar.addEvent({
+          title: type+data.state,
+          start: now,
+          allDay: true,
+          color:type === '출근'? '#2E64FE':'#F7819F'
+        });
+
+        },
+        error: function(err){
+          console.log(err);
+        }
       });
+}
+if(type==='퇴근'){
+  $.ajax({
+        // url:"/emp/attendance/start",
+        url:"/record/end",
+        // data: {},
+        type:"get",
+        success: function(data){
+          console.log(data);
+
+        //swy
+        calendar.addEvent({
+          title: type+data.state,
+          start: now,
+          allDay: true,
+          color:type === '출근'? '#2E64FE':'#F7819F'
+        });
+
+        },
+        error: function(err){
+          console.log(err);
+        }
+      });
+}
+
+
+
+      
 
       // 버튼 비활성화 처리
       updateButtonState();
@@ -149,7 +213,10 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 
   <div id="main" onclick="closeNav()">
-    <div class="column">
+
+
+
+ <div class="column">
       <h2>근태관리</h2>
       <div id="current-date"></div>
       <h2 id="currentTime"></h2>
@@ -159,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <th>
             업무상태
           </th>
-          <td>
+          <td id="status">
             출근전
           </td>
         </tr>
@@ -167,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <th>
             출근시간
           </th>
-          <td>
+          <td id="startTime">
             미등록
           </td>
         </tr>
@@ -175,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <th>
             퇴근시간
           </th>
-          <td>
+          <td id = "endTime">
             미등록
           </td>
         </tr>
@@ -213,6 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     </div>
     </div>
+
     <div class="column content">
       <div class=""><h1>출퇴근기록부(사원)</h1></div>
       <div id='calendar'></div>
