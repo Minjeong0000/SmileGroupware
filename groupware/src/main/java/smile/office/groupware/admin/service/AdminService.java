@@ -12,6 +12,7 @@ public class AdminService {
     private final AdminDao dao;
 
     public AdminVo login(AdminVo vo) {
+
         return dao.login(vo);
     }
 }

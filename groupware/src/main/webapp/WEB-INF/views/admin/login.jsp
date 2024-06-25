@@ -5,20 +5,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdminLogin</title>
+    <title>Admin Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .login-container {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 100px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
-    <form action="/groupware/admin/login" method="post">
-        <div class="form-group">
-            <label for="username">관리자 아이디</label>
-            <input type="text" id="username" name="adminId" placeholder="아이디 입력" required>
-        </div>
-        <div class="form-group">
-            <label for="password">비밀번호</label>
-            <input type="password" id="password" name="adminPwd" placeholder="비밀번호 입력" required>
-        </div>
-        <br>
-        <button type="submit">로그인</button>
-    </form>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form action="${pageContext.request.contextPath}/admin/login" method="post">
+            <div class="form-group">
+                <label for="adminId">Admin ID</label>
+                <input type="text" id="adminId" name="adminId" placeholder="Enter Admin ID" required>
+            </div>
+            <div class="form-group">
+                <label for="adminPwd">Password</label>
+                <input type="password" id="adminPwd" name="adminPwd" placeholder="Enter Password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+            <c:if test="${not empty errMsg}">
+                <div class="error-message">${errMsg}</div>
+            </c:if>
+        </form>
+    </div>
 </body>
 </html>

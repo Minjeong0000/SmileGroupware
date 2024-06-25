@@ -12,6 +12,7 @@ public class AdminDao {
     private final AdminMapper mapper;
 
     public AdminVo login(AdminVo vo) {
+
         return mapper.login(vo);
     }
 }
