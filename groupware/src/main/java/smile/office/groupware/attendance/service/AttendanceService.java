@@ -21,8 +21,16 @@ public class AttendanceService {
         return dao.getAttendanceCal(empId);
     }
 
-    public void insertStartTime(EmployeeVo vo) {
-        return dao.insertStartTime(vo);
+
+    public int insertStartTime(String empId) {
+        return dao.insertStartTime(empId);
+
+
+    }
+
+    public int updateEndTime(String empId) {
+        return dao.updateEndTime(empId);
+
 
     }
 }

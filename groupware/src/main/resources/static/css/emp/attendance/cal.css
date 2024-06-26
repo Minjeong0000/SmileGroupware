@@ -150,3 +150,29 @@ th{
 td{
   text-align: right;
 }
+
+
+
+
+/*풀캘린더 CSS 수정*/
+.fc .fc-media-screen .fc-direction-ltr .fc-theme-standard{
+
+  margin: 20px;
+
+
+}
+
+.fc-daygrid-event {
+  text-align: center; /* 텍스트 가운데 정렬 */
+  line-height: 1.2em; /* 이벤트 텍스트 줄 간격 조정 */
+  margin-top: 2px; /* 필요에 따라 위 여백 조정 */
+}
+
+.fc-daygrid-event-title {
+  display: inline-block; /* 인라인 블록 요소로 설정하여 가로 정렬 */
+  background-color: #f0f1f5; /* 이벤트 배경색 */
+  padding: 2px 5px; /* 내부 여백 설정 */
+  border-radius: 3px; /* 모서리 둥글게 */
+  color: #3d3d3d; /* 텍스트 색상 */
+  font-size: 12px; /* 글꼴 크기 */
+}

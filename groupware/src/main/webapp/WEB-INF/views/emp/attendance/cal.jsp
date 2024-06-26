@@ -5,12 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>슬라이드 네비게이터 바</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/emp/attendance/cal.css">
 
 <script src="${pageContext.request.contextPath}/js/attendance_cal.js"></script>
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.14/index.global.min.js'></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/emp/attendance/cal.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
@@ -113,15 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       }
 
-      // 캘린더에 이벤트 추가
-      // calendar.addEvent({
-      //   title: title+"zzz",
-      //   start: now,
-      //   allDay: true,
-      //   color:type === '출근'? '#2E64FE':'#F7819F'
-      // });
 
-      //////ajax원래위치
 if(type==='출근'){
   $.ajax({
         // url:"/emp/attendance/start",
@@ -132,10 +124,11 @@ if(type==='출근'){
 
         //swy
         calendar.addEvent({
-          title: type+data.state,
+          title: '출근 : '+timeStr,
           start: now,
           allDay: true,
-          color:type === '출근'? '#2E64FE':'#F7819F'
+          textColor: '#3d3d3d',
+          color:'#f0f1f5'
         });
 
         },
@@ -144,21 +137,23 @@ if(type==='출근'){
         }
       });
 }
+
+
 if(type==='퇴근'){
   $.ajax({
         // url:"/emp/attendance/start",
         url:"/record/end",
-        // data: {},
         type:"get",
         success: function(data){
           console.log(data);
 
         //swy
         calendar.addEvent({
-          title: type+data.state,
+          title: '퇴근 : '+timeStr,
           start: now,
           allDay: true,
-          color:type === '출근'? '#2E64FE':'#F7819F'
+          color:'#f0f1f5',
+          textColor: '#3d3d3d'
         });
 
         },
@@ -203,26 +198,71 @@ if(type==='퇴근'){
       url: '/record/list',
       type: 'get',
       success: function(data) {
+          console.log(data[0].startTime);
+      
         data.forEach(function(event) {
-          var eventTitle = event.dayWorkTime;
+          var eventTitle = event.startTime;
           var startDate = event.wdate;
           var endDate = event.wdate;
           calendar.addEvent({
-            title: eventTitle+'시간',
+            title: '출근 : '+eventTitle,
             start: startDate,
             end: endDate,
-            allDay: true
+            allDay: true,
+            color : '#f0f1f5',
+            textColor: '#3d3d3d'
           });
         });
+
+        //퇴근시간이 null이 아닐 때만 달력에 보여주기
+        data.forEach(function(event) {
+          if(event.endTime!==null){
+            var eventTitle = event.endTime;
+          var startDate = event.wdate;
+          var endDate = event.wdate;
+          calendar.addEvent({
+            title: '퇴근 : '+eventTitle,
+            start: startDate,
+            end: endDate,
+            allDay: true,
+            color : '#f0f1f5',
+            textColor: '#3d3d3d'
+          });
+          }
+
+        });
+        //퇴근 안찍혀서 총근무시간이 null일때 달력 표시x
+
+        data.forEach(function(event) {
+
+          if(event.dayWorkTime!==null){
+            var eventTitle = event.dayWorkTime;
+          var startDate = event.wdate;
+          var endDate = event.wdate;
+          var color = 'rgba(141, 156, 245, 0.6)';
+          calendar.addEvent({
+            title: '총 근무시간  : '+eventTitle,
+            start: startDate,
+            end: endDate,
+            allDay: true,
+            color : color,
+            textColor: '#3d3d3d'
+            
+          });
+          }
+
+
+        });
+
+
+
+
       },
       error: function(err) {
         console.log(err);
       }
     });
   });
-
-
-
 
 
  
@@ -282,10 +322,6 @@ if(type==='퇴근'){
           </td>
         </tr>
       </table>
-
-
-
-
 
       <div class="btn_wrapper">
         <button id="checkInBtn">출근</button>
