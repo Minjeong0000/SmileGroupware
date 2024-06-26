@@ -38,7 +38,7 @@ public class EmployeeController {
         if(loginEmployeeVo != null ){
             session.setAttribute("loginEmployeeVo", loginEmployeeVo);
             //일단 근태페이지로 보냄
-            return "emp/attendance/cal";
+            return "redirect:/emp/attendance/cal";
 
         }else{
             model.addAttribute("errMsg","로그인 실패");

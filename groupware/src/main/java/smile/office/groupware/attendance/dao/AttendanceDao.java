@@ -14,9 +14,9 @@ public class AttendanceDao {
     private final AttendanceMapper mapper;
 
 
-    public List<AttendanceVo> getAttendanceCal() {
+    public List<AttendanceVo> getAttendanceCal(String empId) {
 
-        return mapper.getBoardList();
+        return mapper.getAttendanceCal(empId);
 
 
     }

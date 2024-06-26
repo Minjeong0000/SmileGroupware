@@ -16,9 +16,7 @@ public class AttendanceService {
     private final AttendanceDao dao;
 
 
-    public List<AttendanceVo> getAttendanceCal() {
-        return dao.getAttendanceCal();
+    public List<AttendanceVo> getAttendanceCal(String empId) {
+        return dao.getAttendanceCal(empId);
     }
-
-
 }

@@ -198,7 +198,34 @@ if(type==='퇴근'){
 
     // 페이지 로드 시 버튼 상태 업데이트
     updateButtonState();
+
+    $.ajax({
+      url: '/record/list',
+      type: 'get',
+      success: function(data) {
+        data.forEach(function(event) {
+          var eventTitle = event.state;
+          var startDate = event.startTime;
+          var endDate = event.endTime;
+          calendar.addEvent({
+            title: eventTitle,
+            start: startDate,
+            end: endDate,
+            allDay: true
+          });
+        });
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
   });
+
+
+
+
+
+ 
 </script>
 </head>
 <body>

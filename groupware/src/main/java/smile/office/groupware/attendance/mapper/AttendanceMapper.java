@@ -9,8 +9,8 @@ import java.util.List;
 public interface AttendanceMapper {
 
 
-    @Select("SELECT * FROM ATTENDANCE WHERE EMP_ID = 1018")
-    List<AttendanceVo> getBoardList();
+    @Select("SELECT * FROM ATTENDANCE WHERE EMP_ID = #{empId}")
+    List<AttendanceVo> getAttendanceCal(String empId);
 
 
 }
