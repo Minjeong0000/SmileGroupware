@@ -35,19 +35,10 @@ public class AttendanceController {
     public String getAttendanceCal(){
 
 
-
-        List<AttendanceVo> voList = service.getAttendanceCal();
+//        List<AttendanceVo> voList = service.getAttendanceCal();
         return "emp/attendance/cal";
 
     }
-
-
-//    @ResponseBody
-//    @GetMapping("/start")
-//    public AttendanceVo recordStartTime(){
-//
-//        return
-//    }
 
 
 
