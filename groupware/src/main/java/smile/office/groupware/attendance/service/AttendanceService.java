@@ -19,4 +19,15 @@ public class AttendanceService {
     public List<AttendanceVo> getAttendanceCal(String empId) {
         return dao.getAttendanceCal(empId);
     }
+
+    public int insertStartTime(String empId) {
+        return dao.insertStartTime(empId);
+
+
+    }
+
+    public int updateEndTime(String empId) {
+        return dao.updateEndTime(empId);
+
+    }
 }

@@ -20,4 +20,12 @@ public class AttendanceDao {
 
 
     }
+
+    public int insertStartTime(String empId) {
+        return mapper.insertStartTime(empId);
+    }
+
+    public int updateEndTime(String empId) {
+        return mapper.updateEndTime(empId);
+    }
 }

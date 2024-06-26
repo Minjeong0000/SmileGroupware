@@ -24,30 +24,26 @@ public class AttendanceRecord {
 
     //출근시간 기록
     @GetMapping("start")
-    public AttendanceVo insertStartTime(HttpServletRequest request){
+    public int insertStartTime(HttpServletRequest request){
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo)session.getAttribute("loginEmployeeVo");
-        AttendanceVo vo = new AttendanceVo();
-        vo.setAttNo("777");
-        vo.setState("피곤함");
-        vo.setEndTime("6시");
-        System.out.println("HelloController.hello");
-
-        return vo;
+        String empId = loginEmployeeVo.getEmpId();
+        int result = service.insertStartTime(empId);
+        System.out.println("result start= " + result);
+        return result;
     }
 
     //퇴근시간 기록
     @GetMapping("end")
-    public AttendanceVo updateStartTime(HttpServletRequest request){
+    public int updateEndTime(HttpServletRequest request){
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo)session.getAttribute("loginEmployeeVo");
-        AttendanceVo vo = new AttendanceVo();
-        vo.setAttNo("111");
-        vo.setState("ㅗㅅ어ㅛㅗ여ㅛㅕ");
-        vo.setEndTime("6시");
-        System.out.println("HelloController.hello");
+        String empId = loginEmployeeVo.getEmpId();
+        int result = service.updateEndTime(empId);
+        System.out.println("result end= " + result);
+        return result;
 
-        return vo;
+
     }
 
 
