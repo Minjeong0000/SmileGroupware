@@ -17,6 +17,18 @@ document.addEventListener('DOMContentLoaded', function() {
       document.querySelector('.current-time').textContent = currentTime;
   }
 
+  // 날짜 업데이트 함수
+  function updateCurrentDate() {
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = now.getMonth() + 1;
+      var date = now.getDate();
+      var day = now.getDay();
+      var weekDays = ['일', '월', '화', '수', '목', '금', '토'];
+      var currentDate = `${year}년 ${month}월 ${date}일 (${weekDays[day]})`;
+      document.querySelector('.date-time').textContent = currentDate;
+  }
+
   // 사이드바 확장
   function expandSidebar() {
       sidenav.style.width = "250px";
@@ -45,7 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
   });
 
-  // 페이지 로드 시 현재 시간 표시 및 매초마다 업데이트
+  // 페이지 로드 시 현재 시간 및 날짜 표시 및 매초마다 업데이트
+  updateCurrentDate();
   updateCurrentTime();
   setInterval(updateCurrentTime, 1000);
 

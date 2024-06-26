@@ -24,6 +24,7 @@ public class AttendanceRecord {
 
     //출근시간 기록
     @GetMapping("start")
+
     public int insertStartTime(HttpServletRequest request){
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo)session.getAttribute("loginEmployeeVo");
