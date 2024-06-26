@@ -5,14 +5,12 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 import smile.office.groupware.admin.service.AdminService;
 import smile.office.groupware.admin.vo.AdminVo;
 
-
-
+import java.util.List;
 
 @Controller
 @RequestMapping("admin")
@@ -45,10 +43,30 @@ public class AdminController {
         }
     }//method
 
-    //운영자 홈화면
+    // 운영자 홈화면
     @GetMapping("home")
     public String home(){
         return "admin/adminHome";
+    }//method
+
+    // 운영자 유저 정보 수정 화면
+    @GetMapping("userEdit")
+    public String userEdit(){
+        return "admin/userEdit";
+    }//method
+
+    // 운영자 유저 정보 수정 기능구현
+    @PostMapping("userEdit")
+    public String userEdit(@RequestBody AdminVo vo) {
+        // 관리자를 추가하는 로직
+        service.addAdmin(vo);
+        return "redirect:/admin/userEdit";
     }
 
+    // 관리자 목록 가져오기
+    @GetMapping("getAdmins")
+    @ResponseBody
+    public List<AdminVo> getAdmins() {
+        return service.getAdmins();
+    }
 }
