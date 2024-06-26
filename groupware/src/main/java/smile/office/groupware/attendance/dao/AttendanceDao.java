@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import smile.office.groupware.attendance.mapper.AttendanceMapper;
 import smile.office.groupware.attendance.vo.AttendanceVo;
+import smile.office.groupware.employee.vo.EmployeeVo;
 
 import java.util.List;
 
@@ -18,6 +19,11 @@ public class AttendanceDao {
 
         return mapper.getAttendanceCal(empId);
 
+
+    }
+
+    public void insertStartTime(EmployeeVo vo) {
+        return mapper.insertStartTime(vo);
 
     }
 }

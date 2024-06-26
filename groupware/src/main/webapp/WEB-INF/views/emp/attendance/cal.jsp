@@ -7,7 +7,7 @@
 <title>슬라이드 네비게이터 바</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/emp/attendance/cal.css">
 
-<script src="${pageContext.request.contextPath}/js/cal.js"></script>
+<script src="${pageContext.request.contextPath}/js/attendance_cal.js"></script>
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.14/index.global.min.js'></script>
@@ -204,11 +204,11 @@ if(type==='퇴근'){
       type: 'get',
       success: function(data) {
         data.forEach(function(event) {
-          var eventTitle = event.state;
-          var startDate = event.startTime;
-          var endDate = event.endTime;
+          var eventTitle = event.dayWorkTime;
+          var startDate = event.wdate;
+          var endDate = event.wdate;
           calendar.addEvent({
-            title: eventTitle,
+            title: eventTitle+'시간',
             start: startDate,
             end: endDate,
             allDay: true

@@ -24,9 +24,16 @@ public class AttendanceRecord {
 
     //출근시간 기록
     @GetMapping("start")
-    public AttendanceVo insertStartTime(HttpServletRequest request){
+    public AttendanceVo insertStartTime(EmployeeVo vo, HttpServletRequest request){
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo)session.getAttribute("loginEmployeeVo");
+        if(loginEmployeeVo!=null){
+
+            service.insertStartTime(vo);
+
+        }
+
+
         AttendanceVo vo = new AttendanceVo();
         vo.setAttNo("777");
         vo.setState("피곤함");
