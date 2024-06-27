@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 출근, 퇴근 버튼 핸들러
     document.getElementById('checkInBtn').addEventListener('click', function() {
+
       handleAttendance('출근');
 
       
@@ -118,7 +119,8 @@ if(type==='출근'){
   $.ajax({
         // url:"/emp/attendance/start",
         url:"/record/start",
-        type:"get",
+        type:"POST",
+
         success: function(data){
           console.log(data);
 
@@ -285,7 +287,9 @@ if(type==='퇴근'){
 
  <div class="column">
       <h2>근태관리</h2>
-      <div id="current-date"></div>
+      <div>
+        <h3 id="current-date"></h3>
+      </div>
       <h2 id="currentTime"></h2>
 
       <table>
@@ -329,9 +333,10 @@ if(type==='퇴근'){
 
       </div>
       <div>
-        <span>홍길동</span>|
-        <span>무슨부 </span>|
-        <span>부장
+        <span>${sessionScope.loginEmployeeVo.empName}</span>|
+        <span>${sessionScope.loginEmployeeVo.departmentNo} </span>|
+        <span>${sessionScope.loginEmployeeVo.roleNo}<span>
+        <span style="display: none;" id="empId">${sessionScope.loginEmployeeVo.empId}</span>
       </div>
       <div class="menu">
         <div class="menu-item">근태관리</div>

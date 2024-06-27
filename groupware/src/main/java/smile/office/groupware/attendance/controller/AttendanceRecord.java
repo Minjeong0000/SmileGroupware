@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import smile.office.groupware.attendance.service.AttendanceService;
@@ -23,7 +24,7 @@ public class AttendanceRecord {
 
 
     //출근시간 기록
-    @GetMapping("start")
+    @PostMapping("start")
 
     public int insertStartTime(HttpServletRequest request){
         HttpSession session = request.getSession();
