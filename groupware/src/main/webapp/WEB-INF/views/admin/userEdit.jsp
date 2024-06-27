@@ -21,37 +21,52 @@
     </div>
 
     <div id="main" onclick="closeNav()">
-        <div class="column">
-            <div class="user-actions">
-                <ul>
-                    <li class="dropdown main-item">
-                        <a href="#" class="dropdown-toggle"><span class="dropdown-icon"></span> 신규 사용자 등록</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="registerAdmin.html">• 일반 사원등록</a></li>
-                            <li><a href="registerHrAdmin.html">• 임원진 등록</a></li>
-                            <li><a href="registerHrAdmin.html">• 인턴 등록</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown main-item">
-                        <a href="#" class="dropdown-toggle"><span class="dropdown-icon"></span> 관리자 아이디 등록</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="registerAdmin.html">• 마스터 관리자 등록</a></li>
-                            <li><a href="registerHrAdmin.html">• 인사팀 관리자 등록</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown main-item">
-                        <a href="#" class="dropdown-toggle"><span class="dropdown-icon"></span> 사용자 수정</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="editUserPosition.html">• 통합 수정</a></li>
-                            <li><a href="editUserId.html">• 아이디 수정</a></li>
-                            <li><a href="editUserName.html">• 이름 수정</a></li>
-                            <li><a href="editUserDept.html">• 부서 수정</a></li>
-                            <li><a href="editUserPosition.html">• 직급 수정</a></li>
-                        </ul>
-                    </li>
-                </ul>
+            <div class="column">
+                <div class="user-actions">
+                    <ul>
+                        <li class="dropdown main-item">
+                            <h2>사원 관리</h2>
+
+                            <a href="#" class="dropdown-toggle"><span class="dropdown-icon"></span> 신규 사용자 등록</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="registerAdmin.html">• 일반 사원등록</a></li>
+                                <li><a href="registerHrAdmin.html">• 임원진 등록</a></li>
+                                <li><a href="registerHrAdmin.html">• 인턴 등록</a></li>
+                            </ul>
+                        </li>
+
+
+                        <li class="dropdown main-item">
+                            <a href="#" class="dropdown-toggle"><span class="dropdown-icon"></span> 사용자 수정</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="editUserPosition.html">• 통합 수정</a></li>
+                                <li><a href="editUserId.html">• 아이디 수정</a></li>
+                                <li><a href="editUserName.html">• 이름 수정</a></li>
+                                <li><a href="editUserDept.html">• 부서 수정</a></li>
+                                <li><a href="editUserPosition.html">• 직급 수정</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown main-item">
+                            <li><a href="/html/adminAdd.html">&nbsp;• &nbsp;&nbsp;사원 조회</a></li>
+                        </li>
+                        <br><br><br>
+                        <h2>관리자 관리</h2>
+                        <li class="dropdown main-item">
+                            <a href="#" class="dropdown-toggle"><span class="dropdown-icon"></span> 관리자 등록</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/html/adminAdd.html">• 마스터 관리자 등록</a></li>
+                                <li><a href="/html/adminAdd.html">• 인사팀 관리자 등록</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown main-item">
+                            <li><a href="/html/adminAdd.html">&nbsp;• &nbsp;&nbsp;관리자 조회</a></li>
+                        </li>
+                        <li class="dropdown main-item">
+                            <li><a href="/html/adminAdd.html">&nbsp;• &nbsp;&nbsp;관리자 삭제</a></li>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
         <div class="column content">
             <div class="content-box">
                 <div class="employee-header">

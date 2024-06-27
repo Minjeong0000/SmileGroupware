@@ -69,4 +69,10 @@ public class AdminController {
     public List<AdminVo> getAdmins() {
         return service.getAdmins();
     }
+
+    //관리자 추가 adminAdd 화면
+    @GetMapping("adminAdd")
+    public String adminAdd(){
+        return "admin/adminAdd";
+    }
 }

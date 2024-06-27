@@ -1,0 +1,126 @@
+body {
+  font-family: "Lato", sans-serif;
+  transition: margin-left .5s;
+  padding: 16px;
+  overflow-x: hidden;
+  overflow: hidden;
+  background-color: #f0f2f5;
+}
+
+html, body {
+  overflow: hidden;
+}
+
+.sidenav {
+  height: 100%;
+  width: 70px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  border-radius: 4px;
+  background-color: #8d9cf5;
+  overflow-x: hidden;
+  transition: width 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  color: #000000;
+  padding: 10px;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
+  margin-bottom: 30px;
+  margin-left: 9px;
+}
+
+.sidenav a:hover {
+  color: #505050;
+}
+
+.sidenav .menu-icon {
+  font-size: 25px;
+  margin-right: 10px;
+}
+
+.link-text {
+  display: none;
+  white-space: nowrap;
+}
+
+.sidenav.open .link-text {
+  display: block;
+}
+
+#main {
+  display: flex;
+  margin-left: 70px;
+  transition: margin-left .5s;
+  padding: 20px;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+.column.content {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+.column.content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  margin: 5px;
+  border-radius: 4px;
+}
+
+.admin-level-desc {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #555;
+  white-space: pre-wrap;
+  display: none;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #8d9cf5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 5px;
+}
+
+.submit-btn:hover {
+  background-color: #6b7dd4;
+}
