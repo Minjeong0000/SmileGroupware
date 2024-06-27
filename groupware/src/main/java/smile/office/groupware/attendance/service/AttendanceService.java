@@ -16,21 +16,25 @@ public class AttendanceService {
 
     private final AttendanceDao dao;
 
-
-    public List<AttendanceVo> getAttendanceCal(String empId) {
-        return dao.getAttendanceCal(empId);
+    public List<AttendanceVo> getAttendanceList(String empId) {
+        return dao.getAttendanceList(empId);
     }
-
 
     public int insertStartTime(String empId) {
         return dao.insertStartTime(empId);
-
-
     }
 
     public int updateEndTime(String empId) {
         return dao.updateEndTime(empId);
+    }
 
+    public boolean hasCheckInToday(String empId) {
+        // 오늘 날짜에 출근 기록이 있는지 확인
+        return dao.getCheckInCountForToday(empId) > 0;
+    }
 
+    public boolean hasCheckOutToday(String empId) {
+        // 오늘 날짜에 퇴근 기록이 있는지 확인
+        return dao.getCheckOutCountForToday(empId) > 0;
     }
 }
