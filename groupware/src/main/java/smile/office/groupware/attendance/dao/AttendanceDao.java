@@ -12,14 +12,11 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class AttendanceDao {
+
     private final AttendanceMapper mapper;
 
-
-    public List<AttendanceVo> getAttendanceCal(String empId) {
-
-        return mapper.getAttendanceCal(empId);
-
-
+    public List<AttendanceVo> getAttendanceList(String empId) {
+        return mapper.getAttendanceList(empId);
     }
 
     public int insertStartTime(String empId) {
@@ -28,5 +25,13 @@ public class AttendanceDao {
 
     public int updateEndTime(String empId) {
         return mapper.updateEndTime(empId);
+    }
+
+    public int getCheckInCountForToday(String empId) {
+        return mapper.getCheckInCountForToday(empId);
+    }
+
+    public int getCheckOutCountForToday(String empId) {
+        return mapper.getCheckOutCountForToday(empId);
     }
 }
