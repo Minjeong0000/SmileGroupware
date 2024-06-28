@@ -254,11 +254,13 @@
 
     <div id="main" onclick="closeNav()">
         <div class="column">
-            <h2>근태관리</h2>
+            <h2>월간 근태 조회</h2>
             <div>
-                <h3 id="current-date"></h3>
+                <h2 id="current-date"></h3>
             </div>
-            <h2 id="currentTime"></h2>
+            <div>
+              <h2 id="currentTime"></h2>
+            </div>
 
             <table>
                 <tr>
