@@ -21,9 +21,9 @@ public class EmployeeVo {
     private String positionNo;
     private String profile;
 
-    //조인
-
-
+    private String departmentName;
+    private String positionName;
+    private String roleName;
 
 
 }
