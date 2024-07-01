@@ -1,215 +1,217 @@
 body {
-  font-family: "Lato", sans-serif;
-  transition: margin-left 0.5s;
-  padding: 16px;
-  overflow-x: hidden;
-  overflow-y: hidden; /* 수직 스크롤 바 제거 */
+    font-family: "Lato", sans-serif;
+    transition: margin-left 0.5s;
+    padding: 16px;
+    overflow: hidden; /* 스크롤을 없애기 위해 overflow: hidden 설정 */
 }
 
 .sidenav {
-  height: 100%;
-  width: 70px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  border-radius: 4px;
-  background-color: #8d9cf5;
-  overflow-x: hidden;
-  transition: width 0.5s;
-  padding-top: 60px;
+    height: 100%;
+    width: 70px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+    background-color: #8d9cf5;
+    overflow-x: hidden;
+    transition: width 0.5s;
+    padding-top: 60px;
 }
 
 .sidenav a {
-  color: #000000;
-  padding: 10px;
-  text-decoration: none;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  transition: 0.3s;
-  margin-bottom: 30px;
-  margin-left: 9px;
+    color: #000000;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    margin-bottom: 30px;
+    margin-left: 9px;
 }
 
 .sidenav a:hover {
-  color: #505050;
+    color: #505050;
 }
 
 .sidenav .menu-icon {
-  font-size: 25px;
-  margin-right: 10px;
+    font-size: 25px;
+    margin-right: 10px;
 }
 
 .link-text {
-  display: none;
-  white-space: nowrap;
+    display: none;
+    white-space: nowrap;
 }
 
 .sidenav.open .link-text {
-  display: block;
+    display: block;
 }
 
 #main {
-  display: flex;
-  transition: margin-left 0.5s;
-  padding: 20px;
-  height: calc(100vh - 40px);
-  box-sizing: border-box;
+    transition: margin-left 0.5s;
+    padding: 20px;
+    margin-left: 70px; /* 기본 사이드바 너비 */
+    display: flex; /* Flexbox를 사용하여 가로 배치 */
+}
+
+.sidenav.open + #main {
+    margin-left: 250px; /* 사이드바 확장 시 너비 */
 }
 
 .column {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1; /* 나머지 공간을 차지하도록 설정 */
 }
 
 .column:first-child {
-  flex: none;
-  width: 270px;
-  border-right: 2px solid #ccc;
+    flex: none;
+    width: 270px;
+    border-right: 2px solid #ccc;
 }
 
-.column:last-child {
-  flex: 1;
+.column.content {
+    margin-top: 75px; /* 상단 마진 설정 */
+    margin-bottom: 75px; /* 하단 마진 설정 */
+    height: auto; /* 높이를 자동으로 설정 */
+    overflow-y: visible; /* 내용이 많을 때 스크롤을 없애기 위해 visible로 설정 */
 }
 
 .user-actions ul {
-  list-style-type: none;
-  padding: 0;
+    list-style-type: none;
+    padding: 0;
 }
 
 .user-actions li {
-  margin: 8px 0; /* 간격을 줄이기 위해 마진 값을 줄였습니다 */
+    margin: 8px 0;
 }
 
 .user-actions a {
-  color: #000;
-  text-decoration: none;
-  font-size: 18px;
-  padding: 10px;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
-  display: flex;
-  align-items: center; /* 아이콘과 텍스트를 수직으로 정렬 */
+    color: #000;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
 }
 
 .user-actions a:hover {
-  background-color: #ddd;
-  color: #000;
+    background-color: #ddd;
+    color: #000;
 }
 
 .dropdown-menu {
-  display: none;
-  list-style-type: none;
-  padding-left: 20px;
-  margin: -10px 30px; /* 위아래 마진값 추가 */
+    display: none;
+    list-style-type: none;
+    padding-left: 20px;
+    margin: -10px 30px;
 }
 
 .dropdown.open .dropdown-menu {
-  display: block;
+    display: block;
 }
 
 .dropdown-icon {
-  font-size: 16px; /* 아이콘 크기를 더 크게 수정 */
-  margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 설정 */
+    font-size: 16px;
+    margin-right: 10px;
 }
 
-/* 추가된 스타일 */
 .main-item {
-  margin-bottom: 40px;
+    margin-bottom: 40px;
 }
 
 .dropdown.open .dropdown-icon::before {
-  content: '▾';
-  font-size: 25px;
+    content: '▾';
+    font-size: 25px;
 }
 
 .dropdown .dropdown-icon::before {
-  content: '▸';
-  font-size: 25px;
+    content: '▸';
+    font-size: 25px;
 }
 
-/*  ------------------------------------------------------------ 사원정보 -------------------------------------------------------------  */
 .content-box {
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  padding: 20px;
-  margin-top: 17px;
-  margin-left: 15px;
-  width: 1350px;
-  height: 780px;
-  box-sizing: border-box;
-  position: relative;
-  transition: transform 0.5s; /* transform 속성의 애니메이션 추가 */
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 17px;
+    width: 100%;
+    height: 100%; /* 높이를 최대화 */
+    box-sizing: border-box;
+    position: relative;
+    transition: transform 0.5s;
 }
 
 .content-box .employee-header,
-.employee-info p {
-  display: grid;
-  grid-template-columns: 150px 100px 300px 200px 200px 100px; /* 각 항목의 너비 설정 */
-  gap: 20px; /* 각 항목 사이의 간격 설정 */
-  align-items: center;
-  text-align: center;
-  font-size: 16px;
-  margin: 10px 0;
-  padding: 8px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+.employee-info .employee-row {
+    display: grid;
+    grid-template-columns: 150px 100px 300px 200px 200px 100px;
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+    font-size: 16px;
+    margin: 10px 0;
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
 }
 
 .employee-header {
-  font-weight: bold;
-  background-color: #e1e1e1;
+    font-weight: bold;
+    background-color: #e1e1e1;
 }
 
 .employee-info {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
-.employee-info p {
-  display: flex;
-  justify-content: left; /* 컬럼 사이의 간격을 균등하게 조절 */
-  text-align: center;
-  margin: 5px 0;
-  padding: 12px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+.employee-info .employee-row {
+    justify-content: left;
+    text-align: center;
+    margin: 5px 0;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
 }
 
-.employee-info p:nth-child(odd) {
-  background-color: #f1f1f1;
+.employee-info .employee-row:nth-child(odd) {
+    background-color: #f1f1f1;
 }
 
 .pagination {
-  text-align: center;
-  margin-top: 20px;
-  position: absolute; /* 위치를 절대값으로 지정 */
-  bottom: 20px; /* 하단에서 20px 위로 */
-  left: 50%; /* 왼쪽에서 50% */
-  transform: translateX(-50%); /* 수평 중앙 정렬 */
-  width: auto; /* 너비를 자동으로 설정 */
+    text-align: center;
+    margin-top: 20px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
 }
 
 .pagination button {
-  background-color: #8d9cf5;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 5px;
+    background-color: #8d9cf5;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 .pagination button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+    background-color: #ccc;
+    cursor: not-allowed;
 }
