@@ -65,7 +65,7 @@
                 <thead>
                     <th colspan="3">
                         <div>
-                            <button id="delete"><i class="fa-solid fa-trash"></i>삭제</button>
+                            <button  onclick="deleteCheckedBoard();" id="delete" ><i class="fa-solid fa-trash"></i>삭제</button>
                             <button id="read"><i class="fa-solid fa-check"></i>읽음</button>
                         </div>
                     </th>

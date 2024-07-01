@@ -28,6 +28,9 @@ public interface MessageMapper {
     List<MessageVo> getSentMsgList(String empId);
 
 
-    @Update("")
-    int updateReadStatus(MessageVo vo);
+    @Update("UPDATE MESSAGE SET READ_YN = 'Y' WHERE MESSAGE_NO= #{num} AND READ_YN='N'")
+    int updateReadStatus(String num);
+
+    @Select("SELECT MESSAGE_NO, M.FORDER_NO, F.FORDER_NAME, SENDER_NO,S.EMP_NAME SENDER_NAME, RECEIVER_NO,R.EMP_NAME RECEIVER_NAME,CONTENT,SENT_AT , READ_YN, DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON(M.SENDER_NO = S.EMP_ID) JOIN EMPLOYEE R ON(M.RECEIVER_NO = R.EMP_ID) JOIN FORDER F ON(M.FORDER_NO = F.FORDER_NO) WHERE MESSAGE_NO = #{num}")
+    MessageVo getMsgByNo(String num);
 }
