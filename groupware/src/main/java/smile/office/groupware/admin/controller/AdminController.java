@@ -116,8 +116,11 @@ public class AdminController {
         int result = service.delete(num);
         return result == 1 ? num + "번 삭제 완료!" : "삭제 실패...";
     }
+
     
     
 
 
 }//class
+
+}

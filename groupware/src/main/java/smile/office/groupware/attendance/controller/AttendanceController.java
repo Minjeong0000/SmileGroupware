@@ -18,18 +18,6 @@ public class AttendanceController {
 
     private final AttendanceService service;
 
-
-    //클래스레벨에 @RestController 추가
-    //json형식으로 변환
-//    @GetMapping("cal")
-//    public List<AttendanceVo> getAttendanceCal(){
-//
-//        List<AttendanceVo>voList = service.getAttendanceCal();
-//        return voList;
-//
-//    }
-
-
     //달력 화면
     @GetMapping("/cal")
     public String getAttendanceCal(){
@@ -39,9 +27,5 @@ public class AttendanceController {
         return "emp/attendance/cal";
 
     }
-
-
-
-
 
 }
