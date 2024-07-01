@@ -16,6 +16,25 @@ public class MessageService {
     private final MessageDao dao;
 
     public List<MessageVo> getReceiveMessageList(String empId) {
+
         return dao.getReceiveMessageList(empId);
+    }
+
+    public List<MessageVo> getImportantMsglist(String empId) {
+        return dao.getImportantMsglist(empId);
+
+    }
+
+    public List<MessageVo> getTrashMsgList(String empId) {
+        return dao.getTrashMsgList(empId);
+    }
+
+    public List<MessageVo> getSentMsgList(String empId) {
+        return dao.getSentMsgList(empId);
+
+    }
+
+    public int updateReadStatus(MessageVo vo) {
+        return dao.updateReadStatus(vo);
     }
 }

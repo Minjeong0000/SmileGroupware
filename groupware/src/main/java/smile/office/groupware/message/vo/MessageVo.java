@@ -13,7 +13,6 @@ public class MessageVo {
     private String reveiverName;
     private String content;
     private String sentAt;
-    private String delYn;
     private String deletedDate;
 
 }
