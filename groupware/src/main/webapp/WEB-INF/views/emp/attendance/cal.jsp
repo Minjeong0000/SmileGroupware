@@ -258,10 +258,6 @@
         </div>
 
 
-
-
-
-
         <div class="column">
             <div id='calendar'></div>
         </div>

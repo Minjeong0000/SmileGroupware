@@ -20,8 +20,10 @@ public class EmployeeVo {
     private String roleNo;
     private String positionNo;
     private String profile;
+
     private String departmentName;
     private String positionName;
     private String roleName;
+
 
 }
