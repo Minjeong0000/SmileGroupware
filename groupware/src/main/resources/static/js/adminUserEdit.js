@@ -1,99 +1,90 @@
 document.addEventListener('DOMContentLoaded', function() {
     var employeeContainer = document.getElementById('employee-info');
+    console.log("Employee container:", employeeContainer); // 2번 확인 로그 추가
     var employees = [];
-
     var currentPage = 1;
     var itemsPerPage = 10;
 
-    // Ajax를 통해 관리자 데이터를 가져와서 표시
-    fetch('/admin/getAdmins')
-        .then(response => response.json())
-        .then(data => {
-            employees = data;
+    if (employeeContainer) {
+        // Fetch employee data using XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/admin/getEmployees', true); // 경로를 수정했습니다.
+        xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                employees = JSON.parse(xhr.responseText);
+                console.log("Fetched employees data:", employees); // 3번 및 5번 확인 로그 추가
+
+                // 배열이 아닌 데이터를 처리
+                if (!Array.isArray(employees)) {
+                    console.error('Fetched data is not an array.');
+                    return;
+                }
+
+                displayEmployees(currentPage);
+            } else {
+                console.error('There has been a problem with your fetch operation:', xhr.statusText);
+            }
+        };
+        xhr.onerror = function() {
+            console.error('There has been a problem with your fetch operation:', xhr.statusText);
+        };
+        xhr.send();
+
+        function displayEmployees(page) {
+            employeeContainer.innerHTML = '';
+            var start = (page - 1) * itemsPerPage;
+            var end = start + itemsPerPage;
+
+            if (!Array.isArray(employees)) {
+                console.error('employees is not an array'); // 4번 확인 로그 추가
+                return;
+            }
+            var paginatedEmployees = employees.slice(start, end);
+
+            paginatedEmployees.forEach(function(employee) {
+                var employeeElement = document.createElement('p');
+                employeeElement.textContent = `${employee.empId} | ${employee.empName} | ${employee.email} | ${employee.phone} | ${employee.positionNo} | ${employee.roleNo}`;
+                employeeContainer.appendChild(employeeElement);
+            });
+
+            document.getElementById('prev').disabled = page === 1;
+            document.getElementById('next').disabled = end >= employees.length;
+        }
+
+        window.nextPage = function() {
+            currentPage++;
             displayEmployees(currentPage);
-        });
-
-    function displayEmployees(page) {
-        employeeContainer.innerHTML = '';
-        var start = (page - 1) * itemsPerPage;
-        var end = start + itemsPerPage;
-        var paginatedEmployees = employees.slice(start, end);
-
-        paginatedEmployees.forEach(function(employee) {
-            var employeeElement = document.createElement('p');
-            employeeElement.textContent = `${employee.adminNo} | ${employee.adminId} | ${employee.adminNick} | ${employee.adminEmail} | ${employee.adminLevel}`;
-            employeeContainer.appendChild(employeeElement);
-        });
-
-        document.getElementById('prev').disabled = page === 1;
-        document.getElementById('next').disabled = end >= employees.length;
-    }
-
-    window.nextPage = function() {
-        currentPage++;
-        displayEmployees(currentPage);
-    };
-
-    window.prevPage = function() {
-        currentPage--;
-        displayEmployees(currentPage);
-    };
-
-    // 새로운 관리자를 추가하는 함수
-    document.getElementById('addAdminForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        var adminData = {
-            adminId: document.getElementById('adminId').value,
-            adminPwd: document.getElementById('adminPwd').value,
-            adminNick: document.getElementById('adminNick').value,
-            adminEmail: document.getElementById('adminEmail').value,
-            adminLevel: document.getElementById('adminLevel').value
         };
 
-        fetch('/admin/userEdit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(adminData)
-        })
-        .then(response => {
-            if (response.ok) {
-                alert('관리자가 성공적으로 추가되었습니다.');
-                location.reload(); // 페이지를 새로고침하여 업데이트된 내용을 표시
-            } else {
-                alert('관리자 추가에 실패했습니다.');
-            }
+        window.prevPage = function() {
+            currentPage--;
+            displayEmployees(currentPage);
+        };
+
+        var sidenav = document.getElementById("mySidenav");
+        var main = document.getElementById("main");
+
+        sidenav.addEventListener('mouseenter', function() {
+            sidenav.style.width = "250px";
+            sidenav.classList.add("open");
         });
-    });
 
-    // 사이드 네비게이션 토글
-    var sidenav = document.getElementById("mySidenav");
-    var main = document.getElementById("main");
-
-    sidenav.addEventListener('mouseover', function() {
-        sidenav.style.width = "250px";
-        main.style.marginLeft = "250px";
-        sidenav.classList.add("open");
-    });
-
-    sidenav.addEventListener('mouseout', function() {
-        if (!sidenav.matches(':hover') && sidenav.classList.contains("open")) {
+        sidenav.addEventListener('mouseleave', function() {
             sidenav.style.width = "70px";
-            main.style.marginLeft = "70px";
             sidenav.classList.remove("open");
-        }
-    });
-
-    // 드롭다운 토글 기능 추가
-    var dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-    dropdownToggles.forEach(function(toggle) {
-        toggle.addEventListener('click', function(event) {
-            event.preventDefault();
-            var parent = this.parentElement;
-            parent.classList.toggle('open');
         });
-    });
+
+        var dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+        dropdownToggles.forEach(function(toggle) {
+            toggle.addEventListener('click', function(event) {
+                event.preventDefault();
+                var parent = this.parentElement;
+                parent.classList.toggle('open');
+            });
+        });
+    } else {
+        console.error('Element with id "employee-info" not found.');
+    }
 });
 
 function toggleNav(event) {
@@ -102,12 +93,12 @@ function toggleNav(event) {
     var main = document.getElementById("main");
     if (sidenav.classList.contains("open")) {
         sidenav.style.width = "70px";
-        main.style.marginLeft = "70px";
         sidenav.classList.remove("open");
+        main.style.marginLeft = "70px"; // 사이드바 닫을 때 main 이동
     } else {
         sidenav.style.width = "250px";
-        main.style.marginLeft = "250px";
         sidenav.classList.add("open");
+        main.style.marginLeft = "250px"; // 사이드바 열 때 main 이동
     }
 }
 
@@ -116,7 +107,7 @@ function closeNav() {
     var main = document.getElementById("main");
     if (sidenav.classList.contains("open")) {
         sidenav.style.width = "70px";
-        main.style.marginLeft = "70px";
         sidenav.classList.remove("open");
+        main.style.marginLeft = "70px"; // 사이드바 닫을 때 main 이동
     }
 }

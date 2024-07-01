@@ -5,17 +5,17 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>슬라이드 네비게이터 바</title>
+<title>관리자 추가</title>
 <link rel="stylesheet" type="text/css" href="/css/emp/attendance/adminAdd.css">
 <script defer src="/js/adminAdd.js"></script>
 </head>
 <body>
     <div id="mySidenav" class="sidenav">
         <a href="#" onclick="toggleNav(event)"><span class="menu-icon">&#9776;</span><span class="link-text">메뉴</span></a>
-        <a href="/admin/home"><span class="menu-icon">&#8962;</span><span class="link-text">홈</span></a>
+        <a href="/html/admin.html"><span class="menu-icon">&#8962;</span><span class="link-text">홈</span></a>
         <a href="#"><span class="menu-icon">&#128196;</span><span class="link-text">공지사항 관리</span></a>
         <a href="#"><span class="menu-icon">&#128172;</span><span class="link-text">문의사항</span></a>
-        <a href="/admin/userEdit"><span class="menu-icon">&#128295;</span><span class="link-text">사용자 관리</span></a>
+        <a href="/html/userEdit.html"><span class="menu-icon">&#128295;</span><span class="link-text">사용자 관리</span></a>
         <a href="#"><span class="menu-icon">🏢</span><span class="link-text">사원 조직도</span></a>
         <a href="#"><span class="menu-icon">&#128337;</span><span class="link-text">직원 근태관리</span></a>
     </div>
@@ -23,7 +23,7 @@
     <div id="main" onclick="closeNav()">
         <div class="column content">
             <h2>관리자 추가</h2>
-            <form id="adminForm">
+            <form id="adminForm" action="/admin/adminAdd" method="post">
                 <div class="form-group">
                     <label for="adminId">관리자 아이디 (닉네임) :</label>
                     <input type="text" id="adminId" name="adminId" required>

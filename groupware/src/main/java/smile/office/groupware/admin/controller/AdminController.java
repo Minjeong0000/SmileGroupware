@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import smile.office.groupware.admin.service.AdminService;
 import smile.office.groupware.admin.vo.AdminVo;
+import smile.office.groupware.employee.vo.EmployeeVo;
 
 import java.util.List;
 
@@ -19,7 +20,9 @@ public class AdminController {
 
     private final AdminService service;
 
-    // 운영자 로그인 화면
+    ////////////////////////////////////////////////////////////////
+
+    // 운영자 로그인 (화면)
     @GetMapping("login")
     public String login() {
         return "admin/login";
@@ -41,38 +44,83 @@ public class AdminController {
             model.addAttribute("errMsg", "로그인 실패: ID 또는 비밀번호 불일치 또는 계정이 삭제됨");
             return "common/error";
         }
-    }//method
+    }
 
-    // 운영자 홈화면
+    ////////////////////////////////////////////////////////////////
+
+    // 운영자 홈 (화면)
     @GetMapping("home")
     public String home(){
         return "admin/adminHome";
-    }//method
+    }
 
-    // 운영자 유저 정보 수정 화면
+    ////////////////////////////////////////////////////////////////
+
+    // 운영자 유저 정보 수정 (화면)
     @GetMapping("userEdit")
     public String userEdit(){
         return "admin/userEdit";
-    }//method
-
-    // 운영자 유저 정보 수정 기능구현
-    @PostMapping("userEdit")
-    public String userEdit(@RequestBody AdminVo vo) {
-        // 관리자를 추가하는 로직
-        service.addAdmin(vo);
-        return "redirect:/admin/userEdit";
     }
 
-    // 관리자 목록 가져오기
-    @GetMapping("getAdmins")
+    // 사원 목록 가져오기
+    @GetMapping("getEmployees")
     @ResponseBody
-    public List<AdminVo> getAdmins() {
-        return service.getAdmins();
+    public List<EmployeeVo> getEmployees() {
+        List<EmployeeVo> employees = service.getEmployees();
+        System.out.println("Fetched employees: " + employees);  // 로그 추가
+        return employees;
     }
 
-    //관리자 추가 adminAdd 화면
+    ////////////////////////////////////////////////////////////////
+
+
+
+    ////////////////////////////////////////////////////////////////
+
+    //관리자 추가 (화면)
     @GetMapping("adminAdd")
     public String adminAdd(){
         return "admin/adminAdd";
     }
+
+    // 관리자 추가 기능구현
+    @PostMapping("adminAdd")
+    public String adminAdd(@ModelAttribute AdminVo vo, Model model) {
+        try {
+            int result = service.addAdmin(vo);
+            System.out.println("result = " + result);
+            return "redirect:/admin/login";
+        } catch (Exception e) {
+            model.addAttribute("errMsg", "관리자 추가 실패: " + e.getMessage());
+            return "common/error";
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////
+
+    //관리자 조회
+    @GetMapping("inquiry")
+    @ResponseBody
+    public List<AdminVo> adminInquiry(AdminVo vo){
+        List<AdminVo> adminVoList = service.adminInquiry();
+        return adminVoList;
+    }
+    
+    ///////////////////////////////////////////////////////////////
+
+    // 관리자 삭제
+    @DeleteMapping("delete")
+    @ResponseBody
+    public String delete(@RequestParam("num") String num){
+        System.out.println("num = " + num);
+        int result = service.delete(num);
+        return result == 1 ? num + "번 삭제 완료!" : "삭제 실패...";
+    }
+
+    
+    
+
+
+}//class
+
 }
