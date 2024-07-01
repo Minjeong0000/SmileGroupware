@@ -87,7 +87,7 @@ $.ajax( {
     let str = "";
     for(let i = 0 ; i < data.length; ++i){
       str += "<tr>";
-      str += "<td><input type='checkbox' class='select-item'></td>";
+      str += "<td> <input type='checkbox' class='select-item'></td>";
       str += "<td>" + data[i].senderName + "</td>";
       str += "<td>" + data[i].content + "</td>";
       str += "<td>" + data[i].sentAt + "</td>";
@@ -101,3 +101,24 @@ $.ajax( {
   } ,
 
 } );
+
+function deleteCheckedBoard(){
+
+  const checkboxArr = document.querySelectorAll("table>tbody input[type=checkbox]")
+  console.log("checkboxArr:",checkboxArr);
+
+  let str = "";
+  for(let i=0; i<checkboxArr.length; ++i){
+    if(checkboxArr[i].checked == true){
+      console.log(checkboxArr[i].value);
+      str += "no="+checkboxArr[i].value;
+      str += "&";
+    }
+
+  }
+
+	location.href="http://127.0.0.1:8080/경로 ?" + str;
+
+
+
+}

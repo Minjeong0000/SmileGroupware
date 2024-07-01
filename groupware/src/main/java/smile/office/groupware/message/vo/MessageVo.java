@@ -10,9 +10,12 @@ public class MessageVo {
     private String senderNo;
     private String senderName;
     private String receiverNo;
-    private String reveiverName;
+    private String receiverName;
     private String content;
     private String sentAt;
     private String deletedDate;
+    private String readYn;
+
+
 
 }

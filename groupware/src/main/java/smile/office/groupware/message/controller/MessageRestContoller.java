@@ -81,18 +81,26 @@ public class MessageRestContoller {
 
 
     }
-    //읽음으로 상태 변경
-    @PutMapping("changeRead")
-    public int updateReadStatus(MessageVo vo){
-        int result = service.updateReadStatus(vo);
+    //읽음으로 상태 변경-> ajax에서 쪽지넘버 받아오고 로그인한사람==수신자가 같아야함
+    @GetMapping("changeRead")
+    public int updateReadStatus(String num){
+
+        int result = service.updateReadStatus(num);
+        System.out.println("result = " + result);
         return result;
     }
-
-
     //쪽지 상세조회
+    @GetMapping("detail")
+    public ResponseEntity<MessageVo> getMsgByNo(HttpServletRequest request,String num){
 
+        MessageVo vo = service.getMsgByNo(num);
+        System.out.println("vo = " + vo);
+        return ResponseEntity.ok(vo);
 
+    }
+    //휴지통으로 보내기
 
+    //완전삭제
 
 
 

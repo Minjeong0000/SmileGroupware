@@ -2,6 +2,7 @@ package smile.office.groupware.message.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 import smile.office.groupware.message.mapper.MessageMapper;
 import smile.office.groupware.message.vo.MessageVo;
 
@@ -31,7 +32,11 @@ public class MessageDao {
         return mapper.getSentMsgList(empId);
     }
 
-    public int updateReadStatus(MessageVo vo) {
-        return mapper.updateReadStatus(vo);
+    public int updateReadStatus(@RequestParam String num) {
+        return mapper.updateReadStatus(num);
+    }
+
+    public MessageVo getMsgByNo(String num) {
+        return mapper.getMsgByNo(num);
     }
 }
