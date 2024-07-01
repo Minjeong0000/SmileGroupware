@@ -5,10 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import smile.office.groupware.attendance.vo.AttendanceVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 import smile.office.groupware.message.service.MessageService;
@@ -33,6 +30,7 @@ public class MessageRestContoller {
         return ResponseEntity.ok(messageVoList);
     }
 
+
     //받은메세지(전체)조회(포스트맨확인용)
 //@GetMapping("list")
 //public ResponseEntity<List<MessageVo>> getReceiveMessageList(@RequestParam String empId){
@@ -43,6 +41,60 @@ public class MessageRestContoller {
 //    List<MessageVo> messageVoList = service.getReceiveMessageList(empId);
 //    return ResponseEntity.ok(messageVoList);
 //}
+
+    //중요쪽지 조회 list
+
+    @GetMapping("important")
+    public ResponseEntity<List<MessageVo>>getImportantMsglist(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        //확인
+        System.out.println(empId);
+        List<MessageVo>messageVoList = service.getImportantMsglist(empId);
+        return ResponseEntity.ok(messageVoList);
+
+    }
+    //휴지통 쪽지 조회
+
+    @GetMapping("trash")
+    public ResponseEntity<List<MessageVo>>getTrashMsgList(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        //확인
+        System.out.println(empId);
+        List<MessageVo>messageVoList = service.getTrashMsgList(empId);
+        return ResponseEntity.ok(messageVoList);
+
+    }
+    //보낸쪽지함 조회
+    @GetMapping("sentList")
+    public ResponseEntity<List<MessageVo>>getSentMsgList(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        //확인
+        System.out.println(empId);
+        List<MessageVo>messageVoList = service.getSentMsgList(empId);
+        return ResponseEntity.ok(messageVoList);
+
+
+    }
+    //읽음으로 상태 변경
+    @PutMapping("changeRead")
+    public int updateReadStatus(MessageVo vo){
+        int result = service.updateReadStatus(vo);
+        return result;
+    }
+
+
+    //쪽지 상세조회
+
+
+
+
+
 
 }
 

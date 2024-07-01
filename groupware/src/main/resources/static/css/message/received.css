@@ -1,0 +1,164 @@
+body {
+  font-family: "Lato", sans-serif;
+  transition: margin-left .5s;
+  padding: 16px;
+  overflow-x: hidden;
+}
+
+.sidenav {
+  height: 100%;
+  width: 70px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  border-radius: 4px;
+  background-color: #8d9cf5;
+  overflow-x: hidden;
+  transition: width 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  color: #000000;
+  padding: 10px;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
+  margin-bottom: 30px;
+  margin-left: 9px;
+}
+
+.sidenav a:hover {
+  color: #505050;
+}
+
+.sidenav .menu-icon {
+  font-size: 25px;
+  margin-right: 10px;
+}
+
+.link-text {
+  display: none;
+  white-space: nowrap;
+}
+
+.sidenav.open .link-text {
+  display: block;
+}
+
+#main {
+  display: flex;
+  margin-left: 70px;  /* 변경된 부분 */
+  transition: margin-left .5s;
+  padding: 20px;
+  height: calc(100vh - 40px);
+  box-sizing: border-box;
+}
+
+.column {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.column:first-child {
+  flex: none;
+  width: 270px;
+  border-right: 2px solid #ccc;
+}
+
+.column:last-child {
+  flex: 1;
+}
+.msg-menu{
+display: flex;
+flex-direction: column;
+gap: 15px;
+}
+.msg-menu ul {
+  list-style-type: none; /* 리스트 앞에 기본 동그라미 제거 */
+  padding-left: 0; /* 리스트 들여쓰기 제거 */
+}
+.msg-menu ul li {
+  padding-left: 20px; /* 각 항목 들여쓰기 */
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+thead:last-of-type{
+  background-color: #f2f2f2;
+  th{
+    text-align: center;
+  }
+}
+
+.paging-bar {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.paging-bar button {
+  background-color: white;
+  border: 1px solid #ddd;
+  color: #888;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.paging-bar button.active {
+  font-weight: bold;
+  color: black;
+}
+
+.paging-bar button:hover {
+  background-color: #f2f2f2;
+}
+
+
+
+#delete{
+  background-color: #ff6363; /* 배경색 변경 */
+  border-radius: 10px;
+  border: none; /* 테두리 제거 */
+  color: white; /* 글자색 흰색으로 변경 */
+  padding: 6px 12px; /* 내부 여백 조정 */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* 변화 효과 추가 */
+  margin-right: 5px; /* 버튼 간격 조정 */
+}
+#read{
+  background-color: #57d381; /* 배경색 변경 */
+  border-radius: 10px;
+  border: none; /* 테두리 제거 */
+  color: white; /* 글자색 흰색으로 변경 */
+  padding: 6px 12px; /* 내부 여백 조정 */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* 변화 효과 추가 */
+  margin-right: 5px; /* 버튼 간격 조정 */
+}
+#write{
+  background-color: #546dff; /* 배경색 변경 */
+  border-radius: 10px;
+  border: none; /* 테두리 제거 */
+  color: white; /* 글자색 흰색으로 변경 */
+  padding: 6px 12px; /* 내부 여백 조정 */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* 변화 효과 추가 */
+  margin-right: 5px; /* 버튼 간격 조정 */
+}
+
+
