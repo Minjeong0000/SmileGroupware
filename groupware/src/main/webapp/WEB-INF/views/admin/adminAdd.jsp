@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 추가</title>
-<link rel="stylesheet" type="text/css" href="/css/emp/attendance/adminAdd.css">
-<script defer src="/js/adminAdd.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/admin/adminAdd.css">
+<script defer src="/js/admin/adminAdd.js"></script>
 </head>
 <body>
     <div id="mySidenav" class="sidenav">
