@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 페이지</title>
-<link rel="stylesheet" type="text/css" href="/css/emp/attendance/adminHome.css">
-<script defer src="/js/adminHome.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/admin/adminHome.css">
+<script defer src="/js/admin/adminHome.js"></script>
 </head>
 
 <body>

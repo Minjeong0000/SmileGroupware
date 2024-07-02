@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>사원 관리</title>
-    <link rel="stylesheet" type="text/css" href="/css/emp/attendance/adminUserEdit.css">
-    <script defer src="/js/adminUserEdit.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/admin/adminUserEdit.css">
+    <script defer src="/js/admin/adminUserEdit.js"></script>
 </head>
 <body>
     <div id="mySidenav" class="sidenav">
