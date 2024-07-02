@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -20,11 +23,15 @@
     <div id="main" onclick="closeNav()">
         <div class="form-container">
             <h2>회원 등록</h2><br>
-            <form id="registerForm">
+            <form id="registerForm" action="userAdd" method="post" enctype="multipart/form-data">
                 <div class="left-column">
                     <div class="form-group">
+                        <label for="company_no">회사 번호:</label>
+                        <input type="text" id="company_no" name="companyNo" required>
+                    </div>
+                    <div class="form-group">
                         <label for="emp_name">이름:</label>
-                        <input type="text" id="emp_name" name="emp_name" required>
+                        <input type="text" id="emp_name" name="empName" required>
                     </div>
                     <div class="form-group">
                         <label for="id">아이디:</label>
@@ -40,7 +47,7 @@
                     </div>
                     <div class="form-group">
                         <label for="emp_no">주민등록번호:</label>
-                        <input type="text" id="emp_no" name="emp_no">
+                        <input type="text" id="emp_no" name="empNo">
                     </div>
                     <div class="form-group">
                         <label for="email">이메일:</label>
@@ -50,23 +57,23 @@
                 <div class="right-column">
                     <div class="form-group">
                         <label for="hire_date">입사일:</label>
-                        <input type="date" id="hire_date" name="hire_date">
+                        <input type="date" id="hire_date" name="hireDate">
                     </div>
                     <div class="form-group">
                         <label for="department_no">부서 번호:</label>
-                        <input type="text" id="department_no" name="department_no">
+                        <input type="text" id="department_no" name="departmentNo">
                     </div>
                     <div class="form-group">
                         <label for="role_no">역할 번호:</label>
-                        <input type="text" id="role_no" name="role_no">
+                        <input type="text" id="role_no" name="roleNo">
                     </div>
                     <div class="form-group">
                         <label for="position_no">직위 번호:</label>
-                        <input type="text" id="position_no" name="position_no">
+                        <input type="text" id="position_no" name="positionNo">
                     </div>
                     <div class="form-group">
                         <label for="profile">프로필 사진:</label>
-                        <input type="file" id="profile" name="profile" accept="image/*" onchange="previewImage(event)">
+                        <input type="file" id="profile" name="profileFile" accept="image/*" onchange="previewImage(event)">
                     </div>
                     <div class="form-group profile-image">
                         <div class="image-placeholder">
@@ -75,7 +82,7 @@
                     </div>
                 </div>
                 <div class="form-group full-width">
-                    <button type="button" onclick="registerEmployee()">등록</button>
+                    <button type="submit">등록</button>
                 </div>
             </form>
         </div>

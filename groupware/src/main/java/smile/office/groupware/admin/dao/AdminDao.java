@@ -40,4 +40,12 @@ public class AdminDao {
     public int delete(String num) {
         return mapper.delete(num);
     }
+
+    public int addEmployee(EmployeeVo vo) {
+        return mapper.addEmployee(vo);
+    }
+
+    public EmployeeVo getEmployeeById(String empId) {
+        return mapper.getEmployeeById(empId);
+    }
 }

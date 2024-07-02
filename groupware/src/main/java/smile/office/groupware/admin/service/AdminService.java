@@ -39,4 +39,13 @@ public class AdminService {
     public int delete(String num) {
         return dao.delete(num);
     }
+
+    public int addEmployee(EmployeeVo vo) throws Exception{
+        return dao.addEmployee(vo);
+    }
+
+    public EmployeeVo getEmployeeById(String empId) {
+        return dao.getEmployeeById(empId);
+    }
+
 }
