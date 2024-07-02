@@ -12,15 +12,20 @@ import smile.office.groupware.employee.vo.EmployeeVo;
 import smile.office.groupware.message.service.MessageService;
 import smile.office.groupware.message.vo.MessageVo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("api/message")
+@CrossOrigin
 @RequiredArgsConstructor
 public class MessageRestContoller {
 
     private final MessageService service;
     //받은메세지(전체)조회
+//  public ResponseEntity<List<MessageVo>>getSentMsgList(HttpServletRequest request){
     @GetMapping("list")
     public ResponseEntity<?> getReceiveMessageList(HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -51,9 +56,12 @@ public class MessageRestContoller {
     //중요쪽지 조회 list
 
     @GetMapping("important")
-    public ResponseEntity<List<MessageVo>>getImportantMsglist(HttpServletRequest request){
+    public ResponseEntity<?>getImportantMsglist(HttpServletRequest request){
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        if (loginEmployeeVo == null) {
+            return ResponseEntity.internalServerError().body("비정상적인 접근입니다. 로그인 페이지로 돌아갑니다.");
+        }
         String empId = loginEmployeeVo.getEmpId();
         //확인
         System.out.println(empId);
@@ -62,23 +70,35 @@ public class MessageRestContoller {
 
     }
     //휴지통 쪽지 조회
-
-    @GetMapping("trash")
-    public ResponseEntity<List<MessageVo>>getTrashMsgList(HttpServletRequest request){
+    @GetMapping("trashList")
+    public ResponseEntity<?>getTrashMsgList(HttpServletRequest request){
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        if (loginEmployeeVo == null) {
+            return ResponseEntity.internalServerError().body("비정상적인 접근입니다. 로그인 페이지로 돌아갑니다.");
+        }
         String empId = loginEmployeeVo.getEmpId();
         //확인
         System.out.println(empId);
         List<MessageVo>messageVoList = service.getTrashMsgList(empId);
-        return ResponseEntity.ok(messageVoList);
+        //empId, messageVoList함께 반환
+        Map<String, Object> response = new HashMap<>();
+        response.put("empId",empId);
+        response.put("messageVoList",messageVoList);
+
+        return ResponseEntity.ok(response);
+
+//        return ResponseEntity.ok(messageVoList);
 
     }
     //보낸쪽지함 조회
     @GetMapping("sentList")
-    public ResponseEntity<List<MessageVo>>getSentMsgList(HttpServletRequest request){
+    public ResponseEntity<?>getSentMsgList(HttpServletRequest request){
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        if (loginEmployeeVo == null) {
+            return ResponseEntity.internalServerError().body("비정상적인 접근입니다. 로그인 페이지로 돌아갑니다.");
+        }
         String empId = loginEmployeeVo.getEmpId();
         //확인
         System.out.println(empId);
@@ -86,7 +106,7 @@ public class MessageRestContoller {
         return ResponseEntity.ok(messageVoList);
     }
 
-    //읽음으로 상태 변경-> ajax에서 쪽지넘버 받아오고 로그인한사람==수신자가 같아야함
+    //읽음으로 상태 변경(여러개)-> ajax에서 쪽지넘버 받아오고 로그인한사람==수신자가 같아야함
     @PutMapping("changeRead")
     public int updateReadStatus(@RequestBody List<String> msgList){
 
@@ -94,8 +114,8 @@ public class MessageRestContoller {
         System.out.println("result = " + result);
         return result;
     }
-    //휴지통으로 보내기
 
+    //휴지통으로 보내기(여러개)
     @PutMapping("sendTrash")
     public int updateForderStatusTrash(@RequestBody List<String> msgList){
 
@@ -105,7 +125,17 @@ public class MessageRestContoller {
     }
 
 
-    //완전삭제
+    //휴지통에서영구삭제(여러개)
+    @DeleteMapping("delete")
+   public int deleteMsg(@RequestBody List<String>msgList){
+
+        int result = service.deleteMsg(msgList);
+        System.out.println("result = " + result);
+        return result;
+    }
+
+
+
 
 
     //쪽지 상세조회

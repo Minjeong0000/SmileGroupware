@@ -101,8 +101,11 @@ $.ajax( {
     x.innerHTML = str;
 
   } ,
-  fail: () => {
-    console.log("통신실패...");
+  error:function(x){
+    console.log(x.responseText);
+    alert(x.responseText);
+    location.href="/emp/login";
+
   } ,
 
 } );

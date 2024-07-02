@@ -74,42 +74,52 @@ for (var checkbox of checkboxes) {
 }
 
 
+//휴지통 수신/발신 구분해서 list 받아오기
 $.ajax( {
-  url: "http://127.0.0.1:8080/api/message/trash" ,
+  url: "http://127.0.0.1:8080/api/message/trashList" ,
   method: "get" ,
   success: (data) => {
     console.log("통신성공!");
-    console.log(data);
+    console.log(data);//map 에 담긴 값
+    //로그인 한 사원의 사번
+    const empId = data.empId;
+    console.log(empId);
+
+    const messageVoList = data.messageVoList;
+    console.log(messageVoList);
 
     const x = document.querySelector("table > tbody");
     console.log(x);
 
     let str = "";
-    for(let i = 0 ; i < data.length; ++i){
+    for(let i = 0 ; i < messageVoList.length; ++i){
+
+      let status = (empId===messageVoList[i].receiverNo)?'수신':'발신'
+      console.log(status);
       str += "<tr>";
       str += `
       <td>
-          <input type='checkbox' class='select-item' value='${data[i].messageNo}'>
+          <input type='checkbox' class='select-item' value='${messageVoList[i].messageNo}'>
       </td>
   `;
-      str += "<td>" + data[i].senderName + "</td>";
-      str += "<td>" + data[i].forderName + "</td>";
-      str += "<td>" + data[i].content + "</td>";
-      str += "<td>" + data[i].sentAt + "</td>";
+      str += "<td>" + messageVoList[i].senderName + "</td>";
+      str += "<td>" + status + "</td>";
+      str += "<td>" + messageVoList[i].content + "</td>";
+      str += "<td>" + messageVoList[i].sentAt + "</td>";
       str += "</tr>";
     }
     x.innerHTML = str;
 
   } ,
-  fail: () => {
-    console.log("통신실패...");
+  fail: (x) => {
+    console.log(x.responseText);
   } ,
 
 } );
 
 
 
-function readCheckedMessage(){
+function deleteForever(){
 
   const checkboxArr = document.querySelectorAll("table>tbody input[type=checkbox]");//전체 체크박스 가져오기
   let checkedValues = [];//체크된 값만 받을 새로운 배열 만들기
@@ -121,14 +131,17 @@ function readCheckedMessage(){
   console.log("Checked values:", checkedValues);//새로운배열 담아졌는지 확인
 
   $.ajax({
-      url: '/api/message/changeRead', // 요청을 보낼 URL
-      type: 'PUT', // HTTP 요청 메소드
+      url: '/api/message/delete', // 요청을 보낼 URL
+      type: 'DELETE', // HTTP 요청 메소드
       contentType: 'application/json', // 보낼 데이터 형식,핸들러 매개변수앞에 @requestbody추가해야
       data: JSON.stringify(checkedValues), // 데이터를 JSON 문자열로 변환
       success: function(x) {
           console.log('Success:', x);
+          alert(x+'개의 쪽지를 영구 삭제 했습니다.');
+          location.href="/message/trash";
       },
       error: function(e) {
+        
           console.log('Error:', e);
       }
   });

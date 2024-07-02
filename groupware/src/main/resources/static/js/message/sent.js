@@ -73,9 +73,8 @@ for (var checkbox of checkboxes) {
   });
 }
 
-
 $.ajax( {
-  url: "http://127.0.0.1:8080/api/message/list" ,
+  url: "http://127.0.0.1:8080/api/message/sentList" ,
   method: "get" ,
   success: (data) => {
     console.log("통신성공!");
@@ -83,7 +82,7 @@ $.ajax( {
 
     const x = document.querySelector("table > tbody");
     console.log(x);
-    
+
     let str = "";
     for(let i = 0 ; i < data.length; ++i){
       str += "<tr>";
@@ -92,24 +91,24 @@ $.ajax( {
           <input type='checkbox' class='select-item' value='${data[i].messageNo}'>
       </td>
   `;
-      str += "<td>" + data[i].senderName + "</td>";
+      str += "<td>" + data[i].receiverName + "</td>";
+      str += "<td>" + data[i].readYn + "</td>";
       str += "<td>" + data[i].content + "</td>";
       str += "<td>" + data[i].sentAt + "</td>";
       str += "</tr>";
     }
     x.innerHTML = str;
-    
+
   } ,
-  error:function(x){
-    console.log(x);
+  error:(x) => {
+    console.log(x.responseText);
     alert(x.responseText);
-    location.href="/emp/login";
-} ,
+  } ,
 
 } );
 
 
-//복구하기로 바꾸기 
+
 function readCheckedMessage(){
 
   const checkboxArr = document.querySelectorAll("table>tbody input[type=checkbox]");//전체 체크박스 가져오기
@@ -126,41 +125,8 @@ function readCheckedMessage(){
       type: 'PUT', // HTTP 요청 메소드
       contentType: 'application/json', // 보낼 데이터 형식,핸들러 매개변수앞에 @requestbody추가해야
       data: JSON.stringify(checkedValues), // 데이터를 JSON 문자열로 변환
-      success: function(result) {
-          console.log('Success:' + result)+'개 읽음처리';
-          alert(result+'개 읽음처리 성공');
-
-          /* 읽음확인되면 글자색 회색으로*/
-          location.href="/message/received";
-
-      },
-      error: function(e) {
-          console.log('Error:', e);
-      }
-  });
-
-}
-
-//휴지통 이동 대신 영구삭제로 바꾸기
-function deleteCheckedMessage(){
-
-  const checkboxArr = document.querySelectorAll("table>tbody input[type=checkbox]");//전체 체크박스 가져오기
-  let checkedValues = [];//체크된 값만 받을 새로운 배열 만들기
-  for (let i = 0; i < checkboxArr.length; ++i) {
-      if (checkboxArr[i].checked) { //체크==true
-          checkedValues.push(checkboxArr[i].value);//새로운배열에 담기
-      }
-  }
-  console.log("Checked values:", checkedValues);//새로운배열 담아졌는지 확인
-
-  $.ajax({
-      url: '/api/message/sendTrash', // 요청을 보낼 URL
-      type: 'PUT', // HTTP 요청 메소드
-      contentType: 'application/json', // 보낼 데이터 형식,핸들러 매개변수앞에 @requestbody추가해야
-      data: JSON.stringify(checkedValues), // 데이터를 JSON 문자열로 변환
-      success: function(result) {
-        console.log('Success:' + result)+'개 휴지통처리';
-        alert(result+'개의 쪽지를 휴지통으로 이동했습니다.');
+      success: function(x) {
+          console.log('Success:', x);
       },
       error: function(e) {
           console.log('Error:', e);

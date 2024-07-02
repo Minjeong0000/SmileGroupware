@@ -84,18 +84,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><input type="checkbox" class="select-item"></td>
-                    <td>김대리</td>
-                    <td>중요</td>
-                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, inventore tempora</td>
-                    <td>2018/01/04 13:09:37</td>
-                  </tr>
-                  <tr>
-                    <td><input type="checkbox" class="select-item"></td>
-                    <td>김과장</td>
-                    <td>중요</td>
-                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, inventore tempora</td>
-                    <td>2018/01/11 15:46:56</td>
+                    <td colspan="5" style="text-align: center;">조회된 데이터가 없습니다.</td>
                   </tr>
                 </tbody>
               </table>

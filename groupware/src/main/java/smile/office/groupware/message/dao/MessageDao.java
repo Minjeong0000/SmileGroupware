@@ -45,4 +45,8 @@ public class MessageDao {
 
     return mapper.updateForderStatusTrash(msgList);
     }
+    //영구삭제
+    public int deleteMsg(List<String> msgList) {
+        return mapper.deleteMsg(msgList);
+    }
 }

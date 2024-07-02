@@ -34,15 +34,21 @@ public class MessageService {
         return dao.getSentMsgList(empId);
 
     }
-
+    //읽음으로 변경(여러개)
     public int updateReadStatus(List<String> msgList) {
         return dao.updateReadStatus(msgList);
     }
-
+    //휴지통 이동(여러개)
     public int updateForderStatusTrash(List<String> msgList) {
         return dao.updateForderStatusTrash(msgList);
     }
 
+
+    //메세지 영구삭제
+    public int deleteMsg(List<String> msgList) {
+        return dao.deleteMsg(msgList);
+
+    }
 
     //상세조회
     public MessageVo getMsgByNo(String num) {
