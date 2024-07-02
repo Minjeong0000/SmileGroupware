@@ -1,9 +1,6 @@
 package smile.office.groupware.message.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import smile.office.groupware.message.vo.MessageVo;
 
@@ -21,7 +18,7 @@ public interface MessageMapper {
     List<MessageVo> getImportantMsglist(String empId);
 
     //휴지통 쪽지 조회
-    @Select("SELECT MESSAGE_NO, M.FORDER_NO, F.FORDER_NAME, SENDER_NO,S.EMP_NAME SENDER_NAME, RECEIVER_NO,R.EMP_NAME RECEIVER_NAME,CONTENT,SENT_AT , READ_YN, DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON(M.SENDER_NO = S.EMP_ID) JOIN EMPLOYEE R ON(M.RECEIVER_NO = R.EMP_ID) JOIN FORDER F ON(M.FORDER_NO = F.FORDER_NO) WHERE RECEIVER_NO = #{empId} AND  M.FORDER_NO=2")
+    @Select("SELECT MESSAGE_NO, M.FORDER_NO, F.FORDER_NAME, SENDER_NO,S.EMP_NAME SENDER_NAME, RECEIVER_NO,R.EMP_NAME RECEIVER_NAME,CONTENT,SENT_AT , READ_YN, DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON(M.SENDER_NO = S.EMP_ID) JOIN EMPLOYEE R ON(M.RECEIVER_NO = R.EMP_ID) JOIN FORDER F ON(M.FORDER_NO = F.FORDER_NO) WHERE (RECEIVER_NO = #{empId} OR SENDER_NO = #{empId}) AND  M.FORDER_NO=2")
     List<MessageVo> getTrashMsgList(String empId);
 
     //보낸쪽지함
@@ -42,6 +39,7 @@ public interface MessageMapper {
     })
     int updateReadStatus(@Param("msgList")List<String>msgList);
 
+    //휴지통으로 여러개 보내기
     @Update({
             "<script>",
             "UPDATE MESSAGE",
@@ -54,8 +52,22 @@ public interface MessageMapper {
     })
     int updateForderStatusTrash(@Param("msgList")List<String> msgList);
 
+
+
+
+    //메세지 상세조회
     @Select("SELECT MESSAGE_NO, M.FORDER_NO, F.FORDER_NAME, SENDER_NO,S.EMP_NAME SENDER_NAME, RECEIVER_NO,R.EMP_NAME RECEIVER_NAME,CONTENT,SENT_AT , READ_YN, DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON(M.SENDER_NO = S.EMP_ID) JOIN EMPLOYEE R ON(M.RECEIVER_NO = R.EMP_ID) JOIN FORDER F ON(M.FORDER_NO = F.FORDER_NO) WHERE MESSAGE_NO = #{num}")
     MessageVo getMsgByNo(String num);
 
-
+//휴지통에서 영구삭제(여러개)
+    @Delete({
+            "<script>",
+            "DELETE FROM MESSAGE",
+            "WHERE MESSAGE_NO IN",
+            "<foreach item='no' collection='msgList' open='(' separator=',' close=')'>",
+            "#{no}",
+            "</foreach>",
+            "</script>"
+    })
+    int deleteMsg(@Param("msgList")List<String> msgList);
 }

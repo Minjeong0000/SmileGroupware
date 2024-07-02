@@ -29,7 +29,13 @@ public class MessageController {
     //휴지통
     @GetMapping("/trash")
     public String trashMsgList(){
-        return "message/important";
+        return "message/trash";
+    }
+
+    //보낸쪽지함
+    @GetMapping("/sent")
+    public String sentMsgList(){
+        return "message/sent";
     }
 
 
@@ -46,11 +52,6 @@ public class MessageController {
         return "message/send";
     }
 
-    //보낸쪽지함
-    @GetMapping("/sentList")
-    public String sentMsgList(){
-        return "message/sentList";
-    }
 
 
 }

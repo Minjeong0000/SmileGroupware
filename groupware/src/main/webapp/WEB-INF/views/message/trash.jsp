@@ -43,7 +43,7 @@
         <div class="column content">
             <div class="receive-msg-container">
 
-                <div class="msg-top"> <h1>중요 쪽지함</h1></div>
+                <div class="msg-top"> <h1>휴지통</h1></div>
 
             </div>
 
@@ -65,7 +65,7 @@
                 <thead>
                     <th colspan="3">
                         <div>
-                            <button id="delete"><i class="fa-solid fa-trash"></i>영구삭제</button>
+                            <button onclick="deleteForever();" id="delete"><i class="fa-solid fa-trash"></i>영구삭제</button>
                             <button id="read"><i class="fa-solid fa-trash-arrow-up"></i>복구</button>
                         </div>
                     </th>
@@ -84,39 +84,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><input type="checkbox" class="select-item"></td>
-                    <td>김대리</td>
-                    <td>휴지통</td>
-                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, inventore tempora</td>
-                    <td>2018/01/04 13:09:37</td>
-                  </tr>
-                  <tr>
-                    <td><input type="checkbox" class="select-item"></td>
-                    <td>김과장</td>
-                    <td>휴지통</td>
-                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, inventore tempora</td>
-                    <td>2018/01/11 15:46:56</td>
-                  </tr>
-                  <tr>
-                    <td><input type="checkbox" class="select-item"></td>
-                    <td>김과장</td>
-                    <td>휴지통</td>
-                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, inventore tempora</td>
-                    <td>2017/11/22 09:39:43</td>
-                  </tr>
-                  <tr>
-                    <td><input type="checkbox" class="select-item"></td>
-                    <td>김과장</td>
-                    <td>휴지통</td>
-                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, inventore tempora</td>
-                    <td>2017/11/23 09:34:45</td>
-                  </tr>
-                  <tr>
-                    <td><input type="checkbox" class="select-item"></td>
-                    <td>김과장</td>
-                    <td>휴지통</td>
-                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, inventore tempora</td>
-                    <td>2017/06/12 10:31:34</td>
+                    <td colspan="5" style="text-align: center;">조회된 데이터가 없습니다.</td>
                   </tr>
                 </tbody>
               </table>
