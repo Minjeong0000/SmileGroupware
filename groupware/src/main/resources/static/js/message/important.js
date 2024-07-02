@@ -73,9 +73,9 @@ for (var checkbox of checkboxes) {
   });
 }
 
-
+//중요쪽지 list불러오기
 $.ajax( {
-  url: "http://127.0.0.1:8080/api/message/list" ,
+  url: "http://127.0.0.1:8080/api/message/important" ,
   method: "get" ,
   success: (data) => {
     console.log("통신성공!");
@@ -83,7 +83,7 @@ $.ajax( {
 
     const x = document.querySelector("table > tbody");
     console.log(x);
-    
+
     let str = "";
     for(let i = 0 ; i < data.length; ++i){
       str += "<tr>";
@@ -93,19 +93,17 @@ $.ajax( {
       </td>
   `;
       str += "<td>" + data[i].senderName + "</td>";
+      str += "<td>" + data[i].forderName + "</td>";
       str += "<td>" + data[i].content + "</td>";
       str += "<td>" + data[i].sentAt + "</td>";
       str += "</tr>";
     }
     x.innerHTML = str;
-    
-  } ,
-  error:function(x){
-    console.log(x);
-    alert(x);
 
-    location.href="/emp/login";
-} ,
+  } ,
+  fail: () => {
+    console.log("통신실패...");
+  } ,
 
 } );
 
@@ -127,13 +125,9 @@ function readCheckedMessage(){
       type: 'PUT', // HTTP 요청 메소드
       contentType: 'application/json', // 보낼 데이터 형식,핸들러 매개변수앞에 @requestbody추가해야
       data: JSON.stringify(checkedValues), // 데이터를 JSON 문자열로 변환
-      success: function(result) {
-          console.log('Success:' + result)+'개 읽음처리';
-          alert(result+'개 읽음처리 성공');
-
-          /* 읽음확인되면 글자색 회색으로*/
-          location.href="/message/received";
-
+      success: function(x) {
+          console.log('Success:', x);
+          
       },
       error: function(e) {
           console.log('Error:', e);
@@ -141,6 +135,7 @@ function readCheckedMessage(){
   });
 
 }
+
 function deleteCheckedMessage(){
 
   const checkboxArr = document.querySelectorAll("table>tbody input[type=checkbox]");//전체 체크박스 가져오기
@@ -157,9 +152,8 @@ function deleteCheckedMessage(){
       type: 'PUT', // HTTP 요청 메소드
       contentType: 'application/json', // 보낼 데이터 형식,핸들러 매개변수앞에 @requestbody추가해야
       data: JSON.stringify(checkedValues), // 데이터를 JSON 문자열로 변환
-      success: function(result) {
-        console.log('Success:' + result)+'개 휴지통처리';
-        alert(result+'개의 쪽지를 휴지통으로 이동했습니다.');
+      success: function(x) {
+          console.log('Success:', x);
       },
       error: function(e) {
           console.log('Error:', e);

@@ -4,10 +4,10 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>받은쪽지함</title>
+<title>휴지통</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script defer src="${pageContext.request.contextPath}/js/message/received.js"></script>
+<script defer src="${pageContext.request.contextPath}/js/message/trash.js"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/message/received.css">
 
 </head>
@@ -28,7 +28,7 @@
             <div><h1><i class="fa-regular fa-message"></i>  쪽지</h1></div>
             <div class="msg-menu">
                 <div>
-                    <i class="fa-solid fa-envelope">받은 쪽지함</i>
+                    <i class="fa-solid fa-envelope">휴지통</i>
                         <ul>
                             <li><i class="fa-solid fa-star"></i> 중요 쪽지함</li>
                             <li> <i class="fa-solid fa-trash-can"></i> 휴지통</li>
@@ -43,11 +43,11 @@
         <div class="column content">
             <div class="receive-msg-container">
 
-                <div class="msg-top"> <h1>받은 쪽지함</h1></div>
+                <div class="msg-top"> <h1>중요 쪽지함</h1></div>
 
             </div>
 
-            <table>
+          <table>
                 <thead>
                     <tr>
                         <th colspan="3">
@@ -65,8 +65,8 @@
                 <thead>
                     <th colspan="3">
                         <div>
-                            <button  onclick="deleteCheckedMessage();" id= "delete" ><i class="fa-solid fa-trash"></i>삭제</button>
-                            <button  onclick="readCheckedMessage();" id= "read" ><i class="fa-solid fa-check"></i>읽음</button>
+                            <button id="delete"><i class="fa-solid fa-trash"></i>영구삭제</button>
+                            <button id="read"><i class="fa-solid fa-trash-arrow-up"></i>복구</button>
                         </div>
                     </th>
                     <th>
@@ -77,13 +77,46 @@
                   <tr>
                     <th><input type="checkbox" id="select-all"></th>
                     <th>보낸이</th>
+                    <th>구분</th>
                     <th>내용</th>
                     <th>일시</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td colspan="5" style="text-align: center;">조회된 데이터가 없습니다.</td>
+                    <td><input type="checkbox" class="select-item"></td>
+                    <td>김대리</td>
+                    <td>휴지통</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, inventore tempora</td>
+                    <td>2018/01/04 13:09:37</td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="select-item"></td>
+                    <td>김과장</td>
+                    <td>휴지통</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, inventore tempora</td>
+                    <td>2018/01/11 15:46:56</td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="select-item"></td>
+                    <td>김과장</td>
+                    <td>휴지통</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, inventore tempora</td>
+                    <td>2017/11/22 09:39:43</td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="select-item"></td>
+                    <td>김과장</td>
+                    <td>휴지통</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, inventore tempora</td>
+                    <td>2017/11/23 09:34:45</td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="select-item"></td>
+                    <td>김과장</td>
+                    <td>휴지통</td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, inventore tempora</td>
+                    <td>2017/06/12 10:31:34</td>
                   </tr>
                 </tbody>
               </table>

@@ -35,11 +35,19 @@ public class MessageService {
 
     }
 
-    public int updateReadStatus(String[] noArr) {
-        return dao.updateReadStatus(noArr);
+    public int updateReadStatus(List<String> msgList) {
+        return dao.updateReadStatus(msgList);
     }
 
+    public int updateForderStatusTrash(List<String> msgList) {
+        return dao.updateForderStatusTrash(msgList);
+    }
+
+
+    //상세조회
     public MessageVo getMsgByNo(String num) {
         return dao.getMsgByNo(num);
     }
+
+
 }

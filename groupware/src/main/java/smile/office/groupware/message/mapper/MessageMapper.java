@@ -1,6 +1,7 @@
 package smile.office.groupware.message.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface MessageMapper {
 
     //받은쪽지 조회
-    @Select("SELECT MESSAGE_NO, M.FORDER_NO, F.FORDER_NAME, SENDER_NO,S.EMP_NAME SENDER_NAME, RECEIVER_NO,R.EMP_NAME RECEIVER_NAME,CONTENT,SENT_AT , READ_YN,  DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON(M.SENDER_NO = S.EMP_ID) JOIN EMPLOYEE R ON(M.RECEIVER_NO = R.EMP_ID) JOIN FORDER F ON(M.FORDER_NO = F.FORDER_NO) WHERE RECEIVER_NO = #{empId} AND READ_YN = 'N'")
+    @Select("SELECT MESSAGE_NO, M.FORDER_NO, F.FORDER_NAME, SENDER_NO,S.EMP_NAME SENDER_NAME, RECEIVER_NO,R.EMP_NAME RECEIVER_NAME,CONTENT,SENT_AT , READ_YN,  DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON(M.SENDER_NO = S.EMP_ID) JOIN EMPLOYEE R ON(M.RECEIVER_NO = R.EMP_ID) JOIN FORDER F ON(M.FORDER_NO = F.FORDER_NO) WHERE RECEIVER_NO = #{empId} AND M.FORDER_NO != 2 AND READ_YN = 'N'")
     List<MessageVo> getReceiveMessageList(String empId);
 
     //중요쪽지 조회
@@ -33,14 +34,28 @@ public interface MessageMapper {
             "UPDATE MESSAGE",
             "SET READ_YN = 'Y'",
             "WHERE MESSAGE_NO IN",
-            "<foreach item='no' collection='messageNos' open='(' separator=',' close=')'>",
+            "<foreach item='no' collection='msgList' open='(' separator=',' close=')'>",
             "#{no}",
             "</foreach>",
             "AND READ_YN = 'N'",
             "</script>"
     })
-    int updateReadStatus(String[] noArr);
+    int updateReadStatus(@Param("msgList")List<String>msgList);
+
+    @Update({
+            "<script>",
+            "UPDATE MESSAGE",
+            "SET FORDER_NO = 2",
+            "WHERE MESSAGE_NO IN",
+            "<foreach item='no' collection='msgList' open='(' separator=',' close=')'>",
+            "#{no}",
+            "</foreach>",
+            "</script>"
+    })
+    int updateForderStatusTrash(@Param("msgList")List<String> msgList);
 
     @Select("SELECT MESSAGE_NO, M.FORDER_NO, F.FORDER_NAME, SENDER_NO,S.EMP_NAME SENDER_NAME, RECEIVER_NO,R.EMP_NAME RECEIVER_NAME,CONTENT,SENT_AT , READ_YN, DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON(M.SENDER_NO = S.EMP_ID) JOIN EMPLOYEE R ON(M.RECEIVER_NO = R.EMP_ID) JOIN FORDER F ON(M.FORDER_NO = F.FORDER_NO) WHERE MESSAGE_NO = #{num}")
     MessageVo getMsgByNo(String num);
+
+
 }

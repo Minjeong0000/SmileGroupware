@@ -32,11 +32,17 @@ public class MessageDao {
         return mapper.getSentMsgList(empId);
     }
 
-    public int updateReadStatus(String[] noArr) {
-        return mapper.updateReadStatus(noArr);
+    public int updateReadStatus(List<String>msgList) {
+        return mapper.updateReadStatus(msgList);
     }
 
     public MessageVo getMsgByNo(String num) {
         return mapper.getMsgByNo(num);
+    }
+
+
+    public int updateForderStatusTrash(List<String> msgList) {
+
+    return mapper.updateForderStatusTrash(msgList);
     }
 }
