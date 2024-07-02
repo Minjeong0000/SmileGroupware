@@ -87,7 +87,8 @@ $.ajax( {
     let str = "";
     for(let i = 0 ; i < data.length; ++i){
       str += "<tr>";
-      str += "<td> <input type='checkbox' class='select-item'></td>";
+      str += "<td>";
+      str += <input type='checkbox' class='select-item'></td>";
       str += "<td>" + data[i].senderName + "</td>";
       str += "<td>" + data[i].content + "</td>";
       str += "<td>" + data[i].sentAt + "</td>";

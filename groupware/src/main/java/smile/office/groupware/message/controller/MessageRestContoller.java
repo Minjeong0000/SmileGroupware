@@ -82,10 +82,10 @@ public class MessageRestContoller {
 
     }
     //읽음으로 상태 변경-> ajax에서 쪽지넘버 받아오고 로그인한사람==수신자가 같아야함
-    @GetMapping("changeRead")
-    public int updateReadStatus(String num){
+    @PutMapping("changeRead")
+    public int updateReadStatus(String[] noArr){
 
-        int result = service.updateReadStatus(num);
+        int result = service.updateReadStatus(noArr);
         System.out.println("result = " + result);
         return result;
     }

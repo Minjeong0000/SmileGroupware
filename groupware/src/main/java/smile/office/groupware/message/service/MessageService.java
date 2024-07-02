@@ -35,8 +35,8 @@ public class MessageService {
 
     }
 
-    public int updateReadStatus(@RequestParam String num) {
-        return dao.updateReadStatus(num);
+    public int updateReadStatus(String[] noArr) {
+        return dao.updateReadStatus(noArr);
     }
 
     public MessageVo getMsgByNo(String num) {

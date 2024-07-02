@@ -27,9 +27,19 @@ public interface MessageMapper {
     @Select("SELECT MESSAGE_NO, M.FORDER_NO, F.FORDER_NAME, SENDER_NO,S.EMP_NAME SENDER_NAME, RECEIVER_NO,R.EMP_NAME RECEIVER_NAME,CONTENT,SENT_AT , READ_YN, DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON(M.SENDER_NO = S.EMP_ID) JOIN EMPLOYEE R ON(M.RECEIVER_NO = R.EMP_ID) JOIN FORDER F ON(M.FORDER_NO = F.FORDER_NO) WHERE SENDER_NO = #{empId}")
     List<MessageVo> getSentMsgList(String empId);
 
-
-    @Update("UPDATE MESSAGE SET READ_YN = 'Y' WHERE MESSAGE_NO= #{num} AND READ_YN='N'")
-    int updateReadStatus(String num);
+    //메세지 여러개 읽음
+    @Update({
+            "<script>",
+            "UPDATE MESSAGE",
+            "SET READ_YN = 'Y'",
+            "WHERE MESSAGE_NO IN",
+            "<foreach item='no' collection='messageNos' open='(' separator=',' close=')'>",
+            "#{no}",
+            "</foreach>",
+            "AND READ_YN = 'N'",
+            "</script>"
+    })
+    int updateReadStatus(String[] noArr);
 
     @Select("SELECT MESSAGE_NO, M.FORDER_NO, F.FORDER_NAME, SENDER_NO,S.EMP_NAME SENDER_NAME, RECEIVER_NO,R.EMP_NAME RECEIVER_NAME,CONTENT,SENT_AT , READ_YN, DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON(M.SENDER_NO = S.EMP_ID) JOIN EMPLOYEE R ON(M.RECEIVER_NO = R.EMP_ID) JOIN FORDER F ON(M.FORDER_NO = F.FORDER_NO) WHERE MESSAGE_NO = #{num}")
     MessageVo getMsgByNo(String num);
