@@ -7,10 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.multipart.MultipartFile;
 import smile.office.groupware.admin.service.AdminService;
 import smile.office.groupware.admin.vo.AdminVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -116,6 +119,49 @@ public class AdminController {
         int result = service.delete(num);
         return result == 1 ? num + "번 삭제 완료!" : "삭제 실패...";
     }
+
+    ///////////////////////////////////////////////////////////////
+
+    // 사원 추가 (화면)
+    @GetMapping("userAdd")
+    public String userAdd() {
+        return "admin/userAdd";
+    }
+
+    // 사원 추가 기능 구현
+    @PostMapping("userAdd")
+    public String userAdd(@ModelAttribute EmployeeVo vo, @RequestParam("profileFile") MultipartFile profileFile, Model model) {
+        try {
+            // 프로필 사진 저장
+            if (!profileFile.isEmpty()) {
+                String uploadDir = "D:/smailOffice/groupware/src/main/resources/static/img";
+                File uploadDirFile = new File(uploadDir);
+                if (!uploadDirFile.exists()) {
+                    uploadDirFile.mkdirs();
+                }
+                String fileName = profileFile.getOriginalFilename();
+                File saveFile = new File(uploadDir, fileName);
+                profileFile.transferTo(saveFile);
+                vo.setProfile(fileName);
+            }
+
+            int result = service.addEmployee(vo);
+            if (result > 0) {
+                return "redirect:/admin/home";
+            } else {
+                model.addAttribute("errMsg", "사원 추가 실패");
+                return "common/error";
+            }
+        } catch (IOException e) {
+            model.addAttribute("errMsg", "파일 업로드 실패: " + e.getMessage());
+            return "common/error";
+        } catch (Exception e) {
+            model.addAttribute("errMsg", "사원 추가 실패: " + e.getMessage());
+            return "common/error";
+        }
+    }//method
+
+    ///////////////////////////////////////////////////////////////////////
 
     
     
