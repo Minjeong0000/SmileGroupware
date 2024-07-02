@@ -32,8 +32,8 @@ public class MessageDao {
         return mapper.getSentMsgList(empId);
     }
 
-    public int updateReadStatus(@RequestParam String num) {
-        return mapper.updateReadStatus(num);
+    public int updateReadStatus(String[] noArr) {
+        return mapper.updateReadStatus(noArr);
     }
 
     public MessageVo getMsgByNo(String num) {
