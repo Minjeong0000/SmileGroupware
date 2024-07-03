@@ -154,6 +154,7 @@ calendar.on('dateClick', function(info) {
      $.ajax({
          type: "GET",
          url: "http://127.0.0.1:8080/event/personal/list",
+         data:{}
          dataType: 'json',
          success: function(data) {
              console.log("통신성공", data);
