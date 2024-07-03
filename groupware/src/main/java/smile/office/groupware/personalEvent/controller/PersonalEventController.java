@@ -18,7 +18,8 @@ public class PersonalEventController {
     //개인일정 화면
     @GetMapping("list")
     public String list(){
-        return "event/personalEvent";
+
+        return "event/personal";
     }
 
     //개인일정조회
