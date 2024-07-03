@@ -13,5 +13,8 @@ public class PersonalEventVo {
     private String location;
     private String delYn;
     private String enrollDate;
+    private String startTime;
+    private String endTime;
+
 
 }
