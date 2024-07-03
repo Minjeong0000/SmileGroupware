@@ -17,4 +17,8 @@ public class PersonalEventDao {
     public List<PersonalEventVo> getPersonalEventList() {
         return mapper.getPersonalEventList();
     }
+
+    public int write(PersonalEventVo vo) {
+        return mapper.write(vo);
+    }
 }

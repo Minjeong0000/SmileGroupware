@@ -20,4 +20,8 @@ public class PersonalEventService {
     public List<PersonalEventVo> getPersonalEventList() {
         return dao.getPersonalEventList();
     }
+
+    public int write(PersonalEventVo vo) {
+        return dao.write(vo);
+    }
 }
