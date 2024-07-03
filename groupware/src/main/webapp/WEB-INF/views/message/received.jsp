@@ -78,12 +78,13 @@
                     <th><input type="checkbox" id="select-all"></th>
                     <th>보낸이</th>
                     <th>내용</th>
+                    <th>읽음 여부</th>
                     <th>일시</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td colspan="5" style="text-align: center;">조회된 데이터가 없습니다.</td>
+                    <td colspan="6" style="text-align: center;">조회된 데이터가 없습니다.</td>
                   </tr>
                 </tbody>
               </table>
