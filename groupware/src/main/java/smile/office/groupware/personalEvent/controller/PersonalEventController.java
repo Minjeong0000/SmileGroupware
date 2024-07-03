@@ -21,6 +21,7 @@ public class PersonalEventController {
     public String calendar(){
 
         return "event/personal";
+        //zzzz수정중
     }
 
 
