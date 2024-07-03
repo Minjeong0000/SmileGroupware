@@ -53,12 +53,6 @@ public interface MessageMapper {
     int updateForderStatusTrash(@Param("msgList")List<String> msgList);
 
 
-
-
-    //메세지 상세조회
-    @Select("SELECT MESSAGE_NO, M.FORDER_NO, F.FORDER_NAME, SENDER_NO,S.EMP_NAME SENDER_NAME, RECEIVER_NO,R.EMP_NAME RECEIVER_NAME,CONTENT,SENT_AT , READ_YN, DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON(M.SENDER_NO = S.EMP_ID) JOIN EMPLOYEE R ON(M.RECEIVER_NO = R.EMP_ID) JOIN FORDER F ON(M.FORDER_NO = F.FORDER_NO) WHERE MESSAGE_NO = #{num}")
-    MessageVo getMsgByNo(String num);
-
 //휴지통에서 영구삭제(여러개)
     @Delete({
             "<script>",
@@ -70,4 +64,13 @@ public interface MessageMapper {
             "</script>"
     })
     int deleteMsg(@Param("msgList")List<String> msgList);
+
+
+    //TODO기능구현해야함
+    //메세지 상세조회
+    @Select("SELECT MESSAGE_NO, M.FORDER_NO, F.FORDER_NAME, SENDER_NO,S.EMP_NAME SENDER_NAME, RECEIVER_NO,R.EMP_NAME RECEIVER_NAME,CONTENT,SENT_AT , READ_YN, DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON(M.SENDER_NO = S.EMP_ID) JOIN EMPLOYEE R ON(M.RECEIVER_NO = R.EMP_ID) JOIN FORDER F ON(M.FORDER_NO = F.FORDER_NO) WHERE MESSAGE_NO = #{num}")
+    MessageVo getMsgByNo(String num);
+
+
 }
+
