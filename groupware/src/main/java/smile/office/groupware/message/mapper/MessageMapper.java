@@ -102,12 +102,16 @@ public interface MessageMapper {
 
     //TODO기능구현해야함
     //메세지 상세조회
-    @Select("SELECT MESSAGE_NO, M.FORDER_NO, F.FORDER_NAME, SENDER_NO,S.EMP_NAME SENDER_NAME, RECEIVER_NO,R.EMP_NAME RECEIVER_NAME,CONTENT,SENT_AT , READ_YN, DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON(M.SENDER_NO = S.EMP_ID) JOIN EMPLOYEE R ON(M.RECEIVER_NO = R.EMP_ID) JOIN FORDER F ON(M.FORDER_NO = F.FORDER_NO) WHERE MESSAGE_NO = #{num}")
-    MessageVo getMsgByNo(String num);
+    @Select("SELECT M.MESSAGE_NO, MU.FORDER_NO, F.FORDER_NAME, M.SENDER_NO, S.EMP_NAME AS SENDER_NAME, M.RECEIVER_NO, R.EMP_NAME AS RECEIVER_NAME, M.CONTENT, M.SENT_AT, MU.READ_YN, MU.DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON M.SENDER_NO = S.EMP_ID JOIN EMPLOYEE R ON M.RECEIVER_NO = R.EMP_ID JOIN MESSAGE_USER MU ON M.MESSAGE_NO = MU.MESSAGE_NO JOIN FORDER F ON MU.FORDER_NO = F.FORDER_NO WHERE M.MESSAGE_NO = #{num} AND MU.EMP_ID = #{empId}")
+    MessageVo getMsgByNo(@Param("empId") String empId,@Param("num")String num);
 
 
-    //상세조회 클릭시 하나만 읽음처리
-
+    //상세조회 클릭시 하나만 읽음처리(받은 쪽지함에서만 사용)
+    @Update("UPDATE MESSAGE_USER " +
+            "SET READ_YN = 'Y' " +
+            "WHERE MESSAGE_NO = #{num} " +
+            "AND EMP_ID = #{empId} ")
+    int readMessage( @Param("empId") String empId, @Param("num") String num);
 
     //쪽지 보내기
     //쪽지 수신인 insert
