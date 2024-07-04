@@ -14,11 +14,23 @@ public class PersonalEventDao {
 
     private final PersonalEventMapper mapper;
 
-    public List<PersonalEventVo> getPersonalEventList() {
-        return mapper.getPersonalEventList();
+    public List<PersonalEventVo> getPersonalEventList(String empId) {
+        return mapper.getPersonalEventList(empId);
     }
 
     public int write(PersonalEventVo vo) {
         return mapper.write(vo);
+    }
+
+    public int edit(PersonalEventVo vo) {
+        return mapper.edit(vo);
+    }
+
+    public int delete(String num) {
+        return mapper.delete(num);
+    }
+
+    public List<PersonalEventVo> searchPersonalEvents(PersonalEventVo vo) {
+        return mapper.searchPersonalEvents(vo);
     }
 }
