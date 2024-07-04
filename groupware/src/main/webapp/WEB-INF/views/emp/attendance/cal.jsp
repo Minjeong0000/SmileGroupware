@@ -248,7 +248,7 @@
         <a href="http://127.0.0.1:8080/event/personal/calendar"><span class="menu-icon">&#128736;</span><span class="link-text">일정관리</span></a>
         <a href="#"><span class="menu-icon">&#128100;</span><span class="link-text">근태관리</span></a>
         <a href="#"><span class="menu-icon">&#128203;</span><span class="link-text">결재</span></a>
-        <a href="#"><span class="menu-icon">&#9742;</span><span class="link-text">연락처</span></a>
+        <a href="http://127.0.0.1:8080/message/received"><span class="menu-icon">&#9742;</span><span class="link-text">연락처</span></a>
         <a href="#"><span class="menu-icon">&#128101;</span><span class="link-text">커뮤니티</span></a>
     </div>
 

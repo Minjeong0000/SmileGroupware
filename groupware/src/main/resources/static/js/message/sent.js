@@ -79,25 +79,35 @@ $.ajax( {
   success: (data) => {
     console.log("통신성공!");
     console.log(data);
-
     const x = document.querySelector("table > tbody");
     console.log(x);
 
+if(data.length!=0){
     let str = "";
-    for(let i = 0 ; i < data.length; ++i){
-      str += "<tr>";
-      str += `
-      <td>
-          <input type='checkbox' class='select-item' value='${data[i].messageNo}'>
-      </td>
-  `;
-      str += "<td>" + data[i].receiverName + "</td>";
-      str += "<td>" + data[i].readYn + "</td>";
-      str += "<td>" + data[i].content + "</td>";
-      str += "<td>" + data[i].sentAt + "</td>";
-      str += "</tr>";
-    }
-    x.innerHTML = str;
+  console.log(data.length+'if문');
+  for(let i = 0 ; i < data.length; ++i){
+    let status = (data[i].readYn === 'Y')?'읽음':'안읽음';
+    str += "<tr>";
+    str += `
+    <td>
+        <input type='checkbox' class='select-item' value='${data[i].messageNo}'>
+    </td>
+`;
+    str += "<td>" + data[i].receiverName + "</td>";
+    str += "<td>" + status + "</td>";
+    str += "<td>" + data[i].content + "</td>";
+    str += "<td>" + data[i].sentAt + "</td>";
+    str += "</tr>";
+  }
+
+
+  x.innerHTML = str;
+
+}else{
+  console.log(data.length+'else문');
+  x.innerHTML = `<td colspan="5" style="text-align: center;">조회된 데이터가 없습니다.</td>`;
+}
+
 
   } ,
   error:(x) => {

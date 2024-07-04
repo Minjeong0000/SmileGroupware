@@ -65,8 +65,8 @@
                 <thead>
                     <th colspan="3">
                         <div>
-                            <button id="delete"><i class="fa-solid fa-trash"></i>영구삭제</button>
-                            <button id="read"><i class="fa-solid fa-trash-arrow-up"></i>복구</button>
+                            <button onclick="deleteCheckedMessage();" id="delete"><i class="fa-solid fa-trash"></i>휴지통으로 이동</button>
+                            <button id="read"><i class="fa-solid fa-trash-arrow-up"></i>???</button>
                         </div>
                     </th>
                     <th>
@@ -77,7 +77,7 @@
                   <tr>
                     <th><input type="checkbox" id="select-all"></th>
                     <th>받는이</th>
-                    <th>읽음 여부</th>
+                    <th>수신자 읽음여부</th>
                     <th>내용</th>
                     <th>일시</th>
                   </tr>

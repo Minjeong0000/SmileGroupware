@@ -144,7 +144,7 @@ function readCheckedMessage(){
 
 }
 
-//휴지통 이동 대신 영구삭제로 바꾸기
+
 function deleteCheckedMessage(){
 
   const checkboxArr = document.querySelectorAll("table>tbody input[type=checkbox]");//전체 체크박스 가져오기
@@ -164,6 +164,7 @@ function deleteCheckedMessage(){
       success: function(result) {
         console.log('Success:' + result)+'개 휴지통처리';
         alert(result+'개의 쪽지를 휴지통으로 이동했습니다.');
+        location.href="/message/received";
       },
       error: function(e) {
           console.log('Error:', e);
