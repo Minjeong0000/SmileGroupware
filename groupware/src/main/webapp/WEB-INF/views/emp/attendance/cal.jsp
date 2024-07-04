@@ -10,7 +10,7 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.14/index.global.min.js'></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/emp/attendance/cal.css">
-
+    <style> #calendar {width: 1000px; height: 500px;}</style>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -19,13 +19,11 @@
         headerToolbar: {
             start: 'prev next today',
             center: 'title',
-            end: 'dayGridMonth,dayGridWeek,dayGridDay'
+            end: ''
         },
         buttonText: {
             today: '오늘',
-            month: '월',
-            week: '주',
-            day: '일',
+
             prev: '이전',
             next: '다음'
         },
@@ -54,40 +52,12 @@
     });
     calendar.render();
 
+//출근버튼찍기
     document.getElementById('checkInBtn').addEventListener('click', function() {
-        handleAttendance('출근');
-    });
-
-    document.getElementById('checkOutBtn').addEventListener('click', function() {
-        if (confirm('퇴근하시겠습니까?')) {
-            handleAttendance('퇴근');
-        }
-    });
-
-    var attendance = {};
-
-    function handleAttendance(type) {
-        var now = new Date();
-        var dateStr = now.toISOString().split('T')[0];
-        var timeStr = now.toTimeString().split(' ')[0];
-        var title = type + ' - ' + timeStr;
-        var empId = $("#empId").text().trim();
-
-        if (type === '출근' && attendance[dateStr] && attendance[dateStr].checkIn) {
-            alert('오늘은 이미 출근 기록이 있습니다.');
-            return;
-        }
-
-        if (type === '퇴근' && attendance[dateStr] && attendance[dateStr].checkOut) {
-            alert('오늘은 이미 퇴근 기록이 있습니다.');
-            return;
-        }
 
 
 
-//출근 버튼 클릭
-
-        if (type === '출근') {
+        if(confirm('출근을 기록하시겠습니까?')){
             $.ajax({
                 url: "/record/start",
                 type: "POST",
@@ -102,17 +72,13 @@
                     return;
                    }
                   else{
-                    calendar.addEvent({
-                      title: '출근 : ' + timeStr,
-                      start: now,
-                      allDay: true,
-                      textColor: '#3d3d3d',
-                      color: '#f0f1f5'
-                  });
+                  console.log('출근버튼 else문');
 
                   alert('출근 시간 저장에 성공했습니다.');
-                  document.querySelector("#status").innerHTML = '근무중';
-                  document.querySelector("#startTime").innerText = timeStr;
+                  location.href="/emp/attendance/cal";
+                //   document.querySelector("#status").innerHTML = '근무중';
+
+                //   document.querySelector("#startTime").innerText = timeStr;
 
                   } 
 
@@ -125,25 +91,19 @@
 
 
 
-//퇴근 버튼 클릭
-        if (type === '퇴근') {
+    });
+
+    document.getElementById('checkOutBtn').addEventListener('click', function() {
+        if (confirm('퇴근하시겠습니까?')) {
             $.ajax({
                 url: "/record/end",
                 type: "GET",
                 success: function(data) {
                   if(data==='success'){
-                    console.log(data);
-                    calendar.addEvent({
-                        title: '퇴근 : ' + timeStr,
-                        start: now,
-                        allDay: true,
-                        color: '#f0f1f5',
-                        textColor: '#3d3d3d'
-                    });
+                  
                     alert('퇴근 기록에 성공했습니다.');
-                    document.querySelector("#status").innerHTML = "근무종료";
-                    document.querySelector("#endTime").innerText = timeStr;
-
+                    location.href="/emp/attendance/cal";
+                    return;
                   }
                   if(data =='false'){
                     alert('이미 퇴근 기록이 있습니다.')
@@ -153,44 +113,31 @@
                     alert('퇴근 기록 저장에 실패했습니다.')
                     return;
                   }
-                   
                 },
                 error: function(err) {
                     console.log(err);
                 }
             });
         }
+    });
 
-        updateButtonState();
-    }
 
-    function updateButtonState() {
-        var now = new Date();
-        var dateStr = now.toISOString().split('T')[0];
-
-        if (attendance[dateStr] && attendance[dateStr].checkIn) {
-            document.getElementById('checkInBtn').disabled = true;
-            document.getElementById('checkInBtn').classList.add('inactive');
-        }
-
-        if (attendance[dateStr] && attendance[dateStr].checkOut) {
-            document.getElementById('checkOutBtn').disabled = true;
-            document.getElementById('checkOutBtn').classList.add('inactive');
-        }
-    }
-
-    updateButtonState();
 //달력에 근태띄우는부분
     $.ajax({
         url: "${pageContext.request.contextPath}/record/list",
         type: 'get',
         success: function(data) {
             data.forEach(function(event) {
-                var eventTitle = event.startTime;
+                console.log(event.startTime);
+                const dateTimeString = event.startTime;
+                // 문자열을 공백으로 분리하여 날짜와 시간 부분을 나눔
+                const timePart = dateTimeString.split(' ')[1];
+                console.log(timePart);  // 출력: "09:00:00"
                 var startDate = event.wdate;
+                // 결과 출력
                 var endDate = event.wdate;
                 calendar.addEvent({
-                    title: '출근 : ' + eventTitle,
+                    title: '출근 : ' + timePart,
                     start: startDate,
                     end: endDate,
                     allDay: true,
@@ -201,11 +148,11 @@
 
             data.forEach(function(event) {
                 if (event.endTime !== null) {
-                    var eventTitle = event.endTime;
+                    const timePart = event.endTime.split(' ')[1];
                     var startDate = event.wdate;
                     var endDate = event.wdate;
                     calendar.addEvent({
-                        title: '퇴근 : ' + eventTitle,
+                        title: '퇴근 : ' + timePart,
                         start: startDate,
                         end: endDate,
                         allDay: true,
@@ -231,7 +178,6 @@
                 }
             });
 
-            updateButtonState();
         },
         error: function(err) {
             console.log(err);
@@ -241,7 +187,7 @@
 
       </script>
 </head>
-<body>
+<body>`
     <div id="mySidenav" class="sidenav">
         <a href="#" onclick="toggleNav(event)"><span class="menu-icon">&#9776;</span><span class="link-text">메뉴</span></a>
         <a href="#"><span class="menu-icon">&#8962;</span><span class="link-text">홈</span></a>

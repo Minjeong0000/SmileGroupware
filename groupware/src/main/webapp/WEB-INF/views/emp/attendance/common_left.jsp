@@ -6,10 +6,10 @@
     </div>
     <h2 id="currentTime"></h2>
 
-    <table>
+    <table id = "attTable">
         <tr>
             <th>업무상태</th>
-            <td id="status">출근전</td>
+            <td id="status">${attendanceVo.startTime}</td>
         </tr>
         <tr>
             <th>출근시간</th>
@@ -50,3 +50,28 @@
       </div>
 
   </div>
+
+  <script>
+
+// $.ajax({
+
+//     url: "http://127.0.0.1:8080/record/todayRecord",
+//     method:"get",
+//     success: function(data) {
+//         const attTable = document.querySelector('#attTable');
+
+//         data.startTime;
+
+        
+//       },
+//       error: function(e) {
+        
+//           console.log('Error:', e);
+//       }
+
+
+// })
+
+
+
+  </script>

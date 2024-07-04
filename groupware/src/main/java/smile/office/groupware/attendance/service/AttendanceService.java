@@ -37,4 +37,10 @@ public class AttendanceService {
         // 오늘 날짜에 퇴근 기록이 있는지 확인
         return dao.getCheckOutCountForToday(empId) > 0;
     }
+
+    public AttendanceVo getTodayAttRecord(String empId) {
+
+        return dao.getTodayAttRecord(empId);
+
+    }
 }

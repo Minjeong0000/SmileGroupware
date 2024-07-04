@@ -25,4 +25,11 @@ public interface AttendanceMapper {
 
     @Select("SELECT COUNT(*) FROM ATTENDANCE WHERE EMP_ID = #{empId} AND W_DATE = TRUNC(SYSDATE) AND END_TIME IS NOT NULL")
     int getCheckOutCountForToday(String empId);
+
+    //오늘의 출퇴근 기록 가져오기
+    @Select("SELECT ATT_NO, E.EMP_ID, A.START_TIME, A.END_TIME,A.W_DATE,A.DAY_WORK_TIME FROM ATTENDANCE A JOIN EMPLOYEE E ON A.EMP_ID = E.EMP_ID WHERE E.EMP_ID = #{empId} AND A.W_DATE = TRUNC(SYSDATE)")
+    AttendanceVo getTodayAttRecord (String empId);
+
+
+
 }

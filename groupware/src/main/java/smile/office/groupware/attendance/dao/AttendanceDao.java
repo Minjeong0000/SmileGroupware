@@ -34,4 +34,8 @@ public class AttendanceDao {
     public int getCheckOutCountForToday(String empId) {
         return mapper.getCheckOutCountForToday(empId);
     }
+
+    public AttendanceVo getTodayAttRecord(String empId) {
+        return mapper.getTodayAttRecord(empId);
+    }
 }
