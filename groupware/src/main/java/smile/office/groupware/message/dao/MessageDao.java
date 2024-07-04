@@ -35,9 +35,7 @@ public class MessageDao {
         return mapper.updateReadStatus(empId,msgList);
     }
 
-    public MessageVo getMsgByNo(String num) {
-        return mapper.getMsgByNo(num);
-    }
+
 
 
     public int updateForderStatusTrash(String empId, List<String> msgList) {
@@ -47,5 +45,16 @@ public class MessageDao {
     //영구삭제
     public int deleteMsg(String empId,List<String> msgList) {
         return mapper.deleteMsg(empId,msgList);
+    }
+
+
+    //상세조회
+    public MessageVo getMsgByNo(String empId, String num) {
+        return mapper.getMsgByNo(empId,num);
+    }
+
+    //상세조회시 읽음처리
+    public int readMessage(String empId, String num) {
+        return mapper.readMessage(empId,num);
     }
 }

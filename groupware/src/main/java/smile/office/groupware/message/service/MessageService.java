@@ -3,7 +3,6 @@ package smile.office.groupware.message.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 import smile.office.groupware.message.dao.MessageDao;
 import smile.office.groupware.message.vo.MessageVo;
 
@@ -51,9 +50,13 @@ public class MessageService {
     }
 
     //상세조회
-    public MessageVo getMsgByNo(String num) {
-        return dao.getMsgByNo(num);
+    public MessageVo getMsgByNo(String empId, String num) {
+
+        return dao.getMsgByNo(empId,num);
     }
 
 
+    public int readMessage(String empId, String num) {
+        return dao.readMessage(empId,num);
+    }
 }

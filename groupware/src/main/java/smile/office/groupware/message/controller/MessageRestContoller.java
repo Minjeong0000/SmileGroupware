@@ -102,7 +102,6 @@ public class MessageRestContoller {
         return ResponseEntity.ok(messageVoList);
     }
 
-    //읽음으로 상태 변경(여러개)-> ajax에서 쪽지넘버 받아오고 로그인한사람==수신자가 같아야함
     @PutMapping("changeRead")
     public int updateReadStatus(HttpServletRequest request,@RequestBody List<String> msgList){
 
@@ -145,8 +144,15 @@ public class MessageRestContoller {
     //쪽지 상세조회
     @GetMapping("detail")
     public ResponseEntity<MessageVo> getMsgByNo(HttpServletRequest request,String num){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        MessageVo vo = service.getMsgByNo(empId,num);
+        if(vo!=null && vo.getReceiverNo().equals(empId)){
+            int result = service.readMessage(empId,num);
+            System.out.println("result = " + result);
+        }
 
-        MessageVo vo = service.getMsgByNo(num);
         System.out.println("vo = " + vo);
         return ResponseEntity.ok(vo);
 
