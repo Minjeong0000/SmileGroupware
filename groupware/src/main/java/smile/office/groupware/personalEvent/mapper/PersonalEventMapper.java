@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface PersonalEventMapper {
 
-    @Select("SELECT * FROM PERSONAL_EVENT ")//Todo WHERE EMP_ID = #{empId}이거 붙여서 하면 널값이 나와
+    @Select("SELECT * FROM PERSONAL_EVENT WHERE EMP_ID = #{empId}")
     List<PersonalEventVo> getPersonalEventList(String empId);
 
 

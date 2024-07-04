@@ -28,7 +28,7 @@ public class PersonalEventApiController {
 //        String empId = loginEmployeeVo.getEmpId();
         String empId= "1005";
         List<PersonalEventVo> voList = service.getPersonalEventList(empId);
-        System.out.println("voList = " + voList);
+//        System.out.println("voList = " + voList);
         return voList;
     }
 
