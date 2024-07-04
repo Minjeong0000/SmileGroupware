@@ -17,11 +17,24 @@ public class PersonalEventService {
 
     private final PersonalEventDao dao;
 
-    public List<PersonalEventVo> getPersonalEventList() {
-        return dao.getPersonalEventList();
+    public List<PersonalEventVo> getPersonalEventList(String empId) {
+        return dao.getPersonalEventList(empId);
     }
 
     public int write(PersonalEventVo vo) {
         return dao.write(vo);
+    }
+
+
+    public int edit(PersonalEventVo vo) {
+        return dao.edit(vo);
+    }
+
+    public int delete(String num) {
+        return dao.delete(num);
+    }
+
+    public List<PersonalEventVo> searchPersonalEvents(PersonalEventVo vo) {
+        return dao.searchPersonalEvents(vo);
     }
 }
