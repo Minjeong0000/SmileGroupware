@@ -89,4 +89,23 @@ public class AttendanceRecordController {
 
         return ResponseEntity.ok(attendanceList);
     }
+
+    //TODO 오늘의 출퇴근기록 가져와서 화면에 띄우기
+    @GetMapping("todayRecord")
+    public AttendanceVo getTodayAttRecord(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        System.out.println(empId);
+        AttendanceVo attendanceVo = service.getTodayAttRecord(empId);
+        System.out.println("attendanceVo = " + attendanceVo);
+        model.addAttribute("attendanceVo", attendanceVo);
+        return attendanceVo;
+    }
+
+
+
+
+
+
 }
