@@ -77,8 +77,8 @@
                   <tr>
                     <th><input type="checkbox" id="select-all"></th>
                     <th>보낸이</th>
-                    <th>구분</th>
                     <th>내용</th>
+                    <th>읽음 여부</th>
                     <th>일시</th>
                   </tr>
                 </thead>

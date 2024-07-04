@@ -86,6 +86,8 @@ $.ajax( {
 
     let str = "";
     for(let i = 0 ; i < data.length; ++i){
+      let status = (data[i].readYn === 'Y')?'읽음':'안읽음';
+      console.log(status);  
       str += "<tr>";
       str += `
       <td>
@@ -93,8 +95,8 @@ $.ajax( {
       </td>
   `;
       str += "<td>" + data[i].senderName + "</td>";
-      str += "<td>" + data[i].forderName + "</td>";
       str += "<td>" + data[i].content + "</td>";
+      str += "<td>" + status + "</td>";
       str += "<td>" + data[i].sentAt + "</td>";
       str += "</tr>";
     }

@@ -28,14 +28,14 @@
             <div><h1><i class="fa-regular fa-message"></i>  쪽지</h1></div>
             <div class="msg-menu">
                 <div>
-                    <i class="fa-solid fa-envelope">받은 쪽지함</i>
+                    <a href="http://127.0.0.1:8080/message/received"><i class="fa-solid fa-envelope">받은 쪽지함</i></a>
                         <ul>
-                            <li><i class="fa-solid fa-star"></i> 중요 쪽지함</li>
-                            <li> <i class="fa-solid fa-trash-can"></i> 휴지통</li>
+                            <a href="http://127.0.0.1:8080/message/important"><li><i class="fa-solid fa-star"></i> 중요 쪽지함</li></a>
+                            <a href="http://127.0.0.1:8080/message/trash"><li> <i class="fa-solid fa-trash-can"></i> 휴지통</li></a>
                         </ul>
                 </div>
-                <div><i class="fa-regular fa-envelope-open"></i> 읽은 쪽지함</div>
-                <div><i class="fa-regular fa-paper-plane"></i> 보낸 쪽지함</div>
+                <div><a href=""><i class="fa-regular fa-envelope-open"></i> 읽은 쪽지함</a></div>
+                <div><a href="http://127.0.0.1:8080/message/sent"><i class="fa-regular fa-paper-plane"></i> 보낸 쪽지함</a></div>
 
             </div>
 
@@ -65,7 +65,7 @@
                 <thead>
                     <th colspan="3">
                         <div>
-                            <button  onclick="deleteCheckedMessage();" id= "delete" ><i class="fa-solid fa-trash"></i>삭제</button>
+                            <button  onclick="deleteCheckedMessage();" id= "delete" ><i class="fa-solid fa-trash"></i>휴지통으로 이동</button>
                             <button  onclick="readCheckedMessage();" id= "read" ><i class="fa-solid fa-check"></i>읽음</button>
                         </div>
                     </th>
@@ -78,12 +78,13 @@
                     <th><input type="checkbox" id="select-all"></th>
                     <th>보낸이</th>
                     <th>내용</th>
+                    <th>읽음 여부</th>
                     <th>일시</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td colspan="5" style="text-align: center;">조회된 데이터가 없습니다.</td>
+                    <td colspan="6" style="text-align: center;">조회된 데이터가 없습니다.</td>
                   </tr>
                 </tbody>
               </table>

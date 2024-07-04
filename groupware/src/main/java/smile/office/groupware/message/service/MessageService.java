@@ -35,18 +35,18 @@ public class MessageService {
 
     }
     //읽음으로 변경(여러개)
-    public int updateReadStatus(List<String> msgList) {
-        return dao.updateReadStatus(msgList);
+    public int updateReadStatus(String empId,List<String> msgList) {
+        return dao.updateReadStatus(empId,msgList);
     }
     //휴지통 이동(여러개)
-    public int updateForderStatusTrash(List<String> msgList) {
-        return dao.updateForderStatusTrash(msgList);
+    public int updateForderStatusTrash(String empId,List<String> msgList) {
+        return dao.updateForderStatusTrash(empId,msgList);
     }
 
 
     //메세지 영구삭제
-    public int deleteMsg(List<String> msgList) {
-        return dao.deleteMsg(msgList);
+    public int deleteMsg(String empId,List<String> msgList) {
+        return dao.deleteMsg(empId,msgList);
 
     }
 

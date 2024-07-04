@@ -66,7 +66,7 @@
                     <th colspan="3">
                         <div>
                             <button onclick="deleteForever();" id="delete"><i class="fa-solid fa-trash"></i>영구삭제</button>
-                            <button id="read"><i class="fa-solid fa-trash-arrow-up"></i>복구</button>
+                            <button onclick="sestoreMessage();"  id="read"><i class="fa-solid fa-trash-arrow-up"></i>복구</button>
                         </div>
                     </th>
                     <th>

@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class MessageVo {
     private String messageNo;
+    private String messageUserNo;
+
     private String forderNo;
     private String forderName;
     private String senderNo;
@@ -15,6 +17,8 @@ public class MessageVo {
     private String sentAt;
     private String deletedDate;
     private String readYn;
+
+
 
 
 
