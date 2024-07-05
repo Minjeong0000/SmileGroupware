@@ -15,6 +15,7 @@ import smile.office.groupware.employee.vo.EmployeeVo;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("admin")
@@ -76,10 +77,6 @@ public class AdminController {
 
     ////////////////////////////////////////////////////////////////
 
-
-
-    ////////////////////////////////////////////////////////////////
-
     //관리자 추가 (화면)
     @GetMapping("adminAdd")
     public String adminAdd(){
@@ -101,23 +98,13 @@ public class AdminController {
 
     ///////////////////////////////////////////////////////////////
 
-    //관리자 조회
-    @GetMapping("inquiry")
-    @ResponseBody
-    public List<AdminVo> adminInquiry(AdminVo vo){
-        List<AdminVo> adminVoList = service.adminInquiry();
-        return adminVoList;
-    }
-    
-    ///////////////////////////////////////////////////////////////
-
     // 관리자 삭제
     @DeleteMapping("delete")
     @ResponseBody
     public String delete(@RequestParam("num") String num){
         System.out.println("num = " + num);
         int result = service.delete(num);
-        return result == 1 ? num + "번 삭제 완료!" : "삭제 실패...";
+        return result == 1 ? num + "번 관리자 삭제 완료!" : "삭제 실패...";
     }
 
     ///////////////////////////////////////////////////////////////
@@ -134,7 +121,7 @@ public class AdminController {
         try {
             // 프로필 사진 저장
             if (!profileFile.isEmpty()) {
-                String uploadDir = "D:/smailOffice/groupware/src/main/resources/static/img";
+                String uploadDir = "D:/smailOffice/groupware/src/main/resources/static/img/userProfile";
                 File uploadDirFile = new File(uploadDir);
                 if (!uploadDirFile.exists()) {
                     uploadDirFile.mkdirs();
@@ -146,8 +133,8 @@ public class AdminController {
             }
 
             int result = service.addEmployee(vo);
-            if (result > 0) {
-                return "redirect:/admin/home";
+            if (result == 1) {
+                return "redirect:/admin/userEdit";
             } else {
                 model.addAttribute("errMsg", "사원 추가 실패");
                 return "common/error";
@@ -161,10 +148,45 @@ public class AdminController {
         }
     }//method
 
+
+
+
     ///////////////////////////////////////////////////////////////////////
 
-    
-    
+    //관리자 조회
+    @GetMapping("inquiry")
+    @ResponseBody
+    public List<AdminVo> adminInquiry(AdminVo vo){
+        List<AdminVo> adminVoList = service.adminInquiry();
+        return adminVoList;
+    }
+
+    //adminCheck 관리자 조회 및 삭제 (화면)
+    @GetMapping("adminCheck")
+    public String adminCheck(){
+        return "admin/adminCheck";
+    }
+
+    //userEdut 사용자 수정 모달로 구현
+    @GetMapping("getEmployeeDetail")
+    @ResponseBody
+    public EmployeeVo getEmployeeDetail(@RequestParam("empId") String empId) {
+        return service.getEmployeeById(empId);
+    }
+
+    //유저 삭제 (삭제는 Ajax로 처리함)
+    @DeleteMapping("/employeeDelete")
+    @ResponseBody
+    public String employeeDelete(@RequestBody Map<String, String> requestData) {
+        String employeeNum = requestData.get("employeeNum");
+        System.out.println("Deleting employee with ID: " + employeeNum); // Debug log
+        int result = service.employeeDelete(employeeNum);
+        return result == 1 ? employeeNum + "번 사용자 삭제 완료!" : "삭제 실패...";
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+
+
 
 
 }//class

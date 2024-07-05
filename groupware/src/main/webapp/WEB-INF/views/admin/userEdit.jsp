@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>사원 관리</title>
     <link rel="stylesheet" type="text/css" href="/css/admin/adminUserEdit.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script defer src="/js/admin/adminUserEdit.js"></script>
 </head>
 <body>
@@ -25,29 +24,25 @@
             <div class="user-actions">
                 <ul>
                     <li class="dropdown main-item">
+                        <h2>사원 관리</h2>
                         <a href="#" class="dropdown-toggle"><span class="dropdown-icon"></span> 신규 사용자 등록</a>
                         <ul class="dropdown-menu">
-                            <li><a href="registerAdmin.html">• 일반 사원등록</a></li>
-                            <li><a href="registerHrAdmin.html">• 임원진 등록</a></li>
-                            <li><a href="registerHrAdmin.html">• 인턴 등록</a></li>
+                            <li><a href="/admin/userAdd">• 일반 사원등록</a></li>
+                            <li><a href="/admin/userAdd">• 임원진 등록</a></li>
+                            <li><a href="/admin/userAdd">• 인턴 등록</a></li>
                         </ul>
                     </li>
+                    <br><br><br>
+                    <h2>관리자 관리</h2>
                     <li class="dropdown main-item">
-                        <a href="#" class="dropdown-toggle"><span class="dropdown-icon"></span> 관리자 아이디 등록</a>
+                        <a href="#" class="dropdown-toggle"><span class="dropdown-icon"></span> 관리자 등록</a>
                         <ul class="dropdown-menu">
                             <li><a href="/admin/adminAdd">• 마스터 관리자 등록</a></li>
                             <li><a href="/admin/adminAdd">• 인사팀 관리자 등록</a></li>
                         </ul>
                     </li>
                     <li class="dropdown main-item">
-                        <a href="#" class="dropdown-toggle"><span class="dropdown-icon"></span> 사용자 수정</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="editUserPosition.html">• 통합 수정</a></li>
-                            <li><a href="editUserId.html">• 아이디 수정</a></li>
-                            <li><a href="editUserName.html">• 이름 수정</a></li>
-                            <li><a href="editUserDept.html">• 부서 수정</a></li>
-                            <li><a href="editUserPosition.html">• 직급 수정</a></li>
-                        </ul>
+                    <li><a href="/admin/adminCheck">&nbsp;• &nbsp;&nbsp;관리자 조회</a></li>
                     </li>
                 </ul>
             </div>
@@ -66,6 +61,28 @@
                 <div class="pagination">
                     <button id="prev" onclick="prevPage()">이전</button>
                     <button id="next" onclick="nextPage()">다음</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달 구조 추가 -->
+    <div id="userDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2>사원 정보</h2>
+            </div>
+            <div class="modal-body">
+                <img id="profileImage" src="" alt="Profile Image" class="profile-image">
+                <div class="user-info">
+                    <p><strong>사원번호:</strong> <span id="empId"></span></p>
+                    <p><strong>성명:</strong> <span id="empName"></span></p>
+                    <p><strong>이메일:</strong> <span id="email"></span></p>
+                    <p><strong>전화번호:</strong> <span id="phone"></span></p>
+                    <p><strong>직위:</strong> <span id="positionName"></span></p>
+                    <p><strong>직책:</strong> <span id="roleName"></span></p>
+                    <button id="deleteButton" class="delete-button">삭제</button>
                 </div>
             </div>
         </div>
