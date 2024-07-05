@@ -10,7 +10,32 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.14/index.global.min.js'></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/emp/attendance/cal.css">
-    <style> #calendar {width: 1000px; height: 500px;}</style>
+    <style> 
+    body{
+        margin: 0;
+        padding: 0;
+    }
+    #calendar {
+        width: 1200px; height: 80vh;
+        padding-left: 30px;
+    }
+    .fc .fc-daygrid-day {
+            /*width: 100px; /* 날짜 칸의 고정 너비 */
+            height: 100px; /* 날짜 칸의 고정 높이 */
+            /*max-width: none; /* 기본 최대 너비 제한 해제 */
+            max-height: 138px; /* 기본 최대 높이 제한 해제 */
+        }
+        .fc .fc-daygrid-day-frame {
+            height: 100%; /* 날짜 칸의 콘텐츠가 칸 전체를 채우도록 설정 */
+            display: flex;
+            flex-direction: column;
+        }
+        .fc .fc-daygrid-day-events {
+            flex-grow: 1; /* 이벤트 영역이 남은 공간을 채우도록 설정 */
+            overflow-y: hidden; /* 이벤트가 많을 경우 스크롤 바 표시 */
+        }
+
+    </style>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
