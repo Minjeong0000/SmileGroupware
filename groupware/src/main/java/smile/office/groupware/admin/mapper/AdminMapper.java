@@ -1,9 +1,6 @@
 package smile.office.groupware.admin.mapper;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import smile.office.groupware.admin.vo.AdminVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
@@ -18,10 +15,6 @@ public interface AdminMapper {
             "WHERE ADMIN_ID = #{adminId} " +
             "AND ADMIN_PWD = #{adminPwd}")
     AdminVo login(AdminVo vo);
-
-    //회원 조회
-    @Select("SELECT * FROM EMPLOYEE")
-    List<EmployeeVo> getEmployees();
 
     //관리자 추가
     @Insert("INSERT INTO ADMIN (ADMIN_NO, ADMIN_ID, ADMIN_PWD, ADMIN_NICK, ADMIN_EMAIL, ADMIN_LEVEL) " +
@@ -42,14 +35,35 @@ public interface AdminMapper {
     int addEmployee(EmployeeVo vo);
 
     //EMPLOYEE, DEPARTMENTS, POSITION, ROLES 연결해버림!
-    @Select("SELECT e.*, d.DEPARTMENT_NAME, p.POSITION_NAME, r.ROLE_NAME " +
-            "FROM EMPLOYEE e " +
-            "JOIN DEPARTMENTS d ON e.DEPARTMENT_NO = d.DEPARTMENT_NO " +
-            "JOIN POSITION p ON e.POSITION_NO = p.POSITION_NO " +
-            "JOIN ROLES r ON e.ROLE_NO = r.ROLE_NO " +
-            "WHERE e.EMP_ID = #{empId}")
+    @Select("SELECT e.emp_id AS empId, " +
+            "       e.emp_name AS empName, " +
+            "       e.email, " +
+            "       e.phone, " +
+            "       p.position_name AS positionName, " +
+            "       r.role_name AS roleName, " +
+            "       e.profile " +
+            "FROM employee e " +
+            "JOIN position p ON e.position_no = p.position_no " +
+            "JOIN roles r ON e.role_no = r.role_no " +
+            "WHERE e.emp_id = #{empId}")
     EmployeeVo getEmployeeById(String empId);
 
+    //회원조회
+    @Select("SELECT e.emp_id AS empId, " +
+            "       e.emp_name AS empName, " +
+            "       e.email, " +
+            "       e.phone, " +
+            "       p.position_name AS positionName, " +
+            "       r.role_name AS roleName, " +
+            "       e.profile " +
+            "FROM employee e " +
+            "JOIN position p ON e.position_no = p.position_no " +
+            "JOIN roles r ON e.role_no = r.role_no " +
+            "WHERE e.ent_yn = 'N' " +
+            "ORDER BY e.emp_id ASC")
+    List<EmployeeVo> getEmployees();
 
+    @Update("UPDATE EMPLOYEE SET ENT_YN = 'Y' WHERE EMP_ID = #{employeeNum}")
+    int employeeDelete(String employeeNum);
 
 }

@@ -14,14 +14,17 @@ public class AdminDao {
 
     private final AdminMapper mapper;
 
+    //관리자 로그인
     public AdminVo login(AdminVo vo) {
         return mapper.login(vo);
     }
 
+    //사원 리스트
     public List<EmployeeVo> getEmployees() {
         return mapper.getEmployees();
     }
 
+    //관리자 추가
     public int addAdmin(AdminVo vo) throws Exception {
         try {
             System.out.println("DAO layer received admin data: " + vo);
@@ -33,19 +36,28 @@ public class AdminDao {
         }
     }
 
+    //관리자 리스트(조회)
     public List<AdminVo> adminInquiry() {
         return mapper.adminInquiry();
     }
 
+    //사원 삭제
     public int delete(String num) {
         return mapper.delete(num);
     }
 
+    //사원 추가
     public int addEmployee(EmployeeVo vo) {
         return mapper.addEmployee(vo);
     }
 
+    
     public EmployeeVo getEmployeeById(String empId) {
         return mapper.getEmployeeById(empId);
+    }
+
+    //관리자 삭제
+    public int employeeDelete(String employeeNum) {
+        return mapper.employeeDelete(employeeNum);
     }
 }
