@@ -41,7 +41,10 @@ public class MessageService {
     public int updateForderStatusTrash(String empId,List<String> msgList) {
         return dao.updateForderStatusTrash(empId,msgList);
     }
-
+    //중요쪽지처리(여러개)
+//    public int updateForderStatusImportant(String empId, List<String> msgList) {
+//        return dao.updateForderStatusImportant(empId,msgList);
+//    }
 
     //메세지 영구삭제
     public int deleteMsg(String empId,List<String> msgList) {
@@ -55,8 +58,22 @@ public class MessageService {
         return dao.getMsgByNo(empId,num);
     }
 
-
     public int readMessage(String empId, String num) {
         return dao.readMessage(empId,num);
+    }
+
+
+
+    public int insertMessage(String senderNo, MessageVo msgVo) {
+            return dao.insertMessage(senderNo,msgVo);
+
+    }
+
+    public int insertSenderMessage(String senderNo) {
+        return dao.insertSenderMessage(senderNo);
+    }
+
+    public int insertReceiverMessage(MessageVo msgVo) {
+        return dao.insertReceiverMessage(msgVo);
     }
 }

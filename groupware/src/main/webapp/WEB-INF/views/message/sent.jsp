@@ -25,19 +25,8 @@
     <div id="main" onclick="closeNav()">
         <div class="column">
 
-            <div><h1><i class="fa-regular fa-message"></i>  쪽지</h1></div>
-            <div class="msg-menu">
-                <div>
-                    <i class="fa-solid fa-envelope">휴지통</i>
-                        <ul>
-                            <li><i class="fa-solid fa-star"></i> 중요 쪽지함</li>
-                            <li> <i class="fa-solid fa-trash-can"></i> 휴지통</li>
-                        </ul>
-                </div>
-                <div><i class="fa-regular fa-envelope-open"></i> 읽은 쪽지함</div>
-                <div><i class="fa-regular fa-paper-plane"></i> 보낸 쪽지함</div>
+          <%@ include file="message_common_left.jsp" %>
 
-            </div>
 
         </div>
         <div class="column content">
@@ -48,12 +37,13 @@
             </div>
 
           <table>
-                <thead>
+              <!--
+                              <thead>
                     <tr>
                         <th colspan="3">
                             <form class="search-container" action="/search" method="get">
                                 <input type="text" name="search" placeholder="제목 혹은 작성자 검색">
-                                <button type="submit">검색</button>
+                                <button id="search" type="submit">검색</button>
                               </form>
                         </th>
                         <th>
@@ -62,6 +52,7 @@
 
                     </tr>
                 </thead>
+              -->
                 <thead>
                     <th colspan="3">
                         <div>

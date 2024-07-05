@@ -7,7 +7,9 @@
 <title>받은쪽지함</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script defer src="${pageContext.request.contextPath}/js/message/common.js"> </script>
 <script defer src="${pageContext.request.contextPath}/js/message/received.js"></script>
+
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/message/received.css">
 
 </head>
@@ -25,19 +27,7 @@
     <div id="main" onclick="closeNav()">
         <div class="column">
 
-            <div><h1><i class="fa-regular fa-message"></i>  쪽지</h1></div>
-            <div class="msg-menu">
-                <div>
-                    <a href="http://127.0.0.1:8080/message/received"><i class="fa-solid fa-envelope">받은 쪽지함</i></a>
-                        <ul>
-                            <a href="http://127.0.0.1:8080/message/important"><li><i class="fa-solid fa-star"></i> 중요 쪽지함</li></a>
-                            <a href="http://127.0.0.1:8080/message/trash"><li> <i class="fa-solid fa-trash-can"></i> 휴지통</li></a>
-                        </ul>
-                </div>
-                <div><a href=""><i class="fa-regular fa-envelope-open"></i> 읽은 쪽지함</a></div>
-                <div><a href="http://127.0.0.1:8080/message/sent"><i class="fa-regular fa-paper-plane"></i> 보낸 쪽지함</a></div>
-
-            </div>
+            <%@ include file="message_common_left.jsp" %>
 
         </div>
         <div class="column content">
@@ -48,12 +38,13 @@
             </div>
 
             <table>
-                <thead>
+              <!--
+                              <thead>
                     <tr>
                         <th colspan="3">
                             <form class="search-container" action="/search" method="get">
                                 <input type="text" name="search" placeholder="제목 혹은 작성자 검색">
-                                <button type="submit">검색</button>
+                                <button id="search" type="submit">검색</button>
                               </form>
                         </th>
                         <th>
@@ -62,6 +53,8 @@
 
                     </tr>
                 </thead>
+              -->
+
                 <thead>
                     <th colspan="3">
                         <div>
@@ -97,6 +90,27 @@
                   </div>
         </div>
     </div>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>쪽지 보내기</h2>
+          <form id="messageForm">
+              <label for="recipient">받는 사람:</label>
+              <select id="recipient" name="recipient" required>
+                <option value="" disabled selected>받는 사람을 선택하세요</option>
+                <option value="user1">사용자 1</option>
+                <option value="user2">사용자 2</option>
+                <option value="user3">사용자 3</option>
+            </select>                
+              <label for="message">메시지:</label>
+              <textarea id="message" name="message" rows="4" required></textarea>
+              
+              <button type="submit">보내기</button>
+          </form>
+      </div>
+  </div>
+
+
 </div>
 </body>
 </html>

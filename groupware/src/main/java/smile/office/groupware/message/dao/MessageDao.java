@@ -42,6 +42,13 @@ public class MessageDao {
 
     return mapper.updateForderStatusTrash(empId, msgList);
     }
+
+//    public int updateForderStatusImportant(String empId, List<String> msgList) {
+//        return  mapper.updateForderStatusImportant(empId,msgList);
+//
+//    }
+
+
     //영구삭제
     public int deleteMsg(String empId,List<String> msgList) {
         return mapper.deleteMsg(empId,msgList);
@@ -56,5 +63,19 @@ public class MessageDao {
     //상세조회시 읽음처리
     public int readMessage(String empId, String num) {
         return mapper.readMessage(empId,num);
+    }
+
+    //메세지보내기
+    public int insertMessage(String senderNo, MessageVo msgVo) {
+        return mapper.insertMessage(senderNo, msgVo);
+
+    }
+    //발신자상태메세지insert
+    public int insertSenderMessage(String senderNo) {
+        return mapper.insertSenderMessage(senderNo);
+    }
+
+    public int insertReceiverMessage(MessageVo msgVo) {
+        return mapper.insertReceiverMessage(msgVo);
     }
 }
