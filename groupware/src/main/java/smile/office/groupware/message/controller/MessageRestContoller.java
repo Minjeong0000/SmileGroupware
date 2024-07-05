@@ -101,7 +101,7 @@ public class MessageRestContoller {
         List<MessageVo>messageVoList = service.getSentMsgList(empId);
         return ResponseEntity.ok(messageVoList);
     }
-
+    //읽음처리
     @PutMapping("changeRead")
     public int updateReadStatus(HttpServletRequest request,@RequestBody List<String> msgList){
 
@@ -124,6 +124,18 @@ public class MessageRestContoller {
         System.out.println("result = " + result);
         return result;
     }
+    //TODO
+    //중요쪽지함으로 보내기
+//    @PutMapping("sendImportant")
+//    public int updateForderStatusImportant(HttpServletRequest request, @RequestBody List<String> msgList){
+//
+//        HttpSession session = request.getSession();
+//        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+//        String empId = loginEmployeeVo.getEmpId();
+//        int result = service.updateForderStatusImportant(empId,msgList);
+//        System.out.println("result = " + result);
+//        return result;
+//    }
 
 
     //휴지통에서영구삭제(여러개)
@@ -137,9 +149,24 @@ public class MessageRestContoller {
         return result;
     }
 
-
-
-
+    //쪽지 보내기
+    @PostMapping
+    public ResponseEntity<?> insertMessage(HttpServletRequest request, MessageVo msgVo){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String senderNo = loginEmployeeVo.getEmpId();
+        System.out.println(senderNo);
+        int result = service.insertMessage(senderNo,msgVo);
+        int result1 = service.insertSenderMessage(senderNo);
+        int result2 = service.insertReceiverMessage(msgVo);
+        System.out.println("result = " + result);
+        System.out.println("result1 = " + result1);
+        System.out.println("result2 = " + result2);
+        if(result*result1*result2==1){
+            return ResponseEntity.ok("쪽지 전송 성공");
+        }
+            return ResponseEntity.internalServerError().body("쪽지 전송 실패");
+    }
 
     //쪽지 상세조회
     @GetMapping("detail")

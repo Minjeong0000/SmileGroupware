@@ -66,8 +66,18 @@ public interface MessageMapper {
     })
     int updateForderStatusTrash(@Param("empId") String empId, @Param("msgList") List<String> msgList);
 
+    //중요쪽지함으로 보내기
 
-//휴지통에서 영구삭제(여러개)
+//    @Update("""
+//
+//            """)
+//    int updateForderStatusImportant(@Param("empId") String empId,@Param("msgList") List<String> msgList);
+
+
+
+
+
+    //휴지통에서 영구삭제(여러개)
 @Delete({
         "<script>",
         "DELETE FROM MESSAGE_USER",
@@ -87,20 +97,9 @@ public interface MessageMapper {
 })
     int deleteMsg(@Param("empId") String empId,@Param("msgList")List<String> msgList);
 
-//휴지통에서 복구하기
+//TODO휴지통에서 복구하기
 
 
-
-
-
-
-
-
-
-
-
-
-    //TODO기능구현해야함
     //메세지 상세조회
     @Select("SELECT M.MESSAGE_NO, MU.FORDER_NO, F.FORDER_NAME, M.SENDER_NO, S.EMP_NAME AS SENDER_NAME, M.RECEIVER_NO, R.EMP_NAME AS RECEIVER_NAME, M.CONTENT, M.SENT_AT, MU.READ_YN, MU.DELETED_DATE FROM MESSAGE M JOIN EMPLOYEE S ON M.SENDER_NO = S.EMP_ID JOIN EMPLOYEE R ON M.RECEIVER_NO = R.EMP_ID JOIN MESSAGE_USER MU ON M.MESSAGE_NO = MU.MESSAGE_NO JOIN FORDER F ON MU.FORDER_NO = F.FORDER_NO WHERE M.MESSAGE_NO = #{num} AND MU.EMP_ID = #{empId}")
     MessageVo getMsgByNo(@Param("empId") String empId,@Param("num")String num);
@@ -113,9 +112,21 @@ public interface MessageMapper {
             "AND EMP_ID = #{empId} ")
     int readMessage( @Param("empId") String empId, @Param("num") String num);
 
+
+
     //쪽지 보내기
-    //쪽지 수신인 insert
+    @Insert("INSERT INTO MESSAGE (MESSAGE_NO, SENDER_NO, RECEIVER_NO, CONTENT)\n" +
+            "VALUES (SEQ_MESSAGE.NEXTVAL, #{senderNo}, #{msgVo.receiverNo}, #{msgVo.content})")
+    int insertMessage(@Param("senderNo")String senderNo ,@Param("msgVo")MessageVo msgVo);
     //쪽지 발신인 insert
+    @Insert("INSERT INTO MESSAGE_USER (MESSAGE_USER_NO, MESSAGE_NO, EMP_ID)\n" +
+            "VALUES (SEQ_MESSAGE_USER.NEXTVAL, SEQ_MESSAGE.CURRVAL, #{senderNo})")
+    int insertSenderMessage(@Param("senderNo")String senderNo);
+
+    //쪽지 수신인 insert
+    @Insert("INSERT INTO MESSAGE_USER (MESSAGE_USER_NO, MESSAGE_NO, EMP_ID)\n" +
+            "VALUES (SEQ_MESSAGE_USER.NEXTVAL, SEQ_MESSAGE.CURRVAL, #{msgVo.receiverNo})")
+    int insertReceiverMessage(@Param("msgVo")MessageVo msgVo);
 
 
 

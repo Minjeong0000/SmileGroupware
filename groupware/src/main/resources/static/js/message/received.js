@@ -112,7 +112,7 @@ $.ajax( {
 } );
 
 
-//복구하기로 바꾸기 
+ 
 function readCheckedMessage(){
 
   const checkboxArr = document.querySelectorAll("table>tbody input[type=checkbox]");//전체 체크박스 가져오기
