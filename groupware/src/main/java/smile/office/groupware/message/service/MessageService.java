@@ -19,6 +19,18 @@ public class MessageService {
 
         return dao.getReceiveMessageList(empId);
     }
+/////////////////////////////////////////////페이징
+//    public List<MessageVo> getReceiveMessageList(String empId, int pageNo, int pageSize) {
+//        List<MessageVo> allMessages = dao.getReceiveMessageList(empId);
+//
+//        // 페이지 번호에 따라 데이터 자르기
+//        int startIndex = (pageNo - 1) * pageSize;
+//        int endIndex = Math.min(startIndex + pageSize, allMessages.size());
+//
+//        return allMessages.subList(startIndex, endIndex);
+//    }
+
+
 
     public List<MessageVo> getImportantMsglist(String empId) {
         return dao.getImportantMsglist(empId);

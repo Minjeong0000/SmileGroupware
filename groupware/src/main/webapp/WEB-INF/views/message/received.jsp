@@ -38,41 +38,22 @@
             </div>
 
             <table>
-              <!--
-                              <thead>
-                    <tr>
-                        <th colspan="3">
-                            <form class="search-container" action="/search" method="get">
-                                <input type="text" name="search" placeholder="제목 혹은 작성자 검색">
-                                <button id="search" type="submit">검색</button>
-                              </form>
-                        </th>
-                        <th>
-
-                        </th>
-
-                    </tr>
-                </thead>
-              -->
 
                 <thead>
-                    <th colspan="3">
                         <div>
                             <button  onclick="deleteCheckedMessage();" id= "delete" ><i class="fa-solid fa-trash"></i>휴지통으로 이동</button>
                             <button  onclick="readCheckedMessage();" id= "read" ><i class="fa-solid fa-check"></i>읽음</button>
                         </div>
-                    </th>
-                    <th>
-                        <div><button id="write"><i class="fa-solid fa-pencil"></i>쓰기</button></div>
-                    </th>
+
                 </thead>
                 <thead>
                   <tr>
-                    <th><input type="checkbox" id="select-all"></th>
-                    <th>보낸이</th>
-                    <th>내용</th>
-                    <th>읽음 여부</th>
-                    <th>일시</th>
+                    <th id="checkbox"><input type="checkbox" id="select-all"></th>
+                    <th id="importantYn"></th>
+                    <th id="readYn"></th>
+                    <th id="sender">보낸이</th>
+                    <th id="messageContent">내용</th>
+                    <th id="sendAt">일시</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -94,11 +75,11 @@
       <div class="modal-content">
           <span class="close">&times;</span>
           <h2>쪽지 보내기</h2>
-          <form id="messageForm">
+          <form id="messageForm" action="http://127.0.0.1:8080/api/message" method="post">
               <label for="recipient">받는 사람:</label>
               <select id="recipient" name="recipient" required>
-                <option value="" disabled selected>받는 사람을 선택하세요</option>
-                <option value="user1">사용자 1</option>
+                <option  value="" disabled selected>받는 사람을 선택하세요</option>
+                <option name = "receiverNo" value="1018">호사원</option>
                 <option value="user2">사용자 2</option>
                 <option value="user3">사용자 3</option>
             </select>                
@@ -110,6 +91,24 @@
       </div>
   </div>
 
+  <div id="msg-detail-modal" class="msg-detail-modal">
+    <div class="msg-detail-modal-content">
+      <span class="close">&times;</span>
+      <h2>쪽지 상세 정보</h2>
+      <div class="messageDetail">
+          <p><strong>발신인:</strong> <span id="senderName"></span></p>
+          <p><strong>수신인:</strong> <span id="receiverName"></span></p>
+          <p><strong>일시:</strong> <span id="sendTime"></span></p>
+          <p><strong>내용:</strong></p>
+          <div class="detail-content-wrap">
+            
+            <div id="msgContent">
+
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 </body>
