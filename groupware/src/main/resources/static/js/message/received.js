@@ -169,10 +169,20 @@ function readCheckedMessage(){
       contentType: 'application/json', // 보낼 데이터 형식,핸들러 매개변수앞에 @requestbody추가해야
       data: JSON.stringify(checkedValues), // 데이터를 JSON 문자열로 변환
       success: function(result) {
-          console.log('Success:' + result)+'개 읽음처리';
-
-          location.href="/message/received";
-
+        alert(result+'개의 쪽지를 읽음 처리했습니다.')
+        // 각 체크된 메시지에 대해 봉투 아이콘 열림으로 변경
+      checkboxArr.forEach(function(checkbox) {
+        if (checkbox.checked) {
+          const messageNo = checkbox.value;
+          const readYnTd = document.querySelector(`.readYn-td[data-message-no="${messageNo}"]`);
+      if (readYnTd) {
+        readYnTd.innerHTML = '<i class="fa-regular fa-envelope-open"></i>'; // 읽음 아이콘으로 변경
+        readYnTd.setAttribute('data-readYn', 'Y'); // 데이터 속성 업데이트
+      }
+        }
+      });
+      // 읽음 처리 후 체크박스 모두 해제
+      uncheckAllCheckboxes();
       },
       error: function(e) {
           console.log('Error:', e);

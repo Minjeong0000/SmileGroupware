@@ -105,3 +105,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
+
+  // 모든 체크박스 체크 해제
+function uncheckAllCheckboxes() {
+  const checkboxes = document.querySelectorAll("table tbody input[type='checkbox']");
+  checkboxes.forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+}
