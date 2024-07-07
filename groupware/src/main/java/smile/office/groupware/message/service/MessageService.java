@@ -95,4 +95,8 @@ public class MessageService {
     public int unbookmarkMessage(String empId, String num) {
      return dao.unbookmarkMessage(empId,num);
     }
+
+    public int restoreMessage(String empId, List<String> msgList) {
+        return dao.restoreMessage(empId,msgList);
+    }
 }

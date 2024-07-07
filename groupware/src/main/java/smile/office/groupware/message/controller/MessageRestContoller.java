@@ -137,6 +137,7 @@ public class MessageRestContoller {
         System.out.println("result = " + result);
         return result;
     }
+
     //TODO
     //중요쪽지함으로 보내기
 //    @PutMapping("sendImportant")
@@ -161,6 +162,17 @@ public class MessageRestContoller {
         System.out.println("result = " + result);
         return result;
     }
+    //휴지통에서 복구
+    @PutMapping("restore")
+    public int restoreMessage(HttpServletRequest request, @RequestBody List<String> msgList){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        int result = service.restoreMessage(empId,msgList);
+        System.out.println("result = " + result);
+        return result;
+    }
+
 
     //쪽지 보내기
     @PostMapping

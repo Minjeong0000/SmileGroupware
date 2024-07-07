@@ -1,79 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-  var sidenav = document.getElementById("mySidenav");
-  var main = document.getElementById("main");
-
-  // 마우스가 사이드바 위에 있을 때 열기
-  sidenav.addEventListener('mouseover', function() {
-    sidenav.style.width = "250px";
-    main.style.marginLeft = "250px"; // 여기만 수정
-    sidenav.classList.add("open");
-  });
-
-  // 마우스가 사이드바에서 벗어날 때 닫기
-  sidenav.addEventListener('mouseout', function() {
-    if (!sidenav.matches(':hover') && sidenav.classList.contains("open")) {
-      sidenav.style.width = "70px";
-      main.style.marginLeft = "70px"; // 여기만 수정
-      sidenav.classList.remove("open");
-    }
-  });
-});
-
-// 토글 버튼을 클릭할 때 사이드바 열고 닫기
-function toggleNav(event) {
-  event.stopPropagation();
-  var sidenav = document.getElementById("mySidenav");
-  var main = document.getElementById("main");
-  if (sidenav.classList.contains("open")) {
-    sidenav.style.width = "70px";
-    main.style.marginLeft = "70px"; // 여기만 수정
-    sidenav.classList.remove("open");
-  } else {
-    sidenav.style.width = "250px";
-    main.style.marginLeft = "250px"; // 여기만 수정
-    sidenav.classList.add("open");
-  }
-}
-
-// 닫기 함수
-function closeNav() {
-  var sidenav = document.getElementById("mySidenav");
-  var main = document.getElementById("main");
-  if (sidenav.classList.contains("open")) {
-    sidenav.style.width = "70px";
-    main.style.marginLeft = "70px"; // 여기만 수정
-    sidenav.classList.remove("open");
-  }
-}
- // 전체 선택 체크박스의 상태 변경 이벤트
- document.getElementById('select-all').addEventListener('change', function() {
-  var checkboxes = document.querySelectorAll('.select-item');
-  for (var checkbox of checkboxes) {
-    checkbox.checked = this.checked;
-  }
-});
-
-// 개별 선택 체크박스의 상태 변경 이벤트
-var checkboxes = document.querySelectorAll('.select-item');
-for (var checkbox of checkboxes) {
-  checkbox.addEventListener('change', function() {
-    var selectAllCheckbox = document.getElementById('select-all');
-    if (!this.checked) {
-      selectAllCheckbox.checked = false;
-    } else {
-      var allChecked = true;
-      for (var checkbox of checkboxes) {
-        if (!checkbox.checked) {
-          allChecked = false;
-          break;
-        }
-      }
-      selectAllCheckbox.checked = allChecked;
-    }
-  });
-}
-
-//중요쪽지 list불러오기
+//중요쪽지 리스트 불러오기
 $.ajax( {
   url: "http://127.0.0.1:8080/api/message/important" ,
   method: "get" ,
@@ -83,34 +8,148 @@ $.ajax( {
 
     const x = document.querySelector("table > tbody");
     console.log(x);
-
+    
     let str = "";
     for(let i = 0 ; i < data.length; ++i){
-      let status = (data[i].readYn === 'Y')?'읽음':'안읽음';
-      console.log(status);  
+      let importantYn = (data[i].forderNo === '1')?'<i class="fa-solid fa-star"></i>':'<i class="fa-regular fa-star"></i>';
+      let readStatus = (data[i].readYn === 'Y')?'<i class="fa-regular fa-envelope-open"></i>':'<i class="fa-solid fa-envelope"></i>';
       str += "<tr>";
       str += `
       <td>
           <input type='checkbox' class='select-item' value='${data[i].messageNo}'>
       </td>
   `;
+      str += `<td class="important-td" data-message-no="${data[i].messageNo}" data-forder-no="${data[i].forderNo}">${importantYn}</td>`;
+      str += `<td class="readYn-td" data-message-no="${data[i].messageNo}" data-readYn="${data[i].readYn}">${readStatus}</td>`;
       str += "<td>" + data[i].senderName + "</td>";
-      str += "<td>" + data[i].content + "</td>";
-      str += "<td>" + status + "</td>";
+      str += `<td data-message-no="${data[i].messageNo}" class="message-content">${data[i].content}</td>`;
       str += "<td>" + data[i].sentAt + "</td>";
       str += "</tr>";
     }
+
+    //테이블에값 채워주기
     x.innerHTML = str;
 
+
+    //내용td에 클릭 이벤트 
+  document.addEventListener('click', function(event) {
+  if (event.target.classList.contains('message-content')) {
+    const messageNo = event.target.getAttribute('data-message-no');
+    fetchMessageDetail(messageNo);
+  }
+});
+
+   // important-td 클릭 이벤트 추가
+    document.querySelectorAll('.important-td').forEach((element) => {
+      element.addEventListener('click', (event) => {
+        const messageNo = event.currentTarget.getAttribute('data-message-no');
+        const currentForderNo = event.currentTarget.getAttribute('data-forder-no');
+        if (currentForderNo === '1') {//이미 중요쪽지면
+          unbookmarkMessage(messageNo, event.currentTarget);//중요쪽지 해제 
+        } else {
+          bookmarkMessage(messageNo, event.currentTarget);
+        }
+      });
+    });
+    
   } ,
   error:function(x){
-    console.log(x.responseText);
+    console.log(x);
     alert(x.responseText);
     location.href="/emp/login";
+} ,
 
-  } ,
+} );//리스트 불러오기 끝
 
-} );
+
+//북마크설정
+function bookmarkMessage(messageNo, element) {
+  console.log('messageNo'+messageNo);
+  // 아이콘 상태 즉시 업데이트
+  element.setAttribute('data-forder-no', '1');
+  element.innerHTML = '<i class="fa-solid fa-star"></i>';
+
+  // 서버로 업데이트 요청
+  $.ajax({
+    url: `http://127.0.0.1:8080/api/message/bookmark`,
+    method: 'PUT',
+    contentType: 'application/json',
+    data: messageNo,
+    success: function(response) {
+      console.log('북마크 설정 성공:', response);
+    },
+    error: function(error) {
+      console.error('북마크 설정 실패:', error);
+      // 실패 시 아이콘 상태 원래대로 복구
+      element.setAttribute('data-forder-no', '3');
+      element.innerHTML = '<i class="fa-regular fa-star"></i>';
+    }
+  });
+}
+
+// 북마크 해제 함수
+function unbookmarkMessage(messageNo, element) {
+  // 아이콘 상태 즉시 업데이트
+  element.setAttribute('data-forder-no', '3');
+  element.innerHTML = '<i class="fa-regular fa-star"></i>';
+
+  // 서버로 업데이트 요청
+  $.ajax({
+    url: `http://127.0.0.1:8080/api/message/unbookmark`,
+    method: 'PUT',
+    contentType: 'application/json',
+    data: messageNo,
+    success: function(response) {
+      console.log('북마크 해제 성공:', response);
+    },
+    error: function(error) {
+      console.error('북마크 해제 실패:', error);
+      // 실패 시 아이콘 상태 원래대로 복구
+      element.setAttribute('data-forder-no', '1');
+      element.innerHTML = '<i class="fa-solid fa-star"></i>';
+    }
+  });
+}
+
+//상세조회 ajax
+function fetchMessageDetail(messageNo) {
+  $.ajax({
+    url: `http://127.0.0.1:8080/api/message/detail/${messageNo}`,
+    method: 'GET',
+    data: JSON.stringify(messageNo),
+    success: function(data) {
+      console.log('상세조회 성공 :'+data);
+      document.getElementById('senderName').textContent = data.senderName;
+      document.getElementById('receiverName').textContent = data.receiverName;
+      document.getElementById('sendTime').textContent = data.sentAt;
+      document.getElementById('msgContent').textContent = data.content;
+
+      // 읽음 상태 업데이트
+      const readYnTd = document.querySelector(`.readYn-td[data-message-no="${messageNo}"]`);
+      if (readYnTd) {
+        readYnTd.innerHTML = '<i class="fa-regular fa-envelope-open"></i>'; // 읽음 아이콘으로 변경
+        readYnTd.setAttribute('data-readYn', 'Y'); // 데이터 속성 업데이트
+      }
+      //상세 모달 띄우기
+      document.getElementById('msg-detail-modal').style.display = 'block';
+      
+    },
+    error: function(error) {
+      console.error('Error fetching message detail:', error);
+    }
+  });
+}
+
+document.querySelectorAll('.msg-detail-modal .close').forEach(function(closeBtn) {
+  closeBtn.addEventListener('click', function() {
+    document.getElementById('msg-detail-modal').style.display = 'none';
+
+  });
+});
+
+
+
+
 
 
 
@@ -141,6 +180,7 @@ function readCheckedMessage(){
 
 }
 
+//여러개 삭제
 function deleteCheckedMessage(){
 
   const checkboxArr = document.querySelectorAll("table>tbody input[type=checkbox]");//전체 체크박스 가져오기
@@ -157,8 +197,10 @@ function deleteCheckedMessage(){
       type: 'PUT', // HTTP 요청 메소드
       contentType: 'application/json', // 보낼 데이터 형식,핸들러 매개변수앞에 @requestbody추가해야
       data: JSON.stringify(checkedValues), // 데이터를 JSON 문자열로 변환
-      success: function(x) {
-          console.log('Success:', x);
+      success: function(result) {
+        console.log('Success:' + result)+'개 휴지통처리';
+        alert(result+'개의 쪽지를 휴지통으로 이동했습니다.');
+        location.href="/message/important";
       },
       error: function(e) {
           console.log('Error:', e);
@@ -166,3 +208,4 @@ function deleteCheckedMessage(){
   });
 
 }
+

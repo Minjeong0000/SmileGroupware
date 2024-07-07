@@ -86,4 +86,8 @@ public class MessageDao {
     public int unbookmarkMessage(String empId, String num) {
         return mapper.unbookmarkMessage(empId,num);
     }
+
+    public int restoreMessage(String empId, List<String> msgList) {
+        return mapper.restoreMessage(empId,msgList);
+    }
 }

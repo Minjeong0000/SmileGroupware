@@ -115,6 +115,7 @@ gap: 10px;
 table {
   width: 90%;
   border-collapse: collapse;
+  padding: 20px;
 }
 
 th, td {
@@ -129,6 +130,10 @@ th#checkbox{
 th#importantYn{
   width: 30px;
 }
+th#sendAt{
+  width: 160px;
+}
+
 tr td:nth-child(2) i{
   color: #6d83ff;
 }

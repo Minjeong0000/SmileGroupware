@@ -7,7 +7,6 @@ $.ajax( {
     console.log(data);
 
     const x = document.querySelector("table > tbody");
-    console.log(x);
     
     let str = "";
     for(let i = 0 ; i < data.length; ++i){
@@ -31,7 +30,7 @@ $.ajax( {
     x.innerHTML = str;
 
 
-    //내용td에 클릭 이벤트리스너
+    //내용td에 클릭 이벤트 
   document.addEventListener('click', function(event) {
   if (event.target.classList.contains('message-content')) {
     const messageNo = event.target.getAttribute('data-message-no');
@@ -39,7 +38,7 @@ $.ajax( {
   }
 });
 
-        // important-td 클릭 이벤트 추가
+   // important-td 클릭 이벤트 추가
     document.querySelectorAll('.important-td').forEach((element) => {
       element.addEventListener('click', (event) => {
         const messageNo = event.currentTarget.getAttribute('data-message-no');
@@ -59,7 +58,10 @@ $.ajax( {
     location.href="/emp/login";
 } ,
 
-} );
+} );//리스트 불러오기 끝
+
+//////////////////////
+
 //북마크설정
 function bookmarkMessage(messageNo, element) {
   console.log('messageNo'+messageNo);
