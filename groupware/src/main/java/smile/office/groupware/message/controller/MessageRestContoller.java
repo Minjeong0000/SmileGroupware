@@ -21,7 +21,6 @@ public class MessageRestContoller {
 
     private final MessageService service;
     //받은메세지(전체)조회
-//  public ResponseEntity<List<MessageVo>>getSentMsgList(HttpServletRequest request){
     @GetMapping("list")
     public ResponseEntity<?> getReceiveMessageList(HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -36,7 +35,21 @@ public class MessageRestContoller {
         List<MessageVo> messageVoList = service.getReceiveMessageList(empId);
         return ResponseEntity.ok(messageVoList);
     }
-
+//////////////////////////////////페이징
+//@GetMapping("list")
+//public ResponseEntity<?> getReceiveMessageList(HttpServletRequest request,
+//                                               @RequestParam(defaultValue = "1") int pageNo,
+//                                               @RequestParam(defaultValue = "10") int pageSize) {
+//    HttpSession session = request.getSession();
+//    EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+//    if (loginEmployeeVo == null) {
+//        return ResponseEntity.internalServerError().body("비정상적인 접근입니다. 로그인 페이지로 돌아갑니다.");
+//    }
+//
+//    String empId = loginEmployeeVo.getEmpId();
+//    List<MessageVo> messageVoList = service.getReceiveMessageList(empId, pageNo, pageSize);
+//    return ResponseEntity.ok(messageVoList);
+//}
 
     //받은메세지(전체)조회(포스트맨확인용)
 //@GetMapping("list")
@@ -124,6 +137,7 @@ public class MessageRestContoller {
         System.out.println("result = " + result);
         return result;
     }
+
     //TODO
     //중요쪽지함으로 보내기
 //    @PutMapping("sendImportant")
@@ -148,6 +162,17 @@ public class MessageRestContoller {
         System.out.println("result = " + result);
         return result;
     }
+    //휴지통에서 복구
+    @PutMapping("restore")
+    public int restoreMessage(HttpServletRequest request, @RequestBody List<String> msgList){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        int result = service.restoreMessage(empId,msgList);
+        System.out.println("result = " + result);
+        return result;
+    }
+
 
     //쪽지 보내기
     @PostMapping
@@ -169,21 +194,43 @@ public class MessageRestContoller {
     }
 
     //쪽지 상세조회
-    @GetMapping("detail")
-    public ResponseEntity<MessageVo> getMsgByNo(HttpServletRequest request,String num){
+    @GetMapping("detail/{num}")
+    public ResponseEntity<MessageVo> getMsgByNo(HttpServletRequest request,@PathVariable String num){
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();
         MessageVo vo = service.getMsgByNo(empId,num);
         if(vo!=null && vo.getReceiverNo().equals(empId)){
             int result = service.readMessage(empId,num);
-            System.out.println("result = " + result);
         }
 
-        System.out.println("vo = " + vo);
         return ResponseEntity.ok(vo);
 
     }
+//중요쪽지지정(하나)
+@PutMapping("bookmark")
+public int bookmarkMessage(HttpServletRequest request, @RequestBody String num){
+    HttpSession session = request.getSession();
+    EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+    String empId = loginEmployeeVo.getEmpId();
+    System.out.println("num = " + num);
+    int result = service.bookmarkMessage(empId, num);
+    System.out.println("result = " + result);
+    return result;
+}
+//중요쪽지해제
+    @PutMapping("unbookmark")
+    public int unbookmarkMessage(HttpServletRequest request,@RequestBody String num){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        int result = service.unbookmarkMessage(empId, num);
+        System.out.println("result = " + result);
+        return result;
+    }
+
+
+
 
 
 }

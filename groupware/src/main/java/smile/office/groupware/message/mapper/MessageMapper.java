@@ -66,16 +66,6 @@ public interface MessageMapper {
     })
     int updateForderStatusTrash(@Param("empId") String empId, @Param("msgList") List<String> msgList);
 
-    //중요쪽지함으로 보내기
-
-//    @Update("""
-//
-//            """)
-//    int updateForderStatusImportant(@Param("empId") String empId,@Param("msgList") List<String> msgList);
-
-
-
-
 
     //휴지통에서 영구삭제(여러개)
 @Delete({
@@ -127,8 +117,29 @@ public interface MessageMapper {
     @Insert("INSERT INTO MESSAGE_USER (MESSAGE_USER_NO, MESSAGE_NO, EMP_ID)\n" +
             "VALUES (SEQ_MESSAGE_USER.NEXTVAL, SEQ_MESSAGE.CURRVAL, #{msgVo.receiverNo})")
     int insertReceiverMessage(@Param("msgVo")MessageVo msgVo);
+    //일반->중요쪽지상태변경
+    @Update("UPDATE MESSAGE_USER MU SET MU.FORDER_NO = 1 WHERE MU.EMP_ID = #{empId} AND MU.MESSAGE_USER_NO IN ( SELECT MU2.MESSAGE_USER_NO FROM MESSAGE_USER MU2 JOIN MESSAGE M ON MU2.MESSAGE_NO = M.MESSAGE_NO WHERE MU2.EMP_ID = #{empId} AND M.MESSAGE_NO = #{num} )")
+    int bookmarkMessage(@Param("empId")String empId,  @Param("num")String num);
+    @Update("UPDATE MESSAGE_USER MU SET MU.FORDER_NO = 3 WHERE MU.EMP_ID = #{empId} AND MU.MESSAGE_USER_NO IN ( SELECT MU2.MESSAGE_USER_NO FROM MESSAGE_USER MU2 JOIN MESSAGE M ON MU2.MESSAGE_NO = M.MESSAGE_NO WHERE MU2.EMP_ID = #{empId} AND M.MESSAGE_NO = #{num})")
+    int unbookmarkMessage(@Param("empId")String empId,@Param("num") String num);
 
-
-
+    @Update({
+            "<script>",
+            "UPDATE MESSAGE_USER",
+            "SET FORDER_NO = 3",
+            "WHERE EMP_ID = #{empId}",
+            "AND MESSAGE_USER_NO IN (",
+            "SELECT MESSAGE_USER_NO",
+            "FROM MESSAGE_USER MU2",
+            "JOIN MESSAGE M ON MU2.MESSAGE_NO = M.MESSAGE_NO",
+            "WHERE MU2.EMP_ID = #{empId}",
+            "AND M.MESSAGE_NO IN",
+            "<foreach item='no' collection='msgList' open='(' separator=',' close=')'>",
+            "#{no}",
+            "</foreach>",
+            ")",
+            "</script>"
+    })
+    int restoreMessage(@Param("empId") String empId, @Param("msgList") List<String> msgList);
 }
 

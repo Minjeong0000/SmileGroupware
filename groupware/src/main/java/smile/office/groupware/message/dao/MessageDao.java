@@ -78,4 +78,16 @@ public class MessageDao {
     public int insertReceiverMessage(MessageVo msgVo) {
         return mapper.insertReceiverMessage(msgVo);
     }
+
+    public int bookmarkMessage(String empId, String num) {
+        return mapper.bookmarkMessage(empId,num);
+    }
+
+    public int unbookmarkMessage(String empId, String num) {
+        return mapper.unbookmarkMessage(empId,num);
+    }
+
+    public int restoreMessage(String empId, List<String> msgList) {
+        return mapper.restoreMessage(empId,msgList);
+    }
 }
