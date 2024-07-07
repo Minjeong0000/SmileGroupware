@@ -27,6 +27,69 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+//쪽지보내기 동적셀렉트
+$(document).ready(function() {
+  // 부서 목록 가져오기
+  $.ajax({
+      url: '/emp/departments',
+      method: 'GET',
+      success: function(departments) {
+          var departmentSelect = $('#departments');
+          departments.forEach(function(department) {
+              departmentSelect.append('<option value="' + department.departmentNo + '">' + department.departmentName + '</option>');
+          });
+      }
+  });
+
+  // 부서 선택 시 사원 목록 가져오기
+  $('#departments').change(function() {
+      var departmentNo = $(this).val();
+      if (departmentNo) {
+          $.ajax({
+              url: '/emp/departments/' + departmentNo + '/employees',
+              method: 'GET',
+              success: function(employees) {
+                  var employeeSelect = $('#employees');
+                  employeeSelect.empty();
+                  employeeSelect.append('<option value="">사원을 선택하세요</option>');
+                  employees.forEach(function(employee) {
+                      employeeSelect.append('<option value="' + employee.empId + '">' + employee.empName + ' ' + employee.roleName + '</option>');
+                  });
+              }
+          });
+      }
+  });
+
+  // 메시지 보내기
+  $('#sendMessageBtn').click(function() {
+      var empId = $('#employees').val();
+      var content = $('#message').val();
+      
+      if (empId && content) {
+          $.ajax({
+              url: '/api/message',
+              method: 'POST',
+              data: {
+                  receiverNo: empId,
+                  content: content
+              },
+              success: function(response) {
+                  alert(response);
+                  location.href="/message/received"              
+                },
+              error: function() {
+                  alert('쪽지 전송 실패');
+              }
+          });
+      } else {
+          alert('사원과 쪽지 내용을 입력하세요');
+      }
+  });
+});
+
+
+
+
 
 
 //공통

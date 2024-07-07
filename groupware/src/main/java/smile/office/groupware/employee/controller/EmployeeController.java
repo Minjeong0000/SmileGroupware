@@ -6,12 +6,13 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import smile.office.groupware.admin.vo.AdminVo;
+import smile.office.groupware.department.vo.DepartmentVo;
 import smile.office.groupware.employee.service.EmployeeService;
 import smile.office.groupware.employee.vo.EmployeeVo;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -44,16 +45,19 @@ public class EmployeeController {
             model.addAttribute("errMsg","로그인 실패");
                     return "common/error";
         }
-
-
-
-
-
-
-
     }
 
 
+    @ResponseBody
+    @GetMapping("/departments")
+    public List<DepartmentVo> getAllDepartments() {
+        return service.getAllDepartments();
+    }
+    @ResponseBody
+    @GetMapping("/departments/{departmentNo}/employees")
+    public List<EmployeeVo> getEmployeesByDepartment(@PathVariable String departmentNo) {
+        return service.getEmployeesByDepartment(departmentNo);
+    }
 
 
 

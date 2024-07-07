@@ -75,21 +75,23 @@
       <div class="modal-content">
           <span class="close">&times;</span>
           <h2>쪽지 보내기</h2>
-          <form id="messageForm" action="http://127.0.0.1:8080/api/message" method="post">
-              <label for="recipient">받는 사람:</label>
-              <select id="recipient" name="recipient" required>
-                <option  value="" disabled selected>받는 사람을 선택하세요</option>
-                <option name = "receiverNo" value="1018">호사원</option>
-                <option value="user2">사용자 2</option>
-                <option value="user3">사용자 3</option>
-            </select>                
+
+            <label for="departments">부서:</label>
+            <select id="departments">
+                <option value="">부서를 선택하세요</option>
+            </select>
+        
+            <label for="employees">사원:</label>
+            <select id="employees">
+                <option value="">사원을 선택하세요</option>
+            </select>              
               <label for="message">메시지:</label>
               <textarea id="message" name="message" rows="4" required></textarea>
               
-              <button type="submit">보내기</button>
-          </form>
+              <button id="sendMessageBtn">보내기</button>
+
       </div>
-  </div>
+    </div>
 
   <div id="msg-detail-modal" class="msg-detail-modal">
     <div class="msg-detail-modal-content">

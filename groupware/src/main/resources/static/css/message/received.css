@@ -358,7 +358,7 @@ textarea {
   resize: none; /* 크기 조절 비활성화 */
 }
 
-button[type="submit"] {
+#sendMessageBtn {
   width: 100%;
   padding: 10px;
   background-color: #1ec800;
