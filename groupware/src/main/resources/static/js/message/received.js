@@ -19,14 +19,38 @@ $.ajax( {
           <input type='checkbox' class='select-item' value='${data[i].messageNo}'>
       </td>
   `;
-      str += "<td>" +importantYn + "</td>";
-      str += "<td>" +readStatus + "</td>";
+      str += `<td class="important-td" data-message-no="${data[i].messageNo}" data-forder-no="${data[i].forderNo}">${importantYn}</td>`;
+      str += `<td class="readYn-td" data-message-no="${data[i].messageNo}" data-readYn="${data[i].readYn}">${readStatus}</td>`;
       str += "<td>" + data[i].senderName + "</td>";
       str += `<td data-message-no="${data[i].messageNo}" class="message-content">${data[i].content}</td>`;
       str += "<td>" + data[i].sentAt + "</td>";
       str += "</tr>";
     }
+
+    //테이블에값 채워주기
     x.innerHTML = str;
+
+
+    //내용td에 클릭 이벤트리스너
+  document.addEventListener('click', function(event) {
+  if (event.target.classList.contains('message-content')) {
+    const messageNo = event.target.getAttribute('data-message-no');
+    fetchMessageDetail(messageNo);
+  }
+});
+
+        // important-td 클릭 이벤트 추가
+    document.querySelectorAll('.important-td').forEach((element) => {
+      element.addEventListener('click', (event) => {
+        const messageNo = event.currentTarget.getAttribute('data-message-no');
+        const currentForderNo = event.currentTarget.getAttribute('data-forder-no');
+        if (currentForderNo === '1') {//이미 중요쪽지면
+          unbookmarkMessage(messageNo, event.currentTarget);//중요쪽지 해제 
+        } else {
+          bookmarkMessage(messageNo, event.currentTarget);
+        }
+      });
+    });
     
   } ,
   error:function(x){
@@ -36,14 +60,58 @@ $.ajax( {
 } ,
 
 } );
+//북마크설정
+function bookmarkMessage(messageNo, element) {
+  console.log('messageNo'+messageNo);
+  // 아이콘 상태 즉시 업데이트
+  element.setAttribute('data-forder-no', '1');
+  element.innerHTML = '<i class="fa-solid fa-star"></i>';
 
-//내용 클릭하면 상세조회 함수 호출
-document.addEventListener('click', function(event) {
-  if (event.target.classList.contains('message-content')) {
-    const messageNo = event.target.getAttribute('data-message-no');
-    fetchMessageDetail(messageNo);
-  }
-});
+  // 서버로 업데이트 요청
+  $.ajax({
+    url: `http://127.0.0.1:8080/api/message/bookmark`,
+    method: 'PUT',
+    contentType: 'application/json',
+    data: messageNo,
+    success: function(response) {
+      console.log('북마크 설정 성공:', response);
+    },
+    error: function(error) {
+      console.error('북마크 설정 실패:', error);
+      // 실패 시 아이콘 상태 원래대로 복구
+      element.setAttribute('data-forder-no', '3');
+      element.innerHTML = '<i class="fa-regular fa-star"></i>';
+    }
+  });
+}
+
+// 북마크 해제 함수
+function unbookmarkMessage(messageNo, element) {
+  // 아이콘 상태 즉시 업데이트
+  element.setAttribute('data-forder-no', '3');
+  element.innerHTML = '<i class="fa-regular fa-star"></i>';
+
+  // 서버로 업데이트 요청
+  $.ajax({
+    url: `http://127.0.0.1:8080/api/message/unbookmark`,
+    method: 'PUT',
+    contentType: 'application/json',
+    data: messageNo,
+    success: function(response) {
+      console.log('북마크 해제 성공:', response);
+    },
+    error: function(error) {
+      console.error('북마크 해제 실패:', error);
+      // 실패 시 아이콘 상태 원래대로 복구
+      element.setAttribute('data-forder-no', '1');
+      element.innerHTML = '<i class="fa-solid fa-star"></i>';
+    }
+  });
+}
+
+
+
+
 //상세조회 ajax
 function fetchMessageDetail(messageNo) {
   $.ajax({
@@ -51,21 +119,21 @@ function fetchMessageDetail(messageNo) {
     method: 'GET',
     data: JSON.stringify(messageNo),
     success: function(data) {
-      console.log('상세조회'+data);
-      // document.getElementById('messageDetail').innerHTML = `
-        
-
-      //   <p>보낸이: ${data.senderName}</p>
-      //   <p>내용: ${data.content}</p>
-      //   <p>일시: ${data.sentAt}</p>
-      // `;
+      console.log('상세조회 성공 :'+data);
       document.getElementById('senderName').textContent = data.senderName;
       document.getElementById('receiverName').textContent = data.receiverName;
       document.getElementById('sendTime').textContent = data.sentAt;
       document.getElementById('msgContent').textContent = data.content;
 
-
+      // 읽음 상태 업데이트
+      const readYnTd = document.querySelector(`.readYn-td[data-message-no="${messageNo}"]`);
+      if (readYnTd) {
+        readYnTd.innerHTML = '<i class="fa-regular fa-envelope-open"></i>'; // 읽음 아이콘으로 변경
+        readYnTd.setAttribute('data-readYn', 'Y'); // 데이터 속성 업데이트
+      }
+      //상세 모달 띄우기
       document.getElementById('msg-detail-modal').style.display = 'block';
+      
     },
     error: function(error) {
       console.error('Error fetching message detail:', error);
@@ -76,7 +144,6 @@ function fetchMessageDetail(messageNo) {
 document.querySelectorAll('.msg-detail-modal .close').forEach(function(closeBtn) {
   closeBtn.addEventListener('click', function() {
     document.getElementById('msg-detail-modal').style.display = 'none';
-    location.href="/message/received";
 
   });
 });

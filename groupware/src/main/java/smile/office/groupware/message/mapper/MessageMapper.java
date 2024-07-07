@@ -127,8 +127,11 @@ public interface MessageMapper {
     @Insert("INSERT INTO MESSAGE_USER (MESSAGE_USER_NO, MESSAGE_NO, EMP_ID)\n" +
             "VALUES (SEQ_MESSAGE_USER.NEXTVAL, SEQ_MESSAGE.CURRVAL, #{msgVo.receiverNo})")
     int insertReceiverMessage(@Param("msgVo")MessageVo msgVo);
-
-
+    //일반->중요쪽지상태변경
+    @Update("UPDATE MESSAGE_USER MU SET MU.FORDER_NO = 1 WHERE MU.EMP_ID = #{empId} AND MU.MESSAGE_USER_NO IN ( SELECT MU2.MESSAGE_USER_NO FROM MESSAGE_USER MU2 JOIN MESSAGE M ON MU2.MESSAGE_NO = M.MESSAGE_NO WHERE MU2.EMP_ID = #{empId} AND M.MESSAGE_NO = #{num} )")
+    int bookmarkMessage(@Param("empId")String empId,  @Param("num")String num);
+    @Update("UPDATE MESSAGE_USER MU SET MU.FORDER_NO = 3 WHERE MU.EMP_ID = #{empId} AND MU.MESSAGE_USER_NO IN ( SELECT MU2.MESSAGE_USER_NO FROM MESSAGE_USER MU2 JOIN MESSAGE M ON MU2.MESSAGE_NO = M.MESSAGE_NO WHERE MU2.EMP_ID = #{empId} AND M.MESSAGE_NO = #{num})")
+    int unbookmarkMessage(@Param("empId")String empId,@Param("num") String num);
 
 }
 

@@ -195,6 +195,30 @@ public class MessageRestContoller {
         return ResponseEntity.ok(vo);
 
     }
+//중요쪽지지정(하나)
+@PutMapping("bookmark")
+public int bookmarkMessage(HttpServletRequest request, @RequestBody String num){
+    HttpSession session = request.getSession();
+    EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+    String empId = loginEmployeeVo.getEmpId();
+    System.out.println("num = " + num);
+    int result = service.bookmarkMessage(empId, num);
+    System.out.println("result = " + result);
+    return result;
+}
+//중요쪽지해제
+    @PutMapping("unbookmark")
+    public int unbookmarkMessage(HttpServletRequest request,@RequestBody String num){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        int result = service.unbookmarkMessage(empId, num);
+        System.out.println("result = " + result);
+        return result;
+    }
+
+
+
 
 
 }

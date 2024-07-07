@@ -88,4 +88,11 @@ public class MessageService {
     public int insertReceiverMessage(MessageVo msgVo) {
         return dao.insertReceiverMessage(msgVo);
     }
+    //중요쪽지 지정(단일)
+    public int bookmarkMessage(String empId, String num) {
+        return dao.bookmarkMessage(empId,num);
+    }
+    public int unbookmarkMessage(String empId, String num) {
+     return dao.unbookmarkMessage(empId,num);
+    }
 }
