@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -24,15 +23,15 @@
     <div class="column" id="fixedColumn">
         <h2>문의 사항</h2>
         <ul class="inquiry-list">
-            <li class="inquiry-item"><a href="editUserPosition.html">• 자주 묻는 질문</a></li>
-            <li class="inquiry-item"><a href="editUserId.html">• 💬 1:1 문의</a></li>
+            <li class="inquiry-item"><a href="/question/question">• 자주 묻는 질문</a></li>
+            <li class="inquiry-item"><a href="/question/add">• 💬 1:1 문의</a></li>
         </ul>
     </div>
     <div class="column content">
         <h2>1:1 문의</h2>
         <form id="inquiryForm">
             <label for="author">작성자</label>
-            <input type="text" id="author" name="author" value="${empName}" readonly>
+            <input type="text" id="author" name="author" value="${loginEmployeeVo.empName}" readonly>
 
             <label for="title">제목</label>
             <input type="text" id="title" name="title" required>

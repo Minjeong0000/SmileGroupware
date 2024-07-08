@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import smile.office.groupware.admin.mapper.AdminMapper;
 import smile.office.groupware.admin.vo.AdminVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
+import smile.office.groupware.question.vo.QuestionVo;
 
 import java.util.List;
 
@@ -51,13 +52,17 @@ public class AdminDao {
         return mapper.addEmployee(vo);
     }
 
-    
     public EmployeeVo getEmployeeById(String empId) {
         return mapper.getEmployeeById(empId);
     }
 
-    //관리자 삭제
+    //사원 삭제
     public int employeeDelete(String employeeNum) {
         return mapper.employeeDelete(employeeNum);
+    }
+
+    // 문의사항 목록 가져오기
+    public List<QuestionVo> getQuestions() {
+        return mapper.getQuestions();
     }
 }

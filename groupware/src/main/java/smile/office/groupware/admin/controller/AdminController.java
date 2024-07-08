@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import smile.office.groupware.admin.service.AdminService;
 import smile.office.groupware.admin.vo.AdminVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
+import smile.office.groupware.question.vo.QuestionVo;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class AdminController {
             HttpSession session = request.getSession();
             session.setAttribute("loginAdminVo", loginAdminVo);
             System.out.println("로그인 성공: " + loginAdminVo.getAdminId());
-            return "admin/home";
+            return "admin/adminHome";
         } else {
             System.out.println("로그인 실패: " + vo.getAdminId());
             model.addAttribute("errMsg", "로그인 실패: ID 또는 비밀번호 불일치 또는 계정이 삭제됨");
@@ -186,7 +187,20 @@ public class AdminController {
 
     //////////////////////////////////////////////////////////////////////////
 
+    // 문의사항 조회 (화면)
+    @GetMapping("adminQuestion")
+    public String questionOverview() {
+        return "admin/adminQuestion";
+    }
 
+    // 문의사항 목록 가져오기 (AJAX)
+    @GetMapping("getQuestions")
+    @ResponseBody
+    public List<QuestionVo> getQuestions() {
+        return service.getQuestions();
+    }
+
+    ////////////////////////////////////////////////////////////////
 
 
 }//class

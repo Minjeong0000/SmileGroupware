@@ -1,0 +1,110 @@
+body {
+    font-family: "Lato", sans-serif;
+    transition: margin-left .5s;
+    padding: 16px;
+    overflow-x: hidden;
+    margin: 0;
+}
+
+.sidenav {
+    height: 100%;
+    width: 70px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+    background-color: #8d9cf5;
+    overflow-x: hidden;
+    transition: width 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    color: #000000;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    margin-bottom: 30px;
+    margin-left: 9px;
+}
+
+.sidenav a:hover {
+    color: #505050;
+}
+
+.sidenav .menu-icon {
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+.link-text {
+    display: none;
+    white-space: nowrap;
+}
+
+.sidenav.open .link-text {
+    display: block;
+}
+
+#main {
+    display: flex;
+    margin-left: 70px;
+    transition: margin-left .5s;
+    padding: 20px;
+    height: calc(100vh - 40px);
+    box-sizing: border-box;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.question-box {
+    width: 1200px;
+    height: 700px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto;
+    border-radius: 10px;
+}
+
+.inquiry-item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.pagination {
+    display: flex;
+    align-items: right;
+    justify-content: right;
+    margin-top: -20px;
+}
+
+.pagination button {
+    background-color: #8d9cf5;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
