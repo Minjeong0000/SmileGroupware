@@ -21,11 +21,15 @@ public class AttendanceController {
     //달력 화면
     @GetMapping("/cal")
     public String getAttendanceCal(){
-
-
-//        List<AttendanceVo> voList = service.getAttendanceCal();
+//  List<AttendanceVo> voList = service.getAttendanceCal();
         return "emp/attendance/cal";
-
     }
+
+//근태 기간 조회 화면
+    @GetMapping("/history")
+    public String getAttendanceHistory(){
+        return "emp/attendance/history";
+    }
+
 
 }
