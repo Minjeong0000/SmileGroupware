@@ -1,0 +1,155 @@
+body {
+    font-family: "Lato", sans-serif;
+    transition: margin-left .5s;
+    padding: 16px;
+    overflow-x: hidden;
+}
+
+.sidenav {
+    height: 100%;
+    width: 70px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+    background-color: #8d9cf5;
+    overflow-x: hidden;
+    transition: width 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    color: #000000;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    margin-bottom: 30px;
+    margin-left: 9px;
+}
+
+.sidenav a:hover {
+    color: #505050;
+}
+
+.sidenav .menu-icon {
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+.link-text {
+    display: none;
+    white-space: nowrap;
+}
+
+.sidenav.open .link-text {
+    display: block;
+}
+
+#main {
+    display: flex;
+    margin-left: 70px;
+    transition: margin-left .5s;
+    padding: 20px;
+    height: calc(100vh - 40px);
+    box-sizing: border-box;
+}
+
+.column {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.column:first-child {
+    flex: none;
+    width: 270px;
+    border-right: 2px solid #ccc;
+}
+
+.column:last-child {
+    flex: 1;
+    display: flex;
+    justify-content: center; /* 가운데 정렬을 위한 설정 */
+    align-items: center; /* 수직 가운데 정렬을 위한 설정 */
+}
+
+.inquiry-item {
+    background-color: #d4d9f5;
+    padding: 15px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    width: 180px;
+}
+
+.inquiry-item a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    display: block;
+    text-align: center;
+}
+
+.inquiry-item:hover {
+    background-color: #e9e9e9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.inquiry-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#inquiryForm {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc; /* 영역 구분을 위한 테두리 */
+    border-radius: 8px; /* 둥근 모서리 */
+    padding: 20px; /* 내부 여백 */
+    margin-bottom: 30px;
+    background-color: #f9f9f9; /* 배경색 */
+}
+
+#inquiryForm label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+#inquiryForm input, #inquiryForm textarea {
+    margin-bottom: 16px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#inquiryForm textarea {
+    resize: none; /* 크기 조절 불가 */
+    height: 430px; /* 고정 높이 */
+}
+
+#inquiryForm input[readonly] {
+    background-color: #f5f5f5;
+}
+
+#inquiryForm button {
+    padding: 10px;
+    background-color: #8d9cf5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#inquiryForm button:hover {
+    background-color: #7b88e0;
+}
