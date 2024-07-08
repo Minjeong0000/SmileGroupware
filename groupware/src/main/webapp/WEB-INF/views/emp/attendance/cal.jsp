@@ -79,9 +79,6 @@
 
 //출근버튼찍기
     document.getElementById('checkInBtn').addEventListener('click', function() {
-
-
-
         if(confirm('출근을 기록하시겠습니까?')){
             $.ajax({
                 url: "/record/start",
@@ -100,6 +97,8 @@
                   console.log('출근버튼 else문');
 
                   alert('출근 시간 저장에 성공했습니다.');
+                //   updateAttendanceStatus(); // 출근 기록 후 업데이트
+
                   location.href="/emp/attendance/cal";
                 //   document.querySelector("#status").innerHTML = '근무중';
 
@@ -127,6 +126,7 @@
                   if(data==='success'){
                   
                     alert('퇴근 기록에 성공했습니다.');
+                    // updateAttendanceStatus(); // 퇴근 기록 후 업데이트
                     location.href="/emp/attendance/cal";
                     return;
                   }
@@ -145,6 +145,43 @@
             });
         }
     });
+
+
+// 근태 기록 업데이트 함수
+function updateAttendanceStatus() {
+        $.ajax({
+            url: "/record/todayRecord",
+            type: 'GET',
+            success: function(data) {
+
+                const stratTimePart= data.startTime.split(' ')[1];
+                const endTimePart= data.endTime.split(' ')[1];
+
+                if (data.startTime && !data.endTime) {
+                $('#status').text('근무중');
+                } else if (data.startTime && data.endTime) {
+                    $('#status').text('퇴근');
+                } else {
+                    $('#status').text('퇴근'); // startTime이 없는 경우에도 일단 퇴근으로 처리
+                }
+                $('#startTime').text(stratTimePart || '미등록');
+                $('#endTime').text(endTimePart|| '미등록');
+                $('#overtime').text(data.overtime || '미등록');
+                $('#dayWorkTime').text(data.dayWorkTime+'시간' || '미등록');
+
+
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    }
+
+// 페이지 로드 시 초기 근태 기록 업데이트
+    updateAttendanceStatus();
+
+
+
 
 
 //달력에 근태띄우는부분
@@ -225,7 +262,59 @@
 
     <div id="main" onclick="closeNav()">
         <div class="column">
-            <%@ include file ="common_left.jsp" %>
+
+            <h2>근태관리</h2>
+            <div>
+                <h3 id="current-date"></h3>
+            </div>
+            <h2 id="currentTime"></h2>
+        
+            <table id = "attTable">
+                <tr>
+                    <th>업무상태</th>
+                    <td id="status">${attendanceVo.startTime}</td>
+                </tr>
+                <tr>
+                    <th>출근시간</th>
+                    <td id="startTime">미등록</td>
+                </tr>
+                <tr>
+                    <th>퇴근시간</th>
+                    <td id="endTime">미등록</td>
+                </tr>
+                <tr>
+                    <th>연장근무시간</th>
+                    <td id="overtime">미등록</td>
+                </tr>
+                <tr>
+                    <th>일근무시간</th>
+                    <td id="dayWorkTime">미등록</td>
+                </tr>
+            </table>
+        
+            <br>
+        
+            <div class="btn_wrapper">
+            <button id="checkInBtn">출근</button>
+            <button id="checkOutBtn">퇴근</button>
+            </div>
+            <div>
+              <span>${sessionScope.loginEmployeeVo.empName}</span>|
+              <span>${sessionScope.loginEmployeeVo.departmentName}</span>|
+              <span>${sessionScope.loginEmployeeVo.roleName}</span>
+              <span style="display: none;" id="empId">${sessionScope.loginEmployeeVo.empId}</span>
+            </div>
+            <div class="menu">
+              <div class="menu-item">근태관리</div>
+              <div class="submenu">
+                  <div class="submenu-item">내 근태 현황</div>
+                  <div class="submenu-item">내 연차 내역</div>
+                  <div class="submenu-item">내 인사정보</div>
+              </div>
+        
+          </div>
+
+
         </div>
 
 

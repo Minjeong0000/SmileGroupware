@@ -25,8 +25,6 @@ public class AttendanceRecordController {
 
     private final AttendanceService service;
 
-
-
     @PostMapping("/start")
     public String handleAttendanceStart(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -62,20 +60,21 @@ public class AttendanceRecordController {
         String empId = loginEmployeeVo.getEmpId();
 
         // 이미 퇴근 기록이 있는지 확인
-        if (service.hasCheckOutToday(empId)) {
-            return "false";
-        }
-        // 퇴근 기록 업데이트
-        int result = service.updateEndTime(empId);
-        if (result != 1) {
-            System.out.println("퇴근 기록 저장 실패");
-            return "error";
+        if (service.hasCheckOutToday(empId)) {//true일때
+           int endTimeOverWrite =  service. updateEndTimeAgain(empId);
+            System.out.println("endTimeOverWrite = " + endTimeOverWrite);
+            if(endTimeOverWrite == 1){
+                return "success";
 
-        } else {
-            System.out.println("기록 성공");
-            return "success";
-        }
+            }else {return "error";}
+        }else {
+            int endTimeFirstWrite = service.updateEndTime(empId);
+            System.out.println("endTimeFirstWrite = " + endTimeFirstWrite);
+            if( endTimeFirstWrite == 1){
+                return "success";
 
+            }else {return "error";}
+        }
     }
 
     // 출퇴근 기록 json으로 불러오기
@@ -90,7 +89,6 @@ public class AttendanceRecordController {
         return ResponseEntity.ok(attendanceList);
     }
 
-    //TODO 오늘의 출퇴근기록 가져와서 화면에 띄우기
     @GetMapping("todayRecord")
     public AttendanceVo getTodayAttRecord(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();

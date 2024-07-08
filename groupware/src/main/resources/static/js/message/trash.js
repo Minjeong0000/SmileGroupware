@@ -59,10 +59,52 @@ $.ajax( {
       error:function(x){
         console.log(x);
         alert(x.responseText);
-        location.href="/emp/login";
+        location.href="/login";
     } ,
     
     } );
+
+
+////////////////////////휴지통 목록 불러오기
+
+
+
+//상세조회 ajax
+function fetchMessageDetail(messageNo) {
+  $.ajax({
+    url: `http://127.0.0.1:8080/api/message/detail/${messageNo}`,
+    method: 'GET',
+    data: JSON.stringify(messageNo),
+    success: function(data) {
+      console.log('상세조회 성공 :'+data);
+      document.getElementById('senderName').textContent = data.senderName;
+      document.getElementById('receiverName').textContent = data.receiverName;
+      document.getElementById('sendTime').textContent = data.sentAt;
+      document.getElementById('msgContent').textContent = data.content;
+
+      // 읽음 상태 업데이트
+      const readYnTd = document.querySelector(`.readYn-td[data-message-no="${messageNo}"]`);
+      if (readYnTd) {
+        readYnTd.innerHTML = '<i class="fa-regular fa-envelope-open"></i>'; // 읽음 아이콘으로 변경
+        readYnTd.setAttribute('data-readYn', 'Y'); // 데이터 속성 업데이트
+      }
+      //상세 모달 띄우기
+      document.getElementById('msg-detail-modal').style.display = 'block';
+      
+    },
+    error: function(error) {
+      console.error('Error fetching message detail:', error);
+    }
+  });
+}
+
+document.querySelectorAll('.msg-detail-modal .close').forEach(function(closeBtn) {
+  closeBtn.addEventListener('click', function() {
+    document.getElementById('msg-detail-modal').style.display = 'none';
+
+  });
+});
+
 
 
 

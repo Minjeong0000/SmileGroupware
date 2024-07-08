@@ -195,11 +195,12 @@ public class MessageRestContoller {
 
     //쪽지 상세조회
     @GetMapping("detail/{num}")
-    public ResponseEntity<MessageVo> getMsgByNo(HttpServletRequest request,@PathVariable String num){
+    public ResponseEntity<MessageVo> getMsgByNo(HttpServletRequest request,@PathVariable("num") String num){
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();
         MessageVo vo = service.getMsgByNo(empId,num);
+        System.out.println("num = " + num);
         if(vo!=null && vo.getReceiverNo().equals(empId)){
             int result = service.readMessage(empId,num);
         }

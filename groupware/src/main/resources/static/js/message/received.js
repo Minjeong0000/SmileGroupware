@@ -55,7 +55,7 @@ $.ajax( {
   error:function(x){
     console.log(x);
     alert(x.responseText);
-    location.href="/emp/login";
+    location.href="/login";
 } ,
 
 } );//리스트 불러오기 끝

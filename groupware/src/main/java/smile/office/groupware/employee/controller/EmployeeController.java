@@ -55,7 +55,7 @@ public class EmployeeController {
     }
     @ResponseBody
     @GetMapping("/departments/{departmentNo}/employees")
-    public List<EmployeeVo> getEmployeesByDepartment(@PathVariable String departmentNo) {
+    public List<EmployeeVo> getEmployeesByDepartment(@PathVariable("departmentNo") String departmentNo) {
         return service.getEmployeesByDepartment(departmentNo);
     }
 

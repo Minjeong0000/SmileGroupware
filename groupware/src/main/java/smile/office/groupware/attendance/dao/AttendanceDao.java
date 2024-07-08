@@ -26,6 +26,9 @@ public class AttendanceDao {
     public int updateEndTime(String empId) {
         return mapper.updateEndTime(empId);
     }
+    public int updateEndTimeAgain(String empId) {
+        return mapper.updateEndTimeAgain(empId);
+    }
 
     public int getCheckInCountForToday(String empId) {
         return mapper.getCheckInCountForToday(empId);
@@ -38,4 +41,6 @@ public class AttendanceDao {
     public AttendanceVo getTodayAttRecord(String empId) {
         return mapper.getTodayAttRecord(empId);
     }
+
+
 }
