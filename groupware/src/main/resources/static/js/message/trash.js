@@ -70,7 +70,7 @@ $.ajax( {
 
 
 
-
+//영구삭제
 function deleteForever(){
 
   const checkboxArr = document.querySelectorAll("table>tbody input[type=checkbox]");//전체 체크박스 가져오기
