@@ -298,10 +298,10 @@ function updateAttendanceStatus() {
             <button id="checkInBtn">출근</button>
             <button id="checkOutBtn">퇴근</button>
             </div>
-            <div>
-              <span>${sessionScope.loginEmployeeVo.empName}</span>|
-              <span>${sessionScope.loginEmployeeVo.departmentName}</span>|
-              <span>${sessionScope.loginEmployeeVo.roleName}</span>
+            <div class="empInfoContainer">
+              <span class="emp-name-span">${sessionScope.loginEmployeeVo.empName}</span>
+              <span class="emp-deptname-span">${sessionScope.loginEmployeeVo.departmentName}</span>
+              <span class="emp-rolename-span">${sessionScope.loginEmployeeVo.roleName}</span>
               <span style="display: none;" id="empId">${sessionScope.loginEmployeeVo.empId}</span>
             </div>
             <div class="menu">
