@@ -3,6 +3,7 @@ package smile.office.groupware.personalEvent.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,13 @@ public class PersonalEventApiController {
 
     //개인일정 목록조회
     @GetMapping("list")
-    public List<PersonalEventVo> getPersonalEventList() {
-//        HttpSession session = request.getSession();
-//        EmployeeVo loginEmployeeVo = (EmployeeVo)session.getAttribute("loginEmployeeVo");
-//        String empId = loginEmployeeVo.getEmpId();
-        String empId= "1005";
+    public List<PersonalEventVo> getPersonalEventList(HttpServletRequest request ) {
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo)session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+//        String empId= "1005";
         List<PersonalEventVo> voList = service.getPersonalEventList(empId);
-//        System.out.println("voList = " + voList);
+        System.out.println("voList = " + voList);
         return voList;
     }
 
