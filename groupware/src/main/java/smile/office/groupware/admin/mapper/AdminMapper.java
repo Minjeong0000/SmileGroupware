@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import smile.office.groupware.admin.vo.AdminVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
+import smile.office.groupware.question.vo.QuestionVo;
 
 import java.util.List;
 
@@ -65,5 +66,9 @@ public interface AdminMapper {
 
     @Update("UPDATE EMPLOYEE SET ENT_YN = 'Y' WHERE EMP_ID = #{employeeNum}")
     int employeeDelete(String employeeNum);
+
+    // 문의사항 목록 가져오기
+    @Select("SELECT * FROM QUESTION")
+    List<QuestionVo> getQuestions();
 
 }

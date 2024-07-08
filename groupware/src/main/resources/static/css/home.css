@@ -1,0 +1,236 @@
+body {
+    font-family: "Lato", sans-serif;
+    transition: margin-left .5s;
+    padding: 16px;
+    overflow-x: hidden;
+    margin: 0;  /* 기본 마진 제거 */
+  }
+
+  .sidenav {
+    height: 100%;
+    width: 70px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+    background-color: #8d9cf5;
+    overflow-x: hidden;
+    transition: width 0.5s;
+    padding-top: 60px;
+  }
+
+  .sidenav a {
+    color: #000000;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    margin-bottom: 30px; /* 각 메뉴 아이템 사이의 간격 */
+    margin-left: 10px;
+  }
+
+  .sidenav a:hover {
+    color: #505050;
+  }
+
+  .sidenav .menu-icon {
+    font-size: 25px;
+    margin-right: 10px;
+  }
+
+  .link-text {
+    display: none; /* 처음에는 텍스트 숨김 */
+    white-space: nowrap;
+  }
+
+  .sidenav.open .link-text {
+    display: block; /* 사이드바가 열렸을 때 텍스트 표시 */
+  }
+
+  #main {
+    position: absolute;
+    top: 70px;
+    left: 100px;  /* 기본 위치 */
+    transition: left 0.5s;  /* 좌표 변화에 대한 부드러운 전환 효과 추가 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    width: auto;
+    min-width: 300px;
+    height: 760px;
+    z-index: 2;
+  }
+
+  .user-profile {
+    width: 100%; /* 전체 너비를 사용하도록 설정 */
+    padding: 20px; /* 내부 패딩 증가 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* 요소 간 간격 설정 */
+  }
+
+  .date-time, .profile-pic, .user-details h3, .user-details p, .current-time {
+    margin-bottom: 5px; /* 마진 감소 */
+  }
+
+  .profile-pic {
+    width: 200px; /* 사진 크기 증가 */
+    height: 200px; /* 사진 크기 증가 */
+    border-radius: 50%;
+  }
+
+  .user-details h3, .user-details p {
+    margin-bottom: 2px; /* 내부 텍스트 간격 감소 */
+    font-size: 14px; /* 부서, 직급 글씨 크기 조정 */
+  }
+
+  .current-time {
+    font-size: 28px; /* 시간 표시 크기 증가 */
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center; /* 버튼을 가운데 정렬 */
+    width: 100%;
+    margin-top: 10px; /* 상단 마진 */
+  }
+
+  .action {
+    padding: 10px 30px; /* 패딩 조정 */
+    background-color: #ffffff; /* 버튼 기본 배경색 */
+    color: #8d9cf5; /* 버튼 텍스트 색상 */
+    border: 2px solid #8d9cf5; /* 테두리 추가 */
+    border-radius: 20px; /* 테두리 둥글게 */
+    cursor: pointer;
+    font-size: 14px; /* 폰트 크기 */
+    margin: 0 10px; /* 좌우 마진 조정 */
+    transition: background-color 0.3s, color 0.3s; /* 색상 변화 애니메이션 */
+  }
+
+  .action:hover {
+    background-color: #8d9cf5; /* 호버 시 배경색 */
+    color: #ffffff; /* 호버 시 텍스트 색상 */
+  }
+
+  .work-status {
+    text-align: center;
+    width: 100%;
+  }
+
+  .status, .time-entry div {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .status span, .time-entry div span {
+    font-weight: bold;
+  }
+
+  /* 공지사항 */
+
+  #announcement-board {
+    position: absolute;
+    top: 70px;
+    left: calc(100px + 300px + 40px + 40px);
+    background-color: #ffffff;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    width: 600px;
+    height: 350px;
+    padding: 20px;
+    transition: left 0.5s; /* 부드러운 전환 효과 */
+}
+
+  .board-header h2 {
+    text-align: left;
+    margin-left: 20px;
+    margin-bottom: 30px;
+  }
+
+  .board-content ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .board-content li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .board-content li img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .board-content li span {
+    flex-grow: 1;
+  }
+
+  .board-content li small {
+    font-size: 12px;
+    color: #666;
+  }
+
+  /* 결재  */
+  #approval-documents-board {
+    position: absolute;
+    top: 484px;
+    left: 95px;
+    width: 602px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    transition: left 0.5s;
+}
+
+.board-header h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.document-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+}
+
+.document-table th, .document-table td {
+    border: none;
+    text-align: center;
+    padding: 8px;
+}
+
+.status-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+}
+
+.status-button.pending {
+    background-color: #FFA500;
+}
+
+.status-button.complete {
+    background-color: #4CAF50;
+}
+
+.status-button.rejected {
+    background-color: #f44336;
+}
+

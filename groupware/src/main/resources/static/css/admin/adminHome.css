@@ -130,19 +130,17 @@ body {
   background-color: #8fadd8;
 }
 
-/* ----------------------------------------------------------------------------------------  */
-
 #company-board {
   background-color: #fff;
   border: 2px solid #ccc;
   padding: 20px;
-  width: 900px; /* 가로 900px */
-  height: 460px; /* 고정 높이 설정 */
+  width: 900px;
+  height: 460px;
   margin-left: 250px;
   margin-top: 55px;
   border-radius: 10px;
-  box-sizing: border-box; /* 패딩과 보더를 포함하여 크기 계산 */
-  position: relative; /* 위치를 상대적으로 설정 */
+  box-sizing: border-box;
+  position: relative;
   transition: left 0.5s;
 }
 
@@ -152,6 +150,12 @@ body {
   margin-bottom: 15px;
 }
 
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .board-item {
   background-color: #f9f9f9;
   padding: 15px;
@@ -159,8 +163,8 @@ body {
   border-radius: 5px;
   border-left: 5px solid #5b9bd5;
   display: flex;
-  justify-content: space-between; /* 제목과 게시일을 양 끝으로 정렬 */
-  align-items: center; /* 아이템을 세로축에서 가운데 정렬 */
+  justify-content: space-between;
+  align-items: center;
 }
 
 .board-item h3,
@@ -168,7 +172,7 @@ body {
   font-size: 18px;
   color: #444;
   margin: 0;
-  flex: 1; /* 제목을 flex 아이템으로 설정하여 공간을 차지하게 만듭니다 */
+  flex: 1;
 }
 
 .board-item span,
@@ -176,14 +180,14 @@ body {
   font-size: 14px;
   color: #999;
   align-self: center;
-  white-space: nowrap; /* 날짜가 한 줄로 유지되게 합니다 */
+  white-space: nowrap;
 }
 
 .board-item a,
 .notion-item a {
   text-decoration: none;
   color: inherit;
-  flex: 1; /* 링크를 flex 아이템으로 설정하여 공간을 차지하게 만듭니다 */
+  flex: 1;
 }
 
 .board-item a:hover,
@@ -191,68 +195,17 @@ body {
   text-decoration: underline;
 }
 
-.pagination-board {
-  position: absolute; /* 절대 위치 설정 */
-  bottom: 380px; /* 아래쪽으로 고정 */
-  right: 20px; /* 오른쪽으로 고정 */
-  display: flex;
-  justify-content: flex-end; /* 버튼들을 오른쪽으로 정렬 */
-  margin-right: 20px;
-}
-
-.pagination-notion {
-  position: absolute; /* 절대 위치 설정 */
-  bottom: 240px; /* 아래쪽으로 고정 */
-  right: 20px; /* 오른쪽으로 고정 */
-  display: flex;
-  justify-content: flex-end; /* 버튼들을 오른쪽으로 정렬 */
-  margin-right: 20px;
-}
-
-.pagination-board button {
-  background-color: #8d9cf5;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin: 4px 3px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-
-.pagination-notion button {
-  background-color: #8d9cf5;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin: 4px 3px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.pagination-board button:hover,
-.pagination-notion button:hover {
-  background-color: #6c7ac9;
-}
-
-/* 공지사항 섹션 스타일링 */
 #notion-board {
   background-color: #fff;
   border: 2px solid #ccc;
   padding: 20px;
-  width: 900px; /* 가로 900px */
-  height: 322px; /* 고정 높이 설정 */
+  width: 900px;
+  height: 322px;
   margin-left: -899px;
   margin-top: 535px;
   border-radius: 10px;
-  box-sizing: border-box; /* 패딩과 보더를 포함하여 크기 계산 */
-  position: relative; /* 위치를 상대적으로 설정 */
+  box-sizing: border-box;
+  position: relative;
   transition: left 0.5s;
 }
 
@@ -269,22 +222,104 @@ body {
   border-radius: 5px;
   border-left: 5px solid #5b9bd5;
   display: flex;
-  justify-content: space-between; /* 제목과 게시일을 양 끝으로 정렬 */
-  align-items: center; /* 아이템을 세로축에서 가운데 정렬 */
+  justify-content: space-between;
+  align-items: center;
 }
 
-.notion-item h3 {
+.pagination {
+  display: flex;
+  align-items: center;
+}
+
+.pagination button {
+  background-color: #8d9cf5;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.board-item:nth-child(n+5) {
+  display: none;
+}
+
+#inquiry-board {
+  background-color: #fff;
+  border: 2px solid #ccc;
+  padding: 20px;
+  width: 500px;
+  height: 801px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  position: absolute;
+  top: 71px;
+  right: 700px; /* 기존 700px에서 300px 더 오른쪽으로 이동 */
+  transition: right 0.5s;
+}
+
+#inquiry-board h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.inquiry-item {
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border-left: 5px solid #5b9bd5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inquiry-item h3 {
   font-size: 18px;
   color: #444;
   margin: 0;
+  flex: 1;
 }
 
-.notion-item span {
+.inquiry-item span {
   font-size: 14px;
   color: #999;
+  align-self: center;
+  white-space: nowrap;
 }
 
-/* 추가된 CSS */
-.board-item:nth-child(n+5) {
-  display: none;
+.inquiry-item a {
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+}
+
+.inquiry-item a:hover {
+  text-decoration: underline;
 }

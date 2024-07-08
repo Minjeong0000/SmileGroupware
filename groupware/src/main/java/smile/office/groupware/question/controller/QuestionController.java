@@ -10,6 +10,8 @@ import smile.office.groupware.question.service.QuestionService;
 import smile.office.groupware.question.vo.QuestionVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("question")
 @RequiredArgsConstructor
@@ -19,20 +21,15 @@ public class QuestionController {
 
     @GetMapping("add")
     public String addQuestion(HttpServletRequest request, Model model) {
-        try {
-            HttpSession session = request.getSession();
-            EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
 
-            if (loginEmployeeVo == null) {
-                return "redirect:/login"; // 로그인 페이지로 리다이렉트
-            }
-
-            model.addAttribute("empName", loginEmployeeVo.getEmpName());
-            return "question/add";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error/500";
+        if (loginEmployeeVo == null) {
+            return "redirect:/login";
         }
+
+        model.addAttribute("loginEmployeeVo", loginEmployeeVo);
+        return "question/add";
     }
 
     @PostMapping("add")
@@ -46,7 +43,8 @@ public class QuestionController {
                 return "error";
             }
 
-            question.setWriterNo(Integer.parseInt(loginEmployeeVo.getEmpId())); // 로그인한 사용자 ID 설정
+            question.setWriterNo(loginEmployeeVo.getEmpId()); // 로그인한 사용자 ID 설정
+
             int result = service.addQuestion(question);
 
             if (result != 0) {
@@ -55,13 +53,18 @@ public class QuestionController {
                 return "error";
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return "error";
         }
     }
 
     @GetMapping("question")
-    public String inquiry() {
+    public String question() {
         return "question/question";
+    }
+
+    @GetMapping("inquiry")
+    @ResponseBody
+    public List<QuestionVo> inquiry() {
+        return service.getAllQuestions();
     }
 }
