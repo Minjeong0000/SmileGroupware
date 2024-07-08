@@ -47,4 +47,8 @@ public class AttendanceService {
     public int updateEndTimeAgain(String empId) {
         return dao.updateEndTimeAgain(empId);
     }
+
+    public List<AttendanceVo> getAttendanceHistory(String startDate, String endDate, String empId) {
+        return dao.getAttendanceHistory(startDate,endDate,empId);
+    }
 }

@@ -43,4 +43,7 @@ public class AttendanceDao {
     }
 
 
+    public List<AttendanceVo> getAttendanceHistory(String startDate, String endDate, String empId) {
+        return mapper.getAttendanceHistory(startDate,endDate,empId);
+    }
 }

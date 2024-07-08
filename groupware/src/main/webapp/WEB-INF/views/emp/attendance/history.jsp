@@ -3,13 +3,13 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>내 근태 현황</title>
+    <title>내 근태 기록 조회</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/attendance_cal.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.14/index.global.min.js'></script>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/emp/attendance/cal.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/emp/attendance/history.css">
     <style> 
     body{
         margin: 0;
@@ -38,45 +38,6 @@
     </style>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        headerToolbar: {
-            start: 'prev next today',
-            center: 'title',
-            end: ''
-        },
-        buttonText: {
-            today: '오늘',
-
-            prev: '이전',
-            next: '다음'
-        },
-        titleFormat: function(date) {
-            return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
-        },
-        selectable: true,
-        droppable: true,
-        editable: false,
-        nowIndicator: true,
-        locale: 'ko',
-        dayCellContent: function(info) {
-            var number = document.createElement("a");
-            number.classList.add("fc-daygrid-day-number");
-            number.innerHTML = info.dayNumberText.replace("일", "").replace("日", "");
-            if (info.view.type === "dayGridMonth") {
-                return {
-                    html: number.outerHTML
-                };
-            }
-            return {
-                domNodes: []
-            };
-        },
-
-    });
-    calendar.render();
-
 //출근버튼찍기
     document.getElementById('checkInBtn').addEventListener('click', function() {
         if(confirm('출근을 기록하시겠습니까?')){
@@ -113,10 +74,7 @@
             });
         }
 
-
-
     });
-
     document.getElementById('checkOutBtn').addEventListener('click', function() {
         if (confirm('퇴근하시겠습니까?')) {
             $.ajax({
@@ -180,10 +138,6 @@ function updateAttendanceStatus() {
 // 페이지 로드 시 초기 근태 기록 업데이트
     updateAttendanceStatus();
 
-
-
-
-
 //달력에 근태띄우는부분
     $.ajax({
         url: "${pageContext.request.contextPath}/record/list",
@@ -245,9 +199,48 @@ function updateAttendanceStatus() {
             console.log(err);
         }
     });
+
+
+ 
+    $('#searchBtn').click(function() {
+    var startDate = $('#startDate').val();
+    var endDate = $('#endDate').val();
+    
+    if (!startDate || !endDate) {
+        alert('시작일과 종료일을 모두 입력해주세요.');
+        return;
+    }
+
+    // 기간 조회 Ajax 요청
+    $.ajax({
+        url: '/record/history',
+        type: 'GET',
+        data: {
+            'startDate': startDate,
+            'endDate': endDate
+        },
+        success: function(data) {
+            console.log(data);
+            // 여기에 서버에서 받은 데이터를 처리하는 코드를 추가할 수 있습니다
+        },
+        error: function(e) {
+            console.error(e);
+        }
+    });
 });
 
-      </script>
+
+
+
+
+
+
+
+
+});
+</script>
+
+
 </head>
 <body>
     <div id="mySidenav" class="sidenav">
@@ -319,7 +312,21 @@ function updateAttendanceStatus() {
 
 
         <div class="column">
-            <div id='calendar'></div>
+            
+            
+            <h1>기간 조회</h1>
+            <div>
+                start:<input type="date" name="startDate" id="startDate">
+            
+                end:<input type="date" name="endDate" id="endDate">
+                <button type="button" id="searchBtn">검색</button>
+            </div>
+
+            <div id="test"></div>
+
+
+
+
         </div>
     </div>
 </body>

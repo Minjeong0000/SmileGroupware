@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import smile.office.groupware.attendance.service.AttendanceService;
 import smile.office.groupware.attendance.vo.AttendanceVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
@@ -24,7 +21,7 @@ import java.util.List;
 public class AttendanceRecordController {
 
     private final AttendanceService service;
-
+//출근시간기록
     @PostMapping("/start")
     public String handleAttendanceStart(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -51,12 +48,11 @@ public class AttendanceRecordController {
     }
 
 
-    // 퇴근 기록하기
+    // 퇴근시간 기록& 여러번 찍으면 업데이트
     @GetMapping("/end")
     public String handleAttendanceEnd(HttpServletRequest request) {
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
-        System.out.println("loginEmployeeVo = " + loginEmployeeVo);
         String empId = loginEmployeeVo.getEmpId();
 
         // 이미 퇴근 기록이 있는지 확인
@@ -77,28 +73,40 @@ public class AttendanceRecordController {
         }
     }
 
-    // 출퇴근 기록 json으로 불러오기
+    // 출퇴근 기록 json으로 불러오기(달력에뿌려주기용)
     @GetMapping("/list")
     public ResponseEntity<List<AttendanceVo>> getAttendanceList(HttpServletRequest request) {
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();
-        System.out.println(empId);
         List<AttendanceVo> attendanceList = service.getAttendanceList(empId);
 
         return ResponseEntity.ok(attendanceList);
     }
-
+    //화면 좌측 오늘의 출퇴근시간 기록 가져오기
     @GetMapping("todayRecord")
     public AttendanceVo getTodayAttRecord(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();
-        System.out.println(empId);
         AttendanceVo attendanceVo = service.getTodayAttRecord(empId);
-        System.out.println("attendanceVo = " + attendanceVo);
         model.addAttribute("attendanceVo", attendanceVo);
         return attendanceVo;
+    }
+
+    //기간선택해서 조회기능
+    @GetMapping("history")
+    public ResponseEntity <List<AttendanceVo>> getAttendanceHistory(HttpServletRequest request, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        System.out.println("empId = " + empId);
+        System.out.println("startDate = " + startDate);
+        System.out.println("endDate = " + endDate);
+        List<AttendanceVo> attendanceList = service.getAttendanceHistory(startDate,endDate, empId);
+
+        return ResponseEntity.ok(attendanceList);
+
     }
 
 

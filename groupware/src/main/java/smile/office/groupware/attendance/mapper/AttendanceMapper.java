@@ -1,9 +1,6 @@
 package smile.office.groupware.attendance.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import smile.office.groupware.attendance.vo.AttendanceVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 
@@ -36,5 +33,13 @@ public interface AttendanceMapper {
     AttendanceVo getTodayAttRecord (String empId);
 
 
-
+    //내 근태 기간별조회
+    @Select("""
+            SELECT ATT_NO, EMP_ID, START_TIME, END_TIME, W_DATE, STATE, DAY_WORK_TIME
+            FROM ATTENDANCE
+            WHERE W_DATE >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+            AND W_DATE <= TO_DATE(#{endDate}, 'YYYY-MM-DD') AND EMP_ID = #{empId}
+            
+            """)
+    List<AttendanceVo> getAttendanceHistory(@Param("startDate")String startDate, @Param("endDate")String endDate,@Param("empId") String empId);
 }

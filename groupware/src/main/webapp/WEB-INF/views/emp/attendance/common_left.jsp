@@ -53,25 +53,5 @@
 
   <script>
 
-// $.ajax({
-
-//     url: "http://127.0.0.1:8080/record/todayRecord",
-//     method:"get",
-//     success: function(data) {
-//         const attTable = document.querySelector('#attTable');
-
-//         data.startTime;
-
-        
-//       },
-//       error: function(e) {
-        
-//           console.log('Error:', e);
-//       }
-
-
-// })
-
-
 
   </script>
