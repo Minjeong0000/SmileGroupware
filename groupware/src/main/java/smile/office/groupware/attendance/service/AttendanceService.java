@@ -43,4 +43,8 @@ public class AttendanceService {
         return dao.getTodayAttRecord(empId);
 
     }
+
+    public int updateEndTimeAgain(String empId) {
+        return dao.updateEndTimeAgain(empId);
+    }
 }
