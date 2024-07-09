@@ -21,6 +21,7 @@
       <a href="#"><span class = "menu-icon">📫</span><span class="link-text">메일</span></a>
       <a href="/question/question"><span class = "menu-icon">📞</span><span class="link-text">문의사항</span></a>
       <a href="#"><span class = "menu-icon">&#128101;</span><span class="link-text">커뮤니티</span></a>
+      <a href="#"><span class = "menu-icon">❌</span><span class="link-text">로그아웃</span></a>
     </div>
 
     <div id="content-container">

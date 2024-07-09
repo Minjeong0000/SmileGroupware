@@ -11,5 +11,4 @@ public class GroupwareApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GroupwareApplication.class, args);
 	}
-
 }
