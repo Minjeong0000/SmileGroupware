@@ -13,8 +13,10 @@ public interface PersonalEventMapper {
     List<PersonalEventVo> getPersonalEventList(String empId);
 
 
-    @Insert("INSERT INTO PERSONAL_EVENT (PERSONAL_NO, TYPE_NO, EMP_ID, TITLE, CONTENT, LOCATION, DEL_YN, ENROLL_DATE, START_TIME, END_TIME) " +
-            "VALUES (SEQ_PERSONAL_EVENT.NEXTVAL, #{typeNo}, #{empId}, #{title}, #{content}, #{location}, 'N', SYSTIMESTAMP, TO_TIMESTAMP(#{startTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP(#{endTime}, 'YYYY-MM-DD HH24:MI:SS'))")
+    @Insert("INSERT INTO PERSONAL_EVENT (PERSONAL_NO, TYPE_NO, EMP_ID, TITLE, CONTENT, LOCATION, DEL_YN, ENROLL_DATE, START_TIME, END_TIME, START_DATE, END_DATE) " +
+            "VALUES (SEQ_PERSONAL_EVENT.NEXTVAL, #{typeNo}, #{empId}, #{title}, #{content}, #{location}, 'N', SYSTIMESTAMP, " +
+            "TO_TIMESTAMP(#{startTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP(#{endTime}, 'YYYY-MM-DD HH24:MI:SS'), " +
+            "#{startDate}, #{endDate})")
     int write(PersonalEventVo vo);
 
     @Update("UPDATE PERSONAL_EVENT SET TITLE = #{title}, CONTENT = #{content}, START_TIME = #{startTime}, END_TIME = #{endTime} , TYPE_NO = #{typeNo} WHERE EMP_ID = #{empId} AND PERSONAL_NO = #{personalNo}")

@@ -20,7 +20,7 @@ public class PersonalEventApiController {
 
     private final PersonalEventService service;
 
-
+//
     //개인일정 목록조회
     @GetMapping("list")
     public List<PersonalEventVo> getPersonalEventList(HttpServletRequest request ) {
@@ -35,8 +35,11 @@ public class PersonalEventApiController {
 
     //개인일정작성
     @PostMapping
-    public int write(PersonalEventVo vo) {
-
+    public int write(PersonalEventVo vo,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo)session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        System.out.println("empId = " + empId);
         System.out.println("vo = " + vo);
         //TODO 나중에, 로그인한 유저 정보로 변경하기
         int result = service.write(vo);
