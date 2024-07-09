@@ -15,6 +15,7 @@ public class PersonalEventDao {
     private final PersonalEventMapper mapper;
 
     public List<PersonalEventVo> getPersonalEventList(String empId) {
+        System.out.println("dao empId = " + empId);
         return mapper.getPersonalEventList(empId);
     }
 
