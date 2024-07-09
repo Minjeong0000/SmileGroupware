@@ -22,15 +22,15 @@ public class PersonalEventApiController {
 
 //
     //개인일정 목록조회
-    @GetMapping("list")
-    public List<PersonalEventVo> getPersonalEventList(HttpServletRequest request ) {
+    @GetMapping("/list")
+    public ResponseEntity<List<PersonalEventVo>>getPersonalEventList(HttpServletRequest request ) {
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo)session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();
 //        String empId= "1005";
         List<PersonalEventVo> voList = service.getPersonalEventList(empId);
-        System.out.println("voList = " + voList);
-        return voList;
+        System.out.println("controller voList = " + voList);
+        return ResponseEntity.ok(voList);
     }
 
     //개인일정작성

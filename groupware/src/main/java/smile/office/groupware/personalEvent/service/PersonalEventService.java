@@ -18,6 +18,7 @@ public class PersonalEventService {
     private final PersonalEventDao dao;
 
     public List<PersonalEventVo> getPersonalEventList(String empId) {
+        System.out.println("service empId = " + empId);
         return dao.getPersonalEventList(empId);
     }
 

@@ -20,6 +20,7 @@ public class PersonalEventController {
     @GetMapping("calendar")
     public String calendar(){
 
+        System.out.println("PersonalEventController.calendar");
         return "event/personal";
 
     }

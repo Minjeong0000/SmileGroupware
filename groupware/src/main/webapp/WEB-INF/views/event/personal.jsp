@@ -49,17 +49,29 @@
       next: '다음'
     },
     locale: 'ko',
-    dayCellContent: function(info) {
-      var number = document.createElement("a");
-      number.classList.add("fc-daygrid-day-number");
-      number.innerHTML = info.dayNumberText.replace("일", "").replace("日", "");
-      return { html: number.outerHTML };
-    },
-    height: '100%'
-  });
 
-  // 달력에 데이터 로드
-  function loadEvents() {
+ dayCellContent: function(info) {
+            var number = document.createElement("a");
+            number.classList.add("fc-daygrid-day-number");
+            number.innerHTML = info.dayNumberText.replace("일", "").replace("日", "");
+            if (info.view.type === "dayGridMonth") {
+                return {
+                    html: number.outerHTML
+                };
+            }
+            return {
+                domNodes: []
+            };
+        },
+
+    });
+    calendar.render();
+
+
+
+
+    // 달력에 데이터 로드
+    function loadEvents() {
     // AJAX를 사용하여 서버에서 이벤트 데이터를 로드합니다.
     
     $.ajax({
@@ -67,17 +79,20 @@
       method: 'GET',
       dataType: 'json',
       success: function(data) {
-        // 데이터 로딩 성공 시, 달력에 이벤트를 추가합니다.
+        // 데이터 로딩 성공 시, 달력에 이벤트를 추가
         data.forEach(function(event) {
+          console.log(event); // 디버깅을 위해 데이터 출력
+          const start = event.startDate.split(' ')[0] + 'T' + event.startTime.split(' ')[1];
+          const end = event.endDate.split(' ')[0] + 'T' + event.endTime.split(' ')[1];
           calendar.addEvent({
             title: event.title,
-            start: event.startDate + 'T' + event.startTime,
-            end: event.endDate + 'T' + event.endTime,
+            start: start,
+            end: end,
             extendedProps: {
               location: event.location,
-              attendees: event.attendees
+              // attendees: event.attendees
             },
-            color: event.color // 이벤트의 색상 설정, 서버에서 받아온 데이터에 따라 조정 가능
+            // color: event.color // 이벤트의 색상 설정, 서버에서 받아온 데이터에 따라 조정 가능
           });
         });
       },
@@ -86,38 +101,32 @@
       }
     });
   }
-
-  calendar.render();
   loadEvents(); // 달력 초기화 후 이벤트 로드
 
   function saveEvent() {
-    // 폼에서 데이터를 가져와 새 이벤트를 생성합니다.
     var title = document.getElementById('eventTitle').value;
     var startDate = document.getElementById('eventStartDate').value;
+    var startTime = document.getElementById('eventStartTime').value;
     var endDate = document.getElementById('eventEndDate').value;
-    var color = document.getElementById('eventColor').value;
+    var endTime = document.getElementById('eventEndTime').value;
     var location = document.getElementById('eventLocation').value;
-    var attendees = document.getElementById('eventAttendees').value;
 
-    if (title && startDate && endDate) {
+    if (title && startDate && startTime && endDate && endTime) {
       calendar.addEvent({
         title: title,
-        start: startDate,
-        end: endDate,
-        color: color,
+        start: startDate + 'T' + startTime,
+        end: endDate + 'T' + endTime,
         extendedProps: {
-          location: location,
-          attendees: attendees
+          location: location
         }
       });
       resetEventForm();
     } else {
-      alert('제목, 시작일, 종료일을 입력하세요.');
+      alert('제목, 시작일, 시작 시간, 종료일, 종료 시간을 입력하세요.');
     }
   }
 
   function resetEventForm() {
-    // 이벤트 폼을 숨기고 초기화합니다.
     document.getElementById('eventForm').style.display = 'none';
     document.getElementById('eventForm').reset();
   }
@@ -147,6 +156,8 @@
                  <div id='calendar'></div>
             </div>
     </div>
+
+    
 
 </div>
 
