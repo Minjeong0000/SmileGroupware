@@ -35,6 +35,13 @@
             overflow-y: hidden; /* 이벤트가 많을 경우 스크롤 바 표시 */
         }
 
+
+    .fc-day-sat .fc-daygrid-day-number {
+      color: blue;
+    }
+    .fc-day-sun .fc-daygrid-day-number {
+      color: red;
+    }
     </style>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -146,36 +153,38 @@
         }
     });
 
-
-// 근태 기록 업데이트 함수
+//근태 기록 업데이트 함수
 function updateAttendanceStatus() {
-        $.ajax({
-            url: "/record/todayRecord",
-            type: 'GET',
-            success: function(data) {
-
-                const stratTimePart= data.startTime.split(' ')[1];
-                const endTimePart= data.endTime.split(' ')[1];
-
-                if (data.startTime && !data.endTime) {
-                $('#status').text('근무중');
-                } else if (data.startTime && data.endTime) {
-                    $('#status').text('퇴근');
-                } else {
-                    $('#status').text('퇴근'); // startTime이 없는 경우에도 일단 퇴근으로 처리
-                }
-                $('#startTime').text(stratTimePart || '미등록');
-                $('#endTime').text(endTimePart|| '미등록');
-                $('#overtime').text(data.overtime || '미등록');
-                $('#dayWorkTime').text(data.dayWorkTime+'시간' || '미등록');
-
-
-            },
-            error: function(err) {
-                console.log(err);
+    $.ajax({
+        url: "/record/todayRecord",
+        type: 'GET',
+        success: function(data) {
+            const startTimePart = data.startTime ? data.startTime.split(' ')[1] : '미등록';
+            let endTimePart = '미등록';
+            
+            if (data.endTime != null) {
+                endTimePart = data.endTime.split(' ')[1];
             }
-        });
-    }
+
+            if (data.startTime && !data.endTime) {
+                $('#status').text('근무중');
+            } else if (data.startTime && data.endTime) {
+                $('#status').text('퇴근');
+            } else {
+                $('#status').text('퇴근'); // startTime이 없는 경우에도 일단 퇴근으로 처리
+            }
+            
+            $('#startTime').text(startTimePart);
+            $('#endTime').text(endTimePart);
+            $('#overtime').text(data.overtime || '미등록');
+            $('#dayWorkTime').text(data.dayWorkTime ? data.dayWorkTime + '시간' : '미등록');
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
+}
+
 
 // 페이지 로드 시 초기 근태 기록 업데이트
     updateAttendanceStatus();
@@ -298,12 +307,12 @@ function updateAttendanceStatus() {
             <button id="checkInBtn">출근</button>
             <button id="checkOutBtn">퇴근</button>
             </div>
-            <div>
-              <span>${sessionScope.loginEmployeeVo.empName}</span>|
-              <span>${sessionScope.loginEmployeeVo.departmentName}</span>|
-              <span>${sessionScope.loginEmployeeVo.roleName}</span>
-              <span style="display: none;" id="empId">${sessionScope.loginEmployeeVo.empId}</span>
-            </div>
+            <div class="empInfoContainer">
+                <span class="emp-name-span">${sessionScope.loginEmployeeVo.empName}</span>
+                <span class="emp-deptname-span">${sessionScope.loginEmployeeVo.departmentName}</span>
+                <span class="emp-rolename-span">${sessionScope.loginEmployeeVo.roleName}</span>
+                <span style="display: none;" id="empId">${sessionScope.loginEmployeeVo.empId}</span>
+              </div>
             <div class="menu">
               <div class="menu-item">근태관리</div>
               <div class="submenu">

@@ -8,11 +8,12 @@ import java.util.List;
 @Mapper
 public interface AttendanceMapper {
     //나의 출퇴근 근무시간 기록 불러오기
-    @Select("SELECT * FROM ATTENDANCE WHERE EMP_ID = #{empId}")
+    @Select("SELECT * FROM ATTENDANCE WHERE EMP_ID = #{empId} ORDER BY ATT_NO DESC")
     List<AttendanceVo> getAttendanceList(String empId);
 
     @Insert("INSERT INTO ATTENDANCE (ATT_NO, EMP_ID, W_DATE) VALUES (SEQ_ATTENDANCE.NEXTVAL, #{empId}, TRUNC(SYSDATE))")
     int insertStartTime(String empId);
+
     //퇴근시간없을때 퇴근시간기록
     @Update("UPDATE ATTENDANCE SET END_TIME = SYSDATE WHERE EMP_ID = #{empId} AND W_DATE = TRUNC(SYSDATE) AND END_TIME IS NULL")
     int updateEndTime(String empId);
@@ -39,7 +40,7 @@ public interface AttendanceMapper {
             FROM ATTENDANCE
             WHERE W_DATE >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
             AND W_DATE <= TO_DATE(#{endDate}, 'YYYY-MM-DD') AND EMP_ID = #{empId}
-            
+            ORDER BY ATT_NO DESC
             """)
     List<AttendanceVo> getAttendanceHistory(@Param("startDate")String startDate, @Param("endDate")String endDate,@Param("empId") String empId);
 }
