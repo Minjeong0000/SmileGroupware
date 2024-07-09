@@ -2,17 +2,22 @@
 $.ajax( {
   url: "http://127.0.0.1:8080/api/message/important" ,
   method: "get" ,
-  success: (data) => {
+  success: (mapdata) => {
     console.log("통신성공!");
-    console.log(data);
-
-    const x = document.querySelector("table > tbody");
-    console.log(x);
+    console.log(mapdata);
+//로그인 한 사원의 사번
+const empId = mapdata.empId;
+console.log(empId);
+const data = mapdata.messageVoList;
+console.log(data);
+const x = document.querySelector("table > tbody");
     
     let str = "";
     for(let i = 0 ; i < data.length; ++i){
       let importantYn = (data[i].forderNo === '1')?'<i class="fa-solid fa-star"></i>':'<i class="fa-regular fa-star"></i>';
       let readStatus = (data[i].readYn === 'Y')?'<i class="fa-regular fa-envelope-open"></i>':'<i class="fa-solid fa-envelope"></i>';
+      let status = (empId===data[i].receiverNo)?'[수신]':'[발신]'
+
       str += "<tr>";
       str += `
       <td>
@@ -22,7 +27,7 @@ $.ajax( {
       str += `<td class="important-td" data-message-no="${data[i].messageNo}" data-forder-no="${data[i].forderNo}">${importantYn}</td>`;
       str += `<td class="readYn-td" data-message-no="${data[i].messageNo}" data-readYn="${data[i].readYn}">${readStatus}</td>`;
       str += "<td>" + data[i].senderName + "</td>";
-      str += `<td data-message-no="${data[i].messageNo}" class="message-content">${data[i].content}</td>`;
+      str += `<td data-message-no="${data[i].messageNo}" class="message-content">${status} ${data[i].content}</td>`;
       str += "<td>" + data[i].sentAt + "</td>";
       str += "</tr>";
     }

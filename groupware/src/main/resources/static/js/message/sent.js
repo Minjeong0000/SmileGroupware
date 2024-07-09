@@ -12,6 +12,7 @@ $.ajax( {
     for(let i = 0 ; i < data.length; ++i){
       let importantYn = (data[i].forderNo === '1')?'<i class="fa-solid fa-star"></i>':'<i class="fa-regular fa-star"></i>';
       let readStatus = (data[i].readYn === 'Y')?'<i class="fa-regular fa-envelope-open"></i>':'<i class="fa-solid fa-envelope"></i>';
+      
       str += "<tr>";
       str += `
       <td>
@@ -127,11 +128,11 @@ function fetchMessageDetail(messageNo) {
       document.getElementById('msgContent').textContent = data.content;
 
       // 읽음 상태 업데이트
-      const readYnTd = document.querySelector(`.readYn-td[data-message-no="${messageNo}"]`);
-      if (readYnTd) {
-        readYnTd.innerHTML = '<i class="fa-regular fa-envelope-open"></i>'; // 읽음 아이콘으로 변경
-        readYnTd.setAttribute('data-readYn', 'Y'); // 데이터 속성 업데이트
-      }
+      // const readYnTd = document.querySelector(`.readYn-td[data-message-no="${messageNo}"]`);
+      // if (readYnTd) {
+      //   readYnTd.innerHTML = '<i class="fa-regular fa-envelope-open"></i>'; // 읽음 아이콘으로 변경
+      //   readYnTd.setAttribute('data-readYn', 'Y'); // 데이터 속성 업데이트
+      // }
       //상세 모달 띄우기
       document.getElementById('msg-detail-modal').style.display = 'block';
       

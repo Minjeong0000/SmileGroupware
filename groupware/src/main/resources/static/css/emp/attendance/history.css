@@ -75,7 +75,10 @@ body {
 
 .column:last-child {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
+
 
 #calendar {
   flex: 1; /* 캘린더가 남은 공간을 모두 채움 */
@@ -155,30 +158,31 @@ td{
 
 
 
-
-/*풀캘린더 CSS 수정*/
-.fc .fc-media-screen .fc-direction-ltr .fc-theme-standard{
-
-  margin: 20px;
-
-
+.empInfoContainer {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
 }
 
-.fc-daygrid-event {
-  text-align: center; /* 텍스트 가운데 정렬 */
-  line-height: 1.2em; /* 이벤트 텍스트 줄 간격 조정 */
-  margin-top: 2px; /* 필요에 따라 위 여백 조정 */
+.emp-name-span, .emp-deptname-span, .emp-rolename-span {
+  color: #505050;
+  font-size: 1.1em;
+  font-weight: 700;
+  padding-right: 10px; /* 패딩을 10px로 변경하여 간격 증가 */
 }
 
-.fc-daygrid-event-title {
-  display: inline-block; /* 인라인 블록 요소로 설정하여 가로 정렬 */
-  background-color: #f0f1f5; /* 이벤트 배경색 */
-  padding: 2px 5px; /* 내부 여백 설정 */
-  border-radius: 3px; /* 모서리 둥글게 */
-  color: #3d3d3d; /* 텍스트 색상 */
-  font-size: 12px; /* 글꼴 크기 */
+.emp-name-span::after, .emp-deptname-span::after {
+  content: "";
+  border-right: 2px solid #3d3d3d;
+  margin-left: 10px; /* 여백을 추가하여 텍스트와 보더 사이의 간격 확보 */
 }
 
+.emp-rolename-span {
+  padding-right: 0; /* 마지막 요소는 오른쪽 패딩 제거 */
+}
 
 
 
@@ -188,6 +192,18 @@ td{
   margin-bottom: 10px;
 }
 
+.searchWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.searchWrapper span {
+  font-size: 16px;
+  margin-right: 10px;
+  color: #333;
+}
 .column input[type="date"] {
   padding: 8px;
   margin-right: 10px;
@@ -195,7 +211,6 @@ td{
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
 .column button#searchBtn {
   padding: 10px 20px;
   font-size: 16px;
@@ -206,12 +221,68 @@ td{
   border-radius: 4px;
   transition: background-color 0.3s;
 }
-
 .column button#searchBtn:hover {
   background-color: #6f7bc9;
 }
-
 #test {
   margin-top: 20px;
   font-size: 16px;
+}
+
+/*기록조회 테이블*/
+.record-list {
+  margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  border: none; /* 테두리 제거 */
+}
+
+.record-list th, .record-list td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* 하단 테두리만 유지 */
+}
+
+.record-list th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  color: #333;
+}
+
+.record-list td {
+  color: #666;
+}
+
+.record-list tr:hover {
+  background-color: #f1f1f1;
+}
+
+.record-list tr:last-child td {
+  border-bottom: none; /* 마지막 행 하단 테두리 제거 */
+}
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.pagination button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #8d9cf5;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+.pagination button:hover {
+  background-color: #6f7bc9;
+}
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }

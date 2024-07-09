@@ -153,6 +153,35 @@ td{
   text-align: right;
 }
 
+.empInfoContainer {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+}
+
+.emp-name-span, .emp-deptname-span, .emp-rolename-span {
+  color: #505050;
+  font-size: 1.1em;
+  font-weight: 700;
+  padding-right: 10px; /* 패딩을 10px로 변경하여 간격 증가 */
+}
+
+.emp-name-span::after, .emp-deptname-span::after {
+  content: "";
+  border-right: 2px solid #3d3d3d;
+  margin-left: 10px; /* 여백을 추가하여 텍스트와 보더 사이의 간격 확보 */
+}
+
+.emp-rolename-span {
+  padding-right: 0; /* 마지막 요소는 오른쪽 패딩 제거 */
+}
+
+
+
+
 
 
 

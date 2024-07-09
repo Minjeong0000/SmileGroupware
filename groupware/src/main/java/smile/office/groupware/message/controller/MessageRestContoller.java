@@ -75,7 +75,11 @@ public class MessageRestContoller {
         //확인
         System.out.println(empId);
         List<MessageVo>messageVoList = service.getImportantMsglist(empId);
-        return ResponseEntity.ok(messageVoList);
+        //수,발신 구분해야하므로 empId함께 리턴
+        Map<String, Object> response = new HashMap<>();
+        response.put("empId",empId);
+        response.put("messageVoList",messageVoList);
+        return ResponseEntity.ok(response);
 
     }
     //휴지통 쪽지 조회
