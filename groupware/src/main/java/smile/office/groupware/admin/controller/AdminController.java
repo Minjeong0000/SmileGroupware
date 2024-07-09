@@ -202,6 +202,15 @@ public class AdminController {
 
     ////////////////////////////////////////////////////////////////
 
+    //관리자 로그아웃
+    @GetMapping("logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.invalidate(); // 세션 무효화
+        return "redirect:/login";
+    }
+
+
 
 }//class
 
