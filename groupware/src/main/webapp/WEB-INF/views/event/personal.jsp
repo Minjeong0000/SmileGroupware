@@ -11,130 +11,127 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.14/index.global.min.js'></script>
-<script>
+<style>
+ /* 버튼 스타일 추가 */
+.custom-button {
+    display: block;
+    width: 200px;
+    height: 50px;
+    font-size: 18px;
+    background-color: #8d9cf5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 20px auto;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+}
 
-   //화면 준비되면 동작하는 함수 
-   document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('calendar');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth',
-    headerToolbar: {
-      start: 'prev next today',
-      center: 'title',
-      end: 'dayGridMonth dayGridWeek dayGridDay addEventButton saveEventButton'
-    },
-    customButtons: {
-      addEventButton: {
-        text: '일정 추가',
-        click: function() {
-          // 일정 추가 버튼 클릭 시, 이벤트 폼을 표시합니다.
-          const eventForm = document.getElementById('eventForm');
-          eventForm.style.display = 'block';
-        }
-      },
-      saveEventButton: {
-        text: '일정 저장',
-        click: function() {
-          // 일정 저장 버튼 클릭 시, 입력된 데이터를 이용해 새로운 이벤트를 달력에 추가합니다.
-          saveEvent();
-        }
-      }
-    },
-    buttonText: {
-      today: '오늘',
-      month: '월',
-      week: '주',
-      day: '일',
-      prev: '이전',
-      next: '다음'
-    },
-    locale: 'ko',
+.custom-button:hover {
+    background-color: #6b80f7;
+}
 
- dayCellContent: function(info) {
-            var number = document.createElement("a");
-            number.classList.add("fc-daygrid-day-number");
-            number.innerHTML = info.dayNumberText.replace("일", "").replace("日", "");
-            if (info.view.type === "dayGridMonth") {
-                return {
-                    html: number.outerHTML
-                };
-            }
-            return {
-                domNodes: []
-            };
-        },
+/* 모달창 스타일 */
+.modal {
+    display: none; /* 초기 상태에서 모달창 숨김 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
 
-    });
-    calendar.render();
+.modal.show {
+    display: block; /* 모달창을 보이도록 설정 */
+}
 
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+}
 
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
 
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 
-    // 달력에 데이터 로드
-    function loadEvents() {
-    // AJAX를 사용하여 서버에서 이벤트 데이터를 로드합니다.
-    
-    $.ajax({
-      url: '/api/event/list', // 서버의 엔드포인트
-      method: 'GET',
-      dataType: 'json',
-      success: function(data) {
-        // 데이터 로딩 성공 시, 달력에 이벤트를 추가
-        data.forEach(function(event) {
-          console.log(event); // 디버깅을 위해 데이터 출력
-          const start = event.startDate.split(' ')[0] + 'T' + event.startTime.split(' ')[1];
-          const end = event.endDate.split(' ')[0] + 'T' + event.endTime.split(' ')[1];
-          calendar.addEvent({
-            title: event.title,
-            start: start,
-            end: end,
-            extendedProps: {
-              location: event.location,
-              // attendees: event.attendees
-            },
-            // color: event.color // 이벤트의 색상 설정, 서버에서 받아온 데이터에 따라 조정 가능
-          });
-        });
-      },
-      error: function() {
-        console.error("이벤트 로드 실패");
-      }
-    });
-  }
-  loadEvents(); // 달력 초기화 후 이벤트 로드
+.modal-header, .modal-footer {
+    padding: 10px;
+    background-color: #8d9cf5;
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
 
-  function saveEvent() {
-    var title = document.getElementById('eventTitle').value;
-    var startDate = document.getElementById('eventStartDate').value;
-    var startTime = document.getElementById('eventStartTime').value;
-    var endDate = document.getElementById('eventEndDate').value;
-    var endTime = document.getElementById('eventEndTime').value;
-    var location = document.getElementById('eventLocation').value;
+.modal-footer {
+    border-radius: 0 0 10px 10px;
+}
 
-    if (title && startDate && startTime && endDate && endTime) {
-      calendar.addEvent({
-        title: title,
-        start: startDate + 'T' + startTime,
-        end: endDate + 'T' + endTime,
-        extendedProps: {
-          location: location
-        }
-      });
-      resetEventForm();
-    } else {
-      alert('제목, 시작일, 시작 시간, 종료일, 종료 시간을 입력하세요.');
-    }
-  }
+.modal-body {
+    padding: 2px 16px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
 
-  function resetEventForm() {
-    document.getElementById('eventForm').style.display = 'none';
-    document.getElementById('eventForm').reset();
-  }
-});
+.modal-body input, .modal-body textarea, .modal-body select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
+.modal-body label {
+    display: block;
+    margin: 10px 0 5px;
+}
 
+.modal-footer button {
+    background-color: #8d9cf5;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-  </script>
+.modal-footer button:hover {
+    background-color: #4c64f1;
+}
+
+/* 캘린더 스타일 */
+.column:last-child {
+    flex: 1; /* 두 번째 컬럼이 남은 공간을 모두 채움 */
+    display: flex;
+    flex-direction: column;
+}
+
+#calendar {
+    flex: 1; /* 캘린더가 남은 공간을 모두 채움 */
+    width: 100%; /* 캘린더의 너비를 100%로 설정 */
+    height: 100%; /* 캘린더의 높이를 100%로 설정 */
+}
+
+</style>
+
 
 </head>
 <body>
@@ -150,18 +147,363 @@
 
     <div id="main" onclick="closeNav()">
         <div class="column">
-            <!-- <h2>각 페이지의 <br>인적사항 <br> 근태관리 <br>일정 <br>결재 서류 <br>등을 작성하면 됩니다.</h2> -->
+           <button class="custom-button">일정관리</button>
         </div>
-            <div class="column content">
-                 <div id='calendar'></div>
+        <div class="column content">
+          <div id='calendar'></div>
+        </div>
+    </div>
+
+    <!-- 일정 등록/수정 모달창 구조 -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>일정 등록</h2>
             </div>
+            <div class="modal-body">
+                <label for="title">제목</label>
+                <input type="text" id="title" name="title">
+                
+                <label for="content">내용</label>
+                <textarea id="content" name="content"></textarea>
+                
+                <label for="attendees">참석자</label>
+                <input type="text" id="attendees" name="attendees">
+
+                <label for="typeNo">카테고리</label>
+                <select id="typeNo" name="typeNo">
+                    <option value="1">연차</option>
+                    <option value="2">회의</option>
+                    <option value="3">개인업무</option>
+                    <option value="4">미팅</option>
+                    <option value="5">오전반차</option>
+                    <option value="6">오후반차</option>
+                    <option value="7">외근</option>
+                    <option value="8">휴가</option>
+                    <option value="9">무역 협상</option>
+                    <option value="10">제품 설명회</option>
+                </select>
+                
+                
+                <label for="startDate">시작 일정</label>
+                <input type="date" id="startDate" name="startDate">
+                
+                <label for="endDate">종료 일정</label>
+                <input type="date" id="endDate" name="endDate">
+                
+                <label for="startTime">시작 시간</label>
+                <input type="time" id="startTime" name="startTime">
+                
+                <label for="endTime">종료 시간</label>
+                <input type="time" id="endTime" name="endTime">
+            </div>
+            <div class="modal-footer">
+                <button id="saveEvent">저장</button>
+                <button id="deleteEvent">삭제</button>
+            </div>
+        </div>
     </div>
 
     
+    <!-- 일정 보기 모달창 구조 -->
+    <div id="viewEventModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>일정 보기</h2>
+            </div>
+            <div class="modal-body">
+                <p><strong>제목:</strong> <span id="viewTitle"></span></p>
+                <p><strong>내용:</strong> <span id="viewContent"></span></p>
+                <p><strong>참석자:</strong> <span id="viewAttendees"></span></p>
+                <p><strong>카테고리:</strong> <span id="viewCategory"></span></p>
+                <p><strong>시작 일정:</strong> <span id="viewStartDate"></span></p>
+                <p><strong>종료 일정:</strong> <span id="viewEndDate"></span></p>
+                <p><strong>시작 시간:</strong> <span id="viewStartTime"></span></p>
+                <p><strong>종료 시간:</strong> <span id="viewEndTime"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button id="editEvent">수정하기</button>
+                <button id="closeViewModal">닫기</button>
+            </div>
+        </div>
+    </div>
 
-</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                
+                headerToolbar: { // 헤더에 표시할 툴 바
+                                start: 'prev next today',
+                                center: 'title',
+                                end: 'dayGridMonth,dayGridWeek,dayGridDay'
+                                },
+                locale: 'ko',
+
+                buttonText: {
+                            today: '오늘',
+                            month: '월',
+                            week: '주',
+                            day: '일',
+                            prev: '이전',
+                            next: '다음'
+                            },
+                titleFormat : function(date) {
+                                return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
+                            },
+                selectable : true, // 달력 일자 드래그 설정가능
+                droppable : true,
+                editable : true,
+                nowIndicator: true, // 현재 시간 마크   
+                height: '100%',                     
+
+                events: [],
+                eventClick: function(info) {
+                    openViewModal(info.event);
+                },
+
+                //달력에서 '일' 삭제하기 함수 
+                dayCellContent: function(info) {
+                    var number = document.createElement("a");
+                    number.classList.add("fc-daygrid-day-number");
+                    number.innerHTML = info.dayNumberText.replace("일", "").replace("日", "");
+                    if (info.view.type === "dayGridMonth") {
+                        return {
+                            html: number.outerHTML
+                        };
+                    }
+                    return {
+                        domNodes: []
+                    };
+                },
+                dateClick: function(info) {
+                    openEventModal({ start: info.dateStr });
+                }
+            });
+            calendar.render();
+
+         // 달력에 데이터 로드(개인일정목록)
+         function loadEvents() {
+        // AJAX를 사용하여 서버에서 이벤트 데이터를 로드합니다.
+    
+         $.ajax({
+            url: '/api/event/list', // 서버의 엔드포인트
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // 데이터 로딩 성공 시, 달력에 이벤트를 추가
+                data.forEach(function(event) {
+                console.log(event); // 디버깅을 위해 데이터 출력
+                const start = event.startDate.split(' ')[0] + 'T' + event.startTime.split(' ')[1];
+                const end = event.endDate.split(' ')[0] + 'T' + event.endTime.split(' ')[1];
+                calendar.addEvent({
+                    title: event.title,
+                    start: start,
+                    end: end,
+                    extendedProps: {
+                    location: event.location,
+                    // attendees: event.attendees
+                    },
+                    // color: event.color // 이벤트의 색상 설정, 서버에서 받아온 데이터에 따라 조정 가능
+                });
+                });
+            },
+            error: function() {
+                console.error("이벤트 로드 실패");
+            }
+            });
+        }
+        loadEvents(); // 달력 초기화 후 이벤트 로드
+
+            var eventModal = document.getElementById("eventModal");
+            var viewEventModal = document.getElementById("viewEventModal");
+            var eventSpan = eventModal.getElementsByClassName("close")[0];
+            var viewEventSpan = viewEventModal.getElementsByClassName("close")[0];
+            var selectedEvent = null;
+
+            function openEventModal(event) {
+                selectedEvent = event;
+                if (event.title) {
+                    document.getElementById('title').value = event.title;
+                    document.getElementById('content').value = event.extendedProps.content || '';
+                    document.getElementById('attendees').value = event.extendedProps.attendees || '';
+                    document.getElementById('typeNo').value = event.extendedProps.typeNo || 'personal';
+                    document.getElementById('startDate').value = event.startStr.split('T')[0];
+                    document.getElementById('endDate').value = event.endStr ? event.endStr.split('T')[0] : '';
+                    document.getElementById('startTime').value = event.startStr.split('T')[1] || '';
+                    document.getElementById('endTime').value = event.endStr ? event.endStr.split('T')[1] : '';
+                } else {
+                    document.getElementById('title').value = '';
+                    document.getElementById('content').value = '';
+                    document.getElementById('attendees').value = '';
+                    document.getElementById('typeNo').value = 'personal';
+                    document.getElementById('startDate').value = event.start;
+                    document.getElementById('endDate').value = '';
+                    document.getElementById('startTime').value = '';
+                    document.getElementById('endTime').value = '';
+                }
+                eventModal.style.display = "block";
+            }
+
+            function closeEventModal() {
+                eventModal.style.display = "none";
+                // 입력 필드 초기화
+                document.getElementById('title').value = '';
+                document.getElementById('content').value = '';
+                document.getElementById('attendees').value = '';
+                document.getElementById('typeNo').value = 'personal';
+                document.getElementById('startDate').value = '';
+                document.getElementById('endDate').value = '';
+                document.getElementById('startTime').value = '';
+                document.getElementById('endTime').value = '';
+                selectedEvent = null;
+            }
+
+            function openViewModal(event) {
+                document.getElementById('viewTitle').innerText = event.title;
+                document.getElementById('viewContent').innerText = event.extendedProps.content || '';
+                document.getElementById('viewAttendees').innerText = event.extendedProps.attendees || '';
+                document.getElementById('viewCategory').innerText = event.extendedProps.typeNo === 'personal' ? '개인 일정' : '부서별 일정';
+                document.getElementById('viewStartDate').innerText = event.startStr.split('T')[0];
+                document.getElementById('viewEndDate').innerText = event.endStr ? event.endStr.split('T')[0] : '';
+                document.getElementById('viewStartTime').innerText = event.startStr.split('T')[1] || '';
+                document.getElementById('viewEndTime').innerText = event.endStr ? event.endStr.split('T')[1] : '';
+                selectedEvent = event;
+                viewEventModal.style.display = "block";
+            }
+
+            function closeViewModal() {
+                viewEventModal.style.display = "none";
+                selectedEvent = null;
+            }
+
+            eventSpan.onclick = function() {
+                closeEventModal();
+            }
+
+            viewEventSpan.onclick = function() {
+                closeViewModal();
+            }
+
+            window.onclick = function(event) {
+                if (event.target == eventModal) {
+                    closeEventModal();
+                }
+                if (event.target == viewEventModal) {
+                    closeViewModal();
+                }
+            }
+
+            document.getElementById('saveEvent').onclick = function() {
+                var event = {
+                    title: document.getElementById('title').value,
+                    content: document.getElementById('content').value,
+                    attendees: document.getElementById('attendees').value,
+                    typeNo: document.getElementById('typeNo').value,
+                    start: document.getElementById('startDate').value + 'T' + document.getElementById('startTime').value,
+                    end: document.getElementById('endDate').value + 'T' + document.getElementById('endTime').value,
+               
+                
+                };
+
+                if (selectedEvent && selectedEvent.title) {
+                    // 수정
+                    selectedEvent.setProp('title', event.title);
+                    selectedEvent.setExtendedProp('content', event.content);
+                    selectedEvent.setExtendedProp('attendees', event.attendees);
+                    selectedEvent.setExtendedProp('typeNo', event.typeNo);
+                    selectedEvent.setStart(event.start);
+                    selectedEvent.setEnd(event.end);
+                } else {
+                    // 추가
+                    calendar.addEvent({
+                        title: event.title,
+                        start: event.start,
+                        end: event.end,
+                        extendedProps: {
+                            content: event.content,
+                            attendees: event.attendees,
+                            typeNo: event.typeNo
+                        },
+                        backgroundColor: event.typeNo === 'personal' ? 'lightpink' : 'lightskyblue',
+                        borderColor: event.typeNo === 'personal' ? 'lightpink' : 'lightskyblue'
+                    });
+                }
+
+                closeEventModal();
+            }
+
+            document.getElementById('deleteEvent').onclick = function() {
+                if (selectedEvent && selectedEvent.title) {
+                    selectedEvent.remove();
+                }
+                closeEventModal();
+            }
+
+            document.getElementById('editEvent').onclick = function() {
+                closeViewModal();
+                openEventModal(selectedEvent);
+            }
+
+            document.getElementById('closeViewModal').onclick = function() {
+                closeViewModal();
+            }
+
+
+            
 
 
 
+
+
+
+
+    document.getElementById('saveEvent').addEventListener('click', function() {
+    var eventData = {
+        title: document.getElementById('title').value,
+        content: document.getElementById('content').value,
+        attendees: document.getElementById('attendees').value,
+        typeNo: document.getElementById('typeNo').value, // 카테고리 선택 값을 확인
+        startDate: document.getElementById('startDate').value,
+        endDate: document.getElementById('endDate').value,
+        startTime: document.getElementById('startDate').value + 'T' + document.getElementById('startTime').value,
+        endTime: document.getElementById('endDate').value + 'T' + document.getElementById('endTime').value
+    };
+
+    $.ajax({
+        url: '/api/event',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(eventData),
+        success: function(eventData) {
+            console.log('Event saved successfully:', eventData);
+            calendar.refetchEvents(); // 캘린더 업데이트
+            closeEventModal(); // 모달 닫기
+        },
+        error: function(xhr, status, error) {
+            console.error('Error saving event:', error);
+            alert('Event saving failed. Please try again.');
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+        });
+    </script>
 </body>
 </html>

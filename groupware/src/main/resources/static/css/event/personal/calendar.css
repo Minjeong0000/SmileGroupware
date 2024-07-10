@@ -1,3 +1,4 @@
+/* common css */
 body {
   font-family: "Lato", sans-serif;
   transition: margin-left .5s;
@@ -78,12 +79,7 @@ body {
 
 
 
-
-
-
-
-
-
+/* calendar  */
 
 .column:last-child {
   flex: 1; /* 두 번째 컬럼이 남은 공간을 모두 채움 */
@@ -98,105 +94,105 @@ body {
 }
 
 
-    /* 버튼 스타일 추가 */
-    .custom-button {
-        display: block;
-        width: 200px;
-        height: 50px;
-        font-size: 18px;
-        background-color: #8d9cf5;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        margin: 20px auto;
-        text-align: center;
-        line-height: 50px;
-        cursor: pointer;
-    }
+/* 버튼 스타일 추가 */
+.custom-button {
+    display: block;
+    width: 200px;
+    height: 50px;
+    font-size: 18px;
+    background-color: #8d9cf5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 20px auto;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+}
 
-    .custom-button:hover {
-        background-color: #4c64f1;
-    }
+.custom-button:hover {
+    background-color: #4c64f1;
+}
 
-    /* 모달창 스타일 */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0,0,0,0.4);
-    }
+모달창 스타일
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
 
-    .modal-content {
-        background-color: #fefefe;
-        margin: 10% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        max-width: 600px;
-        border-radius: 10px;
-    }
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+}
 
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
 
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 
-    .modal-header, .modal-footer {
-        padding: 10px;
-        background-color: #8d9cf5;
-        color: white;
-        border-radius: 10px 10px 0 0;
-    }
+.modal-header, .modal-footer {
+    padding: 10px;
+    background-color: #8d9cf5;
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
 
-    .modal-footer {
-        border-radius: 0 0 10px 10px;
-    }
+.modal-footer {
+    border-radius: 0 0 10px 10px;
+}
 
-    .modal-body {
-        padding: 2px 16px;
-        max-height: 60vh;
-        overflow-y: auto;
-    }
+.modal-body {
+    padding: 2px 16px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
 
-    .modal-body input, .modal-body textarea, .modal-body select {
-        width: 100%;
-        padding: 10px;
-        margin: 5px 0;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+.modal-body input, .modal-body textarea, .modal-body select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-    .modal-body label {
-        display: block;
-        margin: 10px 0 5px;
-    }
+.modal-body label {
+    display: block;
+    margin: 10px 0 5px;
+}
 
-    .modal-footer button {
-        background-color: #8d9cf5;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+.modal-footer button {
+    background-color: #8d9cf5;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-    .modal-footer button:hover {
-        background-color: #4c64f1;
-    }
+.modal-footer button:hover {
+    background-color: #4c64f1;
+} 
 
 

@@ -35,7 +35,7 @@ public class PersonalEventApiController {
 
     //개인일정작성
     @PostMapping
-    public int write(PersonalEventVo vo,HttpServletRequest request) {
+    public int write(@RequestBody PersonalEventVo vo,HttpServletRequest request) {
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo)session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();
