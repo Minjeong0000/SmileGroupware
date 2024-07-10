@@ -76,8 +76,8 @@
             <div class="menu">
               <div class="menu-item">근태관리</div>
               <div class="submenu">
-                  <div class="submenu-item">내 근태 현황</div>
-                  <div class="submenu-item">내 연차 내역</div>
+                <div class="submenu-item"><a href="http://127.0.0.1:8080/emp/attendance/history">내 근태 현황</a></div>
+                <div class="submenu-item">내 연차 내역</div>
                   <div class="submenu-item">내 인사정보</div>
               </div>
 
@@ -271,6 +271,73 @@ function updateAttendanceStatus() {
 updateAttendanceStatus();
 
 
+//페이지들어가자마자 전체목록불러오기(페이징처리 필요)
+$.ajax({
+      url: '/record/list',
+      type: 'GET',
+      data: {
+      },
+      success: function(data) {
+
+        if(data.state==null){
+
+        }
+          const tbody = $('#recordList tbody');
+          let str = ""; // 초기화 위치 확인
+          for(let i = 0; i < data.length; ++i) {
+              let startTimePart = data[i].startTime.split(' ')[1];
+              let endTimePart = data[i].endTime.split(' ')[1];
+              console.log(data[i].wdate);
+//////날짜,요일처리
+        // let dateObj = new Date(data[i].wdate);
+        // // 날짜만 추출 (년-월-일 형식)
+        // let dateString = dateObj.toISOString().split('T')[0]; // '2024-07-08'
+        // let daysOfWeek = ['토','일', '월', '화', '수', '목', '금'];
+
+        // // 요일 가져오기
+        // let dayOfWeekIndex = dateObj.getDay();
+        // let dayOfWeek = daysOfWeek[dayOfWeekIndex];
+
+        // // 날짜 뒤에 요일 추가
+        // let formattedDate = dateString + ' (' + dayOfWeek+')'; // '2024-07-08 금'
+///////////
+let dateObj = new Date(data[i].wdate);
+let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+let dateString = dateObj.toLocaleDateString('ko-KR', options); // 한국 시간대를 기준으로 날짜 형식을 설정
+
+let daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+let dayOfWeekIndex = dateObj.getDay();
+let dayOfWeek = daysOfWeek[dayOfWeekIndex];
+
+let formattedDate = dateString + ' (' + dayOfWeek + ')';
+
+
+
+
+              str += "<tr>";
+              str += '<td>' + formattedDate + '</td>';
+              str += '<td>'+startTimePart+'</td>';
+              str += '<td>'+endTimePart+'</td>';
+              str += '<td>'+data[i].dayWorkTime +'hr</td>';
+              str += '<td> 기본 '+data[i].dayWorkTime+ 'hr/' +'연장' +0 +'hr</td>';
+              str += '<td>'+data[i].state+'</td>';
+              str += "</tr>";
+          }
+
+          console.log('Generated HTML string: ', str);
+          tbody.html(str); // 최종적으로 업데이트된 문자열 적용
+          console.log('Table updated successfully');
+      },
+      error: function(e) {
+          console.error('Ajax error: ', e);
+      }
+  });
+
+
+
+
+
+
 
 $('#searchBtn').click(function() {
   var startDate = $('#startDate').val();
@@ -299,25 +366,32 @@ $('#searchBtn').click(function() {
             
               let startTimePart = data[i].startTime.split(' ')[1];
               let endTimePart = data[i].endTime.split(' ')[1];
-              console.log(data[i].wdate);
 //////날짜,요일처리
+// let dateObj = new Date(data[i].wdate);
+//         // 날짜만 추출 (년-월-일 형식)
+//         let dateString = dateObj.toISOString().split('T')[0]; // '2024-07-08'
+//         let daysOfWeek = ['토','일', '월', '화', '수', '목', '금'];
 
-         
-        let dateObj = new Date(data[i].wdate);
-        // 날짜만 추출 (년-월-일 형식)
-        let dateString = dateObj.toISOString().split('T')[0]; // '2024-07-08'
-        let daysOfWeek = ['토','일', '월', '화', '수', '목', '금'];
+//         // 요일 가져오기
+//         let dayOfWeekIndex = dateObj.getDay();
+//         let dayOfWeek = daysOfWeek[dayOfWeekIndex];
 
-        // 요일 가져오기
-        let dayOfWeekIndex = dateObj.getDay();
-        let dayOfWeek = daysOfWeek[dayOfWeekIndex];
-
-        // 날짜 뒤에 요일 추가
-        let formattedDate = dateString + ' (' + dayOfWeek+')'; // '2024-07-08 금'
-
-
-
+//         // 날짜 뒤에 요일 추가
+//         let formattedDate = dateString + ' (' + dayOfWeek+')'; // '2024-07-08 금'
 ///////////
+
+let dateObj = new Date(data[i].wdate);
+let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+let dateString = dateObj.toLocaleDateString('ko-KR', options); // 한국 시간대를 기준으로 날짜 형식을 설정
+
+let daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+let dayOfWeekIndex = dateObj.getDay();
+let dayOfWeek = daysOfWeek[dayOfWeekIndex];
+
+let formattedDate = dateString + ' (' + dayOfWeek + ')';
+
+
+
               str += "<tr>";
               str += '<td>' + formattedDate + '</td>';
               str += '<td>'+startTimePart+'</td>';

@@ -32,7 +32,10 @@ body {
   margin-bottom: 30px;
   margin-left: 9px;
 }
-
+a{
+  text-decoration: none;
+  color: #000000;
+}
 .sidenav a:hover {
   color: #505050;
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smile.office.groupware.message.dao.MessageDao;
 import smile.office.groupware.message.vo.MessageVo;
+import smile.office.groupware.page.PageVo;
 
 import java.util.List;
 

@@ -83,6 +83,10 @@ public class AttendanceRecordController {
 
         return ResponseEntity.ok(attendanceList);
     }
+
+
+
+
     //화면 좌측 오늘의 출퇴근시간 기록 가져오기
     @GetMapping("todayRecord")
     public AttendanceVo getTodayAttRecord(Model model, HttpServletRequest request) {
@@ -93,6 +97,9 @@ public class AttendanceRecordController {
         model.addAttribute("attendanceVo", attendanceVo);
         return attendanceVo;
     }
+
+
+
 
     //기간선택해서 조회기능
     @GetMapping("history")
@@ -108,6 +115,13 @@ public class AttendanceRecordController {
         return ResponseEntity.ok(attendanceList);
 
     }
+
+
+
+
+
+
+
 
 
 

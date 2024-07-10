@@ -47,6 +47,15 @@ public class EmployeeController {
         }
     }
 
+    //로그아웃
+    @GetMapping("logout")
+    public String logout(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return "redirect:/home";
+    }
+
+
 
     @ResponseBody
     @GetMapping("/departments")
@@ -58,6 +67,8 @@ public class EmployeeController {
     public List<EmployeeVo> getEmployeesByDepartment(@PathVariable("departmentNo") String departmentNo) {
         return service.getEmployeesByDepartment(departmentNo);
     }
+
+
 
 
 
