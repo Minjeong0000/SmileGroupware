@@ -43,4 +43,15 @@ public interface AttendanceMapper {
             ORDER BY ATT_NO DESC
             """)
     List<AttendanceVo> getAttendanceHistory(@Param("startDate")String startDate, @Param("endDate")String endDate,@Param("empId") String empId);
+
+//    @Select("""
+//            SELECT COUNT(ATT_NO) FROM ATTENDANCE WHERE EMP_ID = #{empId} ORDER BY W_DATE DESC
+//
+//            """)
+//    int getTotalAttendanceCount(String empId);
+
+
+//
+//    @Select("")
+//    List<AttendanceVo> getAttendanceList(@Param("offset") int offset, @Param("size") int size);
 }

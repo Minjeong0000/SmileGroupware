@@ -51,4 +51,14 @@ public class AttendanceService {
     public List<AttendanceVo> getAttendanceHistory(String startDate, String endDate, String empId) {
         return dao.getAttendanceHistory(startDate,endDate,empId);
     }
+
+//    public int getTotalAttendanceCount(String empId) {
+//        return dao.getTotalAttendanceCount(empId);
+//    }
+//
+//    public List<AttendanceVo> getAttendanceList(String empId, int page, int size) {
+//
+//        int offset = (page - 1) * size;
+//        return dao.getAttendanceList(offset, size);
+//    }
 }

@@ -13,7 +13,9 @@ import smile.office.groupware.attendance.vo.AttendanceVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/record")
@@ -83,6 +85,26 @@ public class AttendanceRecordController {
 
         return ResponseEntity.ok(attendanceList);
     }
+
+
+    // 출퇴근 기록 json으로 불러오기(리스트 페이지처리용)
+//    @GetMapping("/list")
+//    public ResponseEntity<?> getAttendanceList(HttpServletRequest request ,@RequestParam(value = "page", defaultValue = "1") int page,
+//    @RequestParam(value = "size", defaultValue = "10") int size) {
+//        HttpSession session = request.getSession();
+//        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+//        String empId = loginEmployeeVo.getEmpId();
+//        List<AttendanceVo> attendanceList = service.getAttendanceList(empId,page,size);
+//        int totalCount = service.getTotalAttendanceCount(empId);
+//        int totalPages = (int) Math.ceil((double) totalCount / size);
+//
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("attendanceList", attendanceList);
+//        result.put("currentPage", page);
+//        result.put("totalPages", totalPages);
+//        return ResponseEntity.ok(result);
+//
+//    }
 
 
 
