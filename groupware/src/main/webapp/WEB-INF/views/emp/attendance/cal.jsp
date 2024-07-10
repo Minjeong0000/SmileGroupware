@@ -42,6 +42,10 @@
     .fc-day-sun .fc-daygrid-day-number {
       color: red;
     }
+    :root {
+        --fc-small-font-size: 1em;
+    }
+
     </style>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -263,7 +267,7 @@ function updateAttendanceStatus() {
         <a href="#" onclick="toggleNav(event)"><span class="menu-icon">&#9776;</span><span class="link-text">메뉴</span></a>
         <a href="#"><span class="menu-icon">&#8962;</span><span class="link-text">홈</span></a>
         <a href="http://127.0.0.1:8080/event/personal/calendar"><span class="menu-icon">&#128736;</span><span class="link-text">일정관리</span></a>
-        <a href="#"><span class="menu-icon">&#128100;</span><span class="link-text">근태관리</span></a>
+        <a href="http://127.0.0.1:8080/emp/attendance/cal"><span class="menu-icon">&#128100;</span><span class="link-text">근태관리</span></a>
         <a href="#"><span class="menu-icon">&#128203;</span><span class="link-text">결재</span></a>
         <a href="http://127.0.0.1:8080/message/received"><span class="menu-icon">&#9742;</span><span class="link-text">연락처</span></a>
         <a href="#"><span class="menu-icon">&#128101;</span><span class="link-text">커뮤니티</span></a>
@@ -316,7 +320,7 @@ function updateAttendanceStatus() {
             <div class="menu">
               <div class="menu-item">근태관리</div>
               <div class="submenu">
-                  <div class="submenu-item">내 근태 현황</div>
+                  <div class="submenu-item"><a href="http://127.0.0.1:8080/emp/attendance/history">내 근태 현황</a></div>
                   <div class="submenu-item">내 연차 내역</div>
                   <div class="submenu-item">내 인사정보</div>
               </div>

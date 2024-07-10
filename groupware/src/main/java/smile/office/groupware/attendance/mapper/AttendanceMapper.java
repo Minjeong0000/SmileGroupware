@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface AttendanceMapper {
     //나의 출퇴근 근무시간 기록 불러오기
-    @Select("SELECT * FROM ATTENDANCE WHERE EMP_ID = #{empId} ORDER BY ATT_NO DESC")
+    @Select("SELECT * FROM ATTENDANCE WHERE EMP_ID = #{empId} ORDER BY W_DATE DESC")
     List<AttendanceVo> getAttendanceList(String empId);
 
     @Insert("INSERT INTO ATTENDANCE (ATT_NO, EMP_ID, W_DATE) VALUES (SEQ_ATTENDANCE.NEXTVAL, #{empId}, TRUNC(SYSDATE))")

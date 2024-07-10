@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import smile.office.groupware.message.mapper.MessageMapper;
 import smile.office.groupware.message.vo.MessageVo;
+import smile.office.groupware.page.PageVo;
 
 import java.util.List;
 

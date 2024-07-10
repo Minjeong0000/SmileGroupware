@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import smile.office.groupware.employee.vo.EmployeeVo;
 import smile.office.groupware.message.service.MessageService;
 import smile.office.groupware.message.vo.MessageVo;
+import smile.office.groupware.page.PageVo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,38 +30,11 @@ public class MessageRestContoller {
         if (loginEmployeeVo == null) {
             return ResponseEntity.internalServerError().body("비정상적인 접근입니다. 로그인 페이지로 돌아갑니다.");
         }
-
         String empId = loginEmployeeVo.getEmpId();
         System.out.println(empId);
         List<MessageVo> messageVoList = service.getReceiveMessageList(empId);
         return ResponseEntity.ok(messageVoList);
     }
-//////////////////////////////////페이징
-//@GetMapping("list")
-//public ResponseEntity<?> getReceiveMessageList(HttpServletRequest request,
-//                                               @RequestParam(defaultValue = "1") int pageNo,
-//                                               @RequestParam(defaultValue = "10") int pageSize) {
-//    HttpSession session = request.getSession();
-//    EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
-//    if (loginEmployeeVo == null) {
-//        return ResponseEntity.internalServerError().body("비정상적인 접근입니다. 로그인 페이지로 돌아갑니다.");
-//    }
-//
-//    String empId = loginEmployeeVo.getEmpId();
-//    List<MessageVo> messageVoList = service.getReceiveMessageList(empId, pageNo, pageSize);
-//    return ResponseEntity.ok(messageVoList);
-//}
-
-    //받은메세지(전체)조회(포스트맨확인용)
-//@GetMapping("list")
-//public ResponseEntity<List<MessageVo>> getReceiveMessageList(@RequestParam String empId){
-//        HttpSession session = request.getSession();
-//        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
-//        String empId = loginEmployeeVo.getEmpId();
-//        System.out.println(empId);
-//    List<MessageVo> messageVoList = service.getReceiveMessageList(empId);
-//    return ResponseEntity.ok(messageVoList);
-//}
 
     //중요쪽지 조회 list
 
@@ -142,20 +116,6 @@ public class MessageRestContoller {
         return result;
     }
 
-    //TODO
-    //중요쪽지함으로 보내기
-//    @PutMapping("sendImportant")
-//    public int updateForderStatusImportant(HttpServletRequest request, @RequestBody List<String> msgList){
-//
-//        HttpSession session = request.getSession();
-//        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
-//        String empId = loginEmployeeVo.getEmpId();
-//        int result = service.updateForderStatusImportant(empId,msgList);
-//        System.out.println("result = " + result);
-//        return result;
-//    }
-
-
     //휴지통에서영구삭제(여러개)
     @DeleteMapping("delete")
    public int deleteMsg(HttpServletRequest request, @RequestBody List<String>msgList){
@@ -166,6 +126,7 @@ public class MessageRestContoller {
         System.out.println("result = " + result);
         return result;
     }
+
     //휴지통에서 복구
     @PutMapping("restore")
     public int restoreMessage(HttpServletRequest request, @RequestBody List<String> msgList){

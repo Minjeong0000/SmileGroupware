@@ -2,6 +2,7 @@ package smile.office.groupware.message.mapper;
 
 import org.apache.ibatis.annotations.*;
 import smile.office.groupware.message.vo.MessageVo;
+import smile.office.groupware.page.PageVo;
 
 import java.util.List;
 

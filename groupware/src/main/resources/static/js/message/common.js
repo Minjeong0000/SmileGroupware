@@ -53,7 +53,7 @@ $(document).ready(function() {
                   employeeSelect.empty();
                   employeeSelect.append('<option value="">사원을 선택하세요</option>');
                   employees.forEach(function(employee) {
-                      employeeSelect.append('<option value="' + employee.empId + '">' + employee.empName + ' ' + employee.roleName + '</option>');
+                      employeeSelect.append('<option value="' + employee.empId + '">' + employee.empName + ' / ' + employee.roleName + '</option>');
                   });
               }
           });
