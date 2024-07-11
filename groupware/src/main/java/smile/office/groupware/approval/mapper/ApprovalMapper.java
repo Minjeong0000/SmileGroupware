@@ -287,4 +287,29 @@ public interface ApprovalMapper {
             "END;"
     })
     void submitApprobal(AppVacVo appVacVo);
+
+    @Select("SELECT\n" +
+            "    a.approval_no AS approvalNo,\n" +
+            "    p.priority_name AS priority,\n" +
+            "    COALESCE(VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME) AS category,\n" +
+            "    a.title AS title,\n" +
+            "    TO_CHAR(a.create_date, 'YY\"년\"MM\"월\"DD\"일\"') AS createDate,\n" +
+            "    e.emp_name AS approver,\n" +
+            "    LISTAGG(e2.emp_name, '|') WITHIN GROUP (ORDER BY e2.role_no DESC) AS approvalLine,\n" +
+            "    s.status_name AS status\n" +
+            "FROM APPROVALS A\n" +
+            "JOIN EMPLOYEE E ON E.EMP_ID = A.EMP_ID\n" +
+            "JOIN priorities P ON P.priority_no = A.priority_no\n" +
+            "JOIN statuses S ON S.status_no = A.status_no\n" +
+            "JOIN approval_lines AL ON AL.approval_no = A.approval_no\n" +
+            "JOIN APPROVAL_RESPONSES AR ON AR.APPROVAL_LINE_NO=AL.APPROVAL_LINE_NO\n" +
+            "LEFT JOIN VACATION_TEMPLATES VT ON VT.APPROVAL_NO = A.APPROVAL_NO\n" +
+            "LEFT JOIN VAC_CATE VC ON VC.VAC_CATE_NO = VT.VAC_CATE_NO\n" +
+            "LEFT JOIN DOCUMENT_TEMPLATES DT ON DT.APPROVAL_NO = A.APPROVAL_NO\n" +
+            "LEFT JOIN DOCUMENT_CATEGORY DC ON DC.DOCUMENT_CATEGORY_NO = DT.DOCUMENT_CATEGORY_NO\n" +
+            "LEFT JOIN EMPLOYEE E2 ON E2.emp_id = AL.emp_id\n" +
+            "WHERE A.EMP_ID = #{empId}\n" +
+            "AND S.STATUS_NO = 1\n" +
+            "GROUP BY a.approval_no, p.priority_name, s.status_name, a.title, a.create_date, e.emp_name, VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME")
+    List<ApprovalListVo> getAppListIng(String empId);
 }

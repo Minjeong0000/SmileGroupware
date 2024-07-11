@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smile.office.groupware.approval.dao.ApprovalDao;
 import smile.office.groupware.approval.vo.*;
+import smile.office.groupware.approval.vo.list.AppAlListVo;
+import smile.office.groupware.approval.vo.list.ListApprovalVo;
 import smile.office.groupware.approval.vo.write.AppVacVo;
 import smile.office.groupware.approval.vo.write.WriteVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
@@ -62,5 +64,17 @@ public class ApprovalService {
     public void submitApproval(AppVacVo appVacVo) {
         appVacVo.setStatusNo(1);
         dao.submitApproval(appVacVo);
+    }
+
+    public ListApprovalVo getlistApprovalVo(String empId) {
+        ListApprovalVo listApprovalVo=new ListApprovalVo();
+
+        List<ApprovalListVo> approvalListVo=dao.getAppListIng(empId);
+
+        listApprovalVo.setApprovalListVoList(approvalListVo);
+
+        System.out.println("approvalListVo = " + approvalListVo);
+
+        return listApprovalVo;
     }
 }

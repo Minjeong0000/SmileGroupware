@@ -63,4 +63,8 @@ public class ApprovalDao {
     public void submitApproval(AppVacVo appVacVo) {
         mapper.submitApprobal(appVacVo);
     }
+
+    public List<ApprovalListVo> getAppListIng(String empId) {
+        return mapper.getAppListIng(empId);
+    }
 }

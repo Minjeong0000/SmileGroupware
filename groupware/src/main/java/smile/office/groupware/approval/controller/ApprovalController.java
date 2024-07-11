@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import smile.office.groupware.approval.service.ApprovalService;
 import smile.office.groupware.approval.vo.ApprovalHomeVo;
+import smile.office.groupware.approval.vo.list.ListApprovalVo;
 import smile.office.groupware.approval.vo.write.AppVacVo;
 import smile.office.groupware.approval.vo.write.WriteVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
@@ -55,18 +56,32 @@ public class ApprovalController {
             return "redirect:/approval/home";
         } else if ("submit".equals(appVacVo.getAction())) {
             service.submitApproval(appVacVo);
+            return "redirect:/approval/home";
         }
         return "redirect:/approval/vac";
     }
 
-    //프로젝트 결재 작성
+    //프로젝트 결재 페이지 작성
     @GetMapping("/doc")
-    public String approvalWriteDoc(){return "approval/write/document";}
+    public String approvalWriteDoc(){
+        return "approval/write/document";
+    }
     //기타 결재 작성
 
     //결재 중
     @GetMapping("/ing")
-    public String approvalListIng(){return "approval/list/ing";}
+    public String approvalListIng(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        if (loginEmployeeVo == null) {
+            return "redirect:/login";
+        }
+        String empId = loginEmployeeVo.getEmpId();
+        ListApprovalVo listApprovalVo=service.getlistApprovalVo(empId);
+        model.addAttribute("listApprovalVo",listApprovalVo);
+
+        return "approval/list/ing";
+    }
     //결재 처리/응답
     @GetMapping("/response")
     public String approvalListResponse(){return "approval/list/response";}
