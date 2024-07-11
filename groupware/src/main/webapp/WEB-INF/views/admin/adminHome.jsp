@@ -14,7 +14,7 @@
         <a href="#" onclick="toggleNav(event)"><span class="menu-icon">&#9776;</span><span class="link-text">메뉴</span></a>
         <a href="/admin/home"><span class="menu-icon">&#8962;</span><span class="link-text">홈</span></a>
         <a href="/admin/notion"><span class="menu-icon">&#128196;</span><span class="link-text">공지사항 관리</span></a>
-        <a href="#"><span class="menu-icon">&#128172;</span><span class="link-text">문의사항</span></a>
+        <a href="/admin/adminQuestion"><span class="menu-icon">&#128172;</span><span class="link-text">문의사항</span></a>
         <a href="/admin/userEdit"><span class="menu-icon">&#128295;</span><span class="link-text">사용자 관리</span></a>
         <a href="#"><span class="menu-icon">🏢</span><span class="link-text">사원 조직도</span></a>
         <a href="#"><span class="menu-icon">&#128337;</span><span class="link-text">직원 근태관리</span></a>
@@ -38,7 +38,7 @@
                 <a href="#" class="grid-item">공지사항</a>
                 <a href="userEdit" class="grid-item">사용자 수정</a>
                 <a href="#" class="grid-item">근태관리</a>
-                <a href="question" class="grid-item">문의사항</a>
+                <a href="adminQuestion" class="grid-item">문의사항</a>
             </div>
         </div>
 
@@ -112,8 +112,8 @@
             <div class="board-header">
                 <h2>문의사항</h2>
                 <div class="pagination">
-                    <button id="prev-inquiry" onclick="prevPageInquiry()"> < </button>
-                    <button id="next-inquiry" onclick="nextPageInquiry()"> > </button>
+                    <button id="prev-inquiry" onclick="prevPageInquiry()">이전</button>
+                    <button id="next-inquiry" onclick="nextPageInquiry()">다음</button>
                 </div>
             </div>
             <div class="inquiry-items">
