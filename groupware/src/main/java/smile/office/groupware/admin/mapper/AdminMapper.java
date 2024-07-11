@@ -3,8 +3,11 @@ package smile.office.groupware.admin.mapper;
 import org.apache.ibatis.annotations.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import smile.office.groupware.admin.vo.AdminVo;
+import smile.office.groupware.department.vo.DepartmentVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
+import smile.office.groupware.position.vo.PositionVo;
 import smile.office.groupware.question.vo.QuestionVo;
+import smile.office.groupware.role.vo.RoleVo;
 
 import java.util.List;
 
@@ -34,6 +37,21 @@ public interface AdminMapper {
     @Insert("INSERT INTO EMPLOYEE (EMP_ID, COMPANY_NO, EMP_NAME, ID, PASSWORD, PHONE, EMP_NO, EMAIL, HIRE_DATE, DEPARTMENT_NO, ROLE_NO, POSITION_NO, PROFILE) " +
             "VALUES (SEQ_EMPLOYEE_ID.NEXTVAL, #{companyNo}, #{empName}, #{id}, #{password}, #{phone}, #{empNo}, #{email}, #{hireDate}, #{departmentNo}, #{roleNo}, #{positionNo}, #{profile})")
     int addEmployee(EmployeeVo vo);
+
+    //부서추가
+    @Select("SELECT * FROM DEPARTMENTS")
+    List<DepartmentVo> getDepartments();
+
+    //역할추가
+    @Select("SELECT * FROM ROLES")
+    List<RoleVo> getRoles();
+
+    //직위추가
+    @Select("SELECT * FROM POSITION")
+    List<PositionVo> getPositions();
+
+    ///////////////////////////////////////////////////////
+
 
     //EMPLOYEE, DEPARTMENTS, POSITION, ROLES 연결해버림!
     @Select("SELECT e.emp_id AS empId, " +
