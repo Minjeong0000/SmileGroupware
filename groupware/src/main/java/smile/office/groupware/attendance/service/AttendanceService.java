@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import smile.office.groupware.attendance.dao.AttendanceDao;
 import smile.office.groupware.attendance.vo.AttendanceVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
+import smile.office.groupware.page.PageVo;
 
 import java.util.List;
 
@@ -19,6 +20,15 @@ public class AttendanceService {
     public List<AttendanceVo> getAttendanceList(String empId) {
         return dao.getAttendanceList(empId);
     }
+    public List<AttendanceVo> getAttendanceListHistory(String empId, PageVo pvo) {
+
+        return dao.getAttendanceListHistory(empId,pvo);
+    }
+    //갯수조회
+    public int getTotalAttendanceCount(String empId) {
+        return dao.getTotalAttendanceCount(empId);
+    }
+
 
     public int insertStartTime(String empId) {
         return dao.insertStartTime(empId);
@@ -52,10 +62,7 @@ public class AttendanceService {
         return dao.getAttendanceHistory(startDate,endDate,empId);
     }
 
-//    public int getTotalAttendanceCount(String empId) {
-//        return dao.getTotalAttendanceCount(empId);
-//    }
-//
+
 //    public List<AttendanceVo> getAttendanceList(String empId, int page, int size) {
 //
 //        int offset = (page - 1) * size;

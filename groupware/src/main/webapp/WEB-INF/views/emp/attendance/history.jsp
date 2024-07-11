@@ -156,10 +156,31 @@
           </table>
           <hr>
 
-          <div class="pagination">
-            <button id="prevPageBtn" disabled>이전</button>
-            <button id="nextPageBtn">다음</button>
-          </div>
+          <c:if test="${not empty pvo}">
+            <div class="pagination">
+                <c:if test="${pvo.currentPage > 1}">
+                    <a href="?pno=1">First</a>
+                    <a href="?pno=${pvo.currentPage - 1}">Previous</a>
+                </c:if>
+                <c:forEach var="i" begin="${pvo.startPage}" end="${pvo.endPage}">
+                    <c:choose>
+                        <c:when test="${i == pvo.currentPage}">
+                            <strong>${i}</strong>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="?pno=${i}">${i}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                <c:if test="${pvo.currentPage < pvo.maxPage}">
+                    <a href="?pno=${pvo.currentPage + 1}">Next</a>
+                    <a href="?pno=${pvo.maxPage}">Last</a>
+                </c:if>
+            </div>
+         </c:if>
+
+
+        
 
 
         </div>
@@ -272,16 +293,18 @@ updateAttendanceStatus();
 
 
 //페이지들어가자마자 전체목록불러오기(페이징처리 필요)
-$.ajax({
-      url: '/record/list',
+//페이지 번호를 인자로 받아 출퇴근 목록 로드
+function loadAttendanceList(pno){
+    $.ajax({
+      url: '/record/history/list',
       type: 'GET',
       data: {
+        pno: pno
       },
-      success: function(data) {
+      success: function(response) {
 
-        if(data.state==null){
-
-        }
+        const data = response.attendanceList;
+        const pvo = response.pvo;
           const tbody = $('#recordList tbody');
           let str = ""; // 초기화 위치 확인
           for(let i = 0; i < data.length; ++i) {
@@ -324,22 +347,57 @@ $.ajax({
               str += "</tr>";
           }
 
-          console.log('Generated HTML string: ', str);
-          tbody.html(str); // 최종적으로 업데이트된 문자열 적용
-          console.log('Table updated successfully');
+          tbody.html(str);
+
+            // 페이징바 업데이트
+            const pagination = $(".pagination");
+            let pageStr = "";
+
+            // 이전 페이지 링크 생성
+            if (pvo.currentPage > 1) {
+                pageStr += '<a href="#" data-pno="1">First</a>';
+                pageStr += '<a href="#" data-pno="' + (pvo.currentPage - 1) + '">Previous</a>';
+            }
+            // 페이지 번호 링크 생성
+            for (let i = pvo.startPage; i <= pvo.endPage; i++) {
+                if (i === pvo.currentPage) {
+                    pageStr += '<strong>' + i + '</strong>'; // 현재 페이지는 굵게 표시
+                } else {
+                    pageStr += '<a href="#" data-pno="' + i + '">' + i + '</a>';
+                }
+            }
+            // 다음 페이지 링크 생성
+            if (pvo.currentPage < pvo.maxPage) {
+                pageStr += '<a href="#" data-pno="' + (pvo.currentPage + 1) + '">Next</a>';
+                pageStr += '<a href="#" data-pno="' + pvo.maxPage + '">Last</a>';
+            }
+
+            pagination.html(pageStr); // 페이징바 업데이트
+                // 페이징바 클릭 이벤트 핸들러 등록
+            $(".pagination a").click(function (e) {
+                e.preventDefault(); // 기본 동작 방지
+                let pno = $(this).data("pno"); // 클릭한 링크의 페이지 번호 추출
+                loadAttendanceList(pno); // 해당 페이지 번호로 다시 목록 로드
+            });
       },
       error: function(e) {
           console.error('Ajax error: ', e);
       }
   });
 
-
+}
+//페이지 로드시 첫번쨰페이지로 
+loadAttendanceList(1);
 
 
 
 
 
 $('#searchBtn').click(function() {
+
+
+
+
   var startDate = $('#startDate').val();
   var endDate = $('#endDate').val();
 
@@ -401,9 +459,7 @@ $('#searchBtn').click(function() {
               str += "</tr>";
           }
 
-          console.log('Generated HTML string: ', str);
           tbody.html(str); // 최종적으로 업데이트된 문자열 적용
-          console.log('Table updated successfully');
       },
       error: function(e) {
           console.error('Ajax error: ', e);

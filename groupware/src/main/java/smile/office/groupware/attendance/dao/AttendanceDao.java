@@ -1,10 +1,12 @@
 package smile.office.groupware.attendance.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Repository;
 import smile.office.groupware.attendance.mapper.AttendanceMapper;
 import smile.office.groupware.attendance.vo.AttendanceVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
+import smile.office.groupware.page.PageVo;
 
 import java.util.List;
 
@@ -17,6 +19,20 @@ public class AttendanceDao {
 
     public List<AttendanceVo> getAttendanceList(String empId) {
         return mapper.getAttendanceList(empId);
+    }
+
+    public List<AttendanceVo> getAttendanceListHistory(String empId, PageVo pvo) {
+
+        int offset = pvo.getStartNum()-1;
+        int limit = pvo.getBoardLimit();
+        RowBounds rb = new RowBounds(offset,limit);
+        return mapper.getAttendanceListHistory(empId,rb);
+    }
+
+    public int getTotalAttendanceCount(String empId) {
+
+        return mapper.getTotalAttendanceCount(empId);
+
     }
 
     public int insertStartTime(String empId) {
@@ -47,12 +63,7 @@ public class AttendanceDao {
         return mapper.getAttendanceHistory(startDate,endDate,empId);
     }
 
-//    public int getTotalAttendanceCount(String empId) {
-//
-//        return mapper.getTotalAttendanceCount(empId);
-//
-//    }
-//
+
 //    public List<AttendanceVo> getAttendanceList(int offset, int size) {
 //        return mapper.getAttendanceList(offset,size);
 //    }

@@ -4,6 +4,7 @@ package smile.office.groupware.attendance.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import smile.office.groupware.attendance.service.AttendanceService;
 import smile.office.groupware.attendance.vo.AttendanceVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
+import smile.office.groupware.page.PageVo;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -84,41 +86,27 @@ public class AttendanceRecordController {
         return ResponseEntity.ok(attendanceList);
     }
 
-
     // 출퇴근 기록 json으로 불러오기(리스트 페이지처리용)
-//    @GetMapping("/list")
-//    public ResponseEntity<?> getAttendanceList(HttpServletRequest request ,@RequestParam(value = "page", defaultValue = "1") int page,
-//    @RequestParam(value = "size", defaultValue = "10") int size) {
-//        HttpSession session = request.getSession();
-//        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
-//        String empId = loginEmployeeVo.getEmpId();
-//        List<AttendanceVo> attendanceList = service.getAttendanceList(empId,page,size);
-//        int totalCount = service.getTotalAttendanceCount(empId);
-//        int totalPages = (int) Math.ceil((double) totalCount / size);
-//
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("attendanceList", attendanceList);
-//        result.put("currentPage", page);
-//        result.put("totalPages", totalPages);
-//        return ResponseEntity.ok(result);
-//
-//    }
-
-
-
-
-    //화면 좌측 오늘의 출퇴근시간 기록 가져오기
-    @GetMapping("todayRecord")
-    public AttendanceVo getTodayAttRecord(Model model, HttpServletRequest request) {
+    @GetMapping("history/list")
+    public ResponseEntity<?> getAttendanceListHistory(HttpServletRequest request,@RequestParam("pno") String pno) {
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();
-        AttendanceVo attendanceVo = service.getTodayAttRecord(empId);
-        model.addAttribute("attendanceVo", attendanceVo);
-        return attendanceVo;
+        int listCount = service.getTotalAttendanceCount(empId);
+        int currentPage = Integer.parseInt(pno);
+        System.out.println("pno = " + pno);
+        int pageLimit =5;
+        int boardLimit = 10;
+        PageVo pvo= new PageVo(listCount,currentPage,pageLimit,boardLimit);
+
+        List<AttendanceVo> attendanceList = service.getAttendanceListHistory(empId,pvo);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("attendanceList", attendanceList);
+        response.put("pvo", pvo);
+        return ResponseEntity.ok(response);
+
     }
-
-
 
 
     //기간선택해서 조회기능
@@ -135,13 +123,16 @@ public class AttendanceRecordController {
 
 
 
-
-
-
-
-
-
-
+    //화면 좌측 오늘의 출퇴근시간 기록 가져오기
+    @GetMapping("todayRecord")
+    public AttendanceVo getTodayAttRecord(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        AttendanceVo attendanceVo = service.getTodayAttRecord(empId);
+        model.addAttribute("attendanceVo", attendanceVo);
+        return attendanceVo;
+    }
 
 
 
