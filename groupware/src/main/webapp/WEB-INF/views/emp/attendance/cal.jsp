@@ -95,7 +95,6 @@
                 url: "/record/start",
                 type: "POST",
                 success: function(data) {
-                    console.log(data);
                     if(data ==='false'){
                       alert('오늘은 이미 출근 기록이 있습니다.');
                       return;
@@ -105,16 +104,8 @@
                     return;
                    }
                   else{
-                  console.log('출근버튼 else문');
-
                   alert('출근 시간 저장에 성공했습니다.');
-                //   updateAttendanceStatus(); // 출근 기록 후 업데이트
-
                   location.href="/emp/attendance/cal";
-                //   document.querySelector("#status").innerHTML = '근무중';
-
-                //   document.querySelector("#startTime").innerText = timeStr;
-
                   } 
 
                 },
@@ -189,13 +180,8 @@ function updateAttendanceStatus() {
     });
 }
 
-
 // 페이지 로드 시 초기 근태 기록 업데이트
     updateAttendanceStatus();
-
-
-
-
 
 //달력에 근태띄우는부분
     $.ajax({
@@ -239,11 +225,18 @@ function updateAttendanceStatus() {
 
             data.forEach(function(event) {
                 if (event.dayWorkTime !== null) {
-                    var eventTitle = event.dayWorkTime;
+                    let adjustedDayWorkTime = event.dayWorkTime;
+                    if (event.dayWorkTime >= 4.5 && event.dayWorkTime < 9) {
+                        adjustedDayWorkTime -= 0.5;
+                    } else if (event.dayWorkTime >= 9) {
+                        adjustedDayWorkTime -= 1;
+                    }
+
+                    var eventTitle = adjustedDayWorkTime;
                     var startDate = event.wdate;
                     var endDate = event.wdate;
                     calendar.addEvent({
-                        title: '총 근무시간  : ' + eventTitle,
+                        title: '총 근무시간  : ' + eventTitle+' hr',
                         start: startDate,
                         end: endDate,
                         allDay: true,
