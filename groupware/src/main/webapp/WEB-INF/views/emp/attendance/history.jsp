@@ -287,39 +287,39 @@ $.ajax({
           for(let i = 0; i < data.length; ++i) {
               let startTimePart = data[i].startTime.split(' ')[1];
               let endTimePart = data[i].endTime.split(' ')[1];
-              console.log(data[i].wdate);
-//////날짜,요일처리
-        // let dateObj = new Date(data[i].wdate);
-        // // 날짜만 추출 (년-월-일 형식)
-        // let dateString = dateObj.toISOString().split('T')[0]; // '2024-07-08'
-        // let daysOfWeek = ['토','일', '월', '화', '수', '목', '금'];
 
-        // // 요일 가져오기
-        // let dayOfWeekIndex = dateObj.getDay();
-        // let dayOfWeek = daysOfWeek[dayOfWeekIndex];
+              console.log(endTimePart);
+                let dateObj = new Date(data[i].wdate);
+                let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                let dateString = dateObj.toLocaleDateString('ko-KR', options); // 한국 시간대를 기준으로 날짜 형식을 설정
 
-        // // 날짜 뒤에 요일 추가
-        // let formattedDate = dateString + ' (' + dayOfWeek+')'; // '2024-07-08 금'
-///////////
-let dateObj = new Date(data[i].wdate);
-let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-let dateString = dateObj.toLocaleDateString('ko-KR', options); // 한국 시간대를 기준으로 날짜 형식을 설정
+                let daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+                let dayOfWeekIndex = dateObj.getDay();
+                let dayOfWeek = daysOfWeek[dayOfWeekIndex];
 
-let daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
-let dayOfWeekIndex = dateObj.getDay();
-let dayOfWeek = daysOfWeek[dayOfWeekIndex];
+                let formattedDate = dateString + ' (' + dayOfWeek + ')';
+                 // 조건문 추가(4시간마다 0.5시간 휴게시간 뺌)
+                 let adjustedDayWorkTime = data[i].dayWorkTime;
+                    if (data[i].dayWorkTime >= 4.5 && data[i].dayWorkTime < 9) {
+                        adjustedDayWorkTime -= 0.5;
+                    } else if (data[i].dayWorkTime >= 9) {
+                        adjustedDayWorkTime -= 1;
+                    }
+                // 초과 시간 계산
+                let [endHour, endMinute, endSecond] = endTimePart.split(':').map(Number);
+                let excessTime = 0;
 
-let formattedDate = dateString + ' (' + dayOfWeek + ')';
-
-
+                if (endHour > 18 || (endHour === 18 && (endMinute > 0 || endSecond > 0))) {
+                    excessTime = (endHour - 18) + (endMinute / 60) + (endSecond / 3600);
+                }
 
 
               str += "<tr>";
               str += '<td>' + formattedDate + '</td>';
               str += '<td>'+startTimePart+'</td>';
               str += '<td>'+endTimePart+'</td>';
-              str += '<td>'+data[i].dayWorkTime +'hr</td>';
-              str += '<td> 기본 '+data[i].dayWorkTime+ 'hr/' +'연장' +0 +'hr</td>';
+              str += '<td>'+adjustedDayWorkTime +'hr</td>';
+              str += '<td> 기본 '+adjustedDayWorkTime+ 'hr/' +'연장' +excessTime.toFixed(2) +'hr</td>';
               str += '<td>'+data[i].state+'</td>';
               str += "</tr>";
           }
@@ -366,38 +366,37 @@ $('#searchBtn').click(function() {
             
               let startTimePart = data[i].startTime.split(' ')[1];
               let endTimePart = data[i].endTime.split(' ')[1];
-//////날짜,요일처리
-// let dateObj = new Date(data[i].wdate);
-//         // 날짜만 추출 (년-월-일 형식)
-//         let dateString = dateObj.toISOString().split('T')[0]; // '2024-07-08'
-//         let daysOfWeek = ['토','일', '월', '화', '수', '목', '금'];
+            console.log(endTimePart);
+                let dateObj = new Date(data[i].wdate);
+                let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                let dateString = dateObj.toLocaleDateString('ko-KR', options); // 한국 시간대를 기준으로 날짜 형식을 설정
 
-//         // 요일 가져오기
-//         let dayOfWeekIndex = dateObj.getDay();
-//         let dayOfWeek = daysOfWeek[dayOfWeekIndex];
+                let daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+                let dayOfWeekIndex = dateObj.getDay();
+                let dayOfWeek = daysOfWeek[dayOfWeekIndex];
 
-//         // 날짜 뒤에 요일 추가
-//         let formattedDate = dateString + ' (' + dayOfWeek+')'; // '2024-07-08 금'
-///////////
+                let formattedDate = dateString + ' (' + dayOfWeek + ')';
+                // 조건문 추가(4시간마다 0.5시간 휴게시간 뺌)
+                let adjustedDayWorkTime = data[i].dayWorkTime;
+                if (data[i].dayWorkTime >= 4.5 && data[i].dayWorkTime < 9) {
+                    adjustedDayWorkTime -= 0.5;
+                } else if (data[i].dayWorkTime >= 9) {
+                    adjustedDayWorkTime -= 1;
+                }
+                // 초과 시간 계산
+                let [endHour, endMinute, endSecond] = endTimePart.split(':').map(Number);
+                let excessTime = 0;
 
-let dateObj = new Date(data[i].wdate);
-let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-let dateString = dateObj.toLocaleDateString('ko-KR', options); // 한국 시간대를 기준으로 날짜 형식을 설정
-
-let daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
-let dayOfWeekIndex = dateObj.getDay();
-let dayOfWeek = daysOfWeek[dayOfWeekIndex];
-
-let formattedDate = dateString + ' (' + dayOfWeek + ')';
-
-
+                if (endHour > 18 || (endHour === 18 && (endMinute > 0 || endSecond > 0))) {
+                    excessTime = (endHour - 18) + (endMinute / 60) + (endSecond / 3600);
+                }
 
               str += "<tr>";
               str += '<td>' + formattedDate + '</td>';
               str += '<td>'+startTimePart+'</td>';
               str += '<td>'+endTimePart+'</td>';
-              str += '<td>'+data[i].dayWorkTime +'hr</td>';
-              str += '<td> 기본 '+data[i].dayWorkTime+ 'hr/' +'연장' +0 +'hr</td>';
+              str += '<td>'+adjustedDayWorkTime +'hr</td>';
+              str += '<td> 기본 '+adjustedDayWorkTime+ 'hr/' +'연장' +excessTime.toFixed(2) +'hr</td>';
               str += '<td>'+data[i].state+'</td>';
               str += "</tr>";
           }

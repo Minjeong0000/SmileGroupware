@@ -60,14 +60,12 @@ public class AttendanceRecordController {
         // 이미 퇴근 기록이 있는지 확인
         if (service.hasCheckOutToday(empId)) {//true일때
            int endTimeOverWrite =  service. updateEndTimeAgain(empId);
-            System.out.println("endTimeOverWrite = " + endTimeOverWrite);
             if(endTimeOverWrite == 1){
                 return "success";
 
             }else {return "error";}
         }else {
             int endTimeFirstWrite = service.updateEndTime(empId);
-            System.out.println("endTimeFirstWrite = " + endTimeFirstWrite);
             if( endTimeFirstWrite == 1){
                 return "success";
 
@@ -129,9 +127,6 @@ public class AttendanceRecordController {
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();
-        System.out.println("empId = " + empId);
-        System.out.println("startDate = " + startDate);
-        System.out.println("endDate = " + endDate);
         List<AttendanceVo> attendanceList = service.getAttendanceHistory(startDate,endDate, empId);
 
         return ResponseEntity.ok(attendanceList);
