@@ -48,6 +48,7 @@
                               <li><a href="#">결재중</a></li>
                               <li><a href="#">결재처리</a></li>
                               <li><a href="#">임시저장</a></li>
+                              <li><a href="#">결재목록</a></li>
                             </ul>
                           </li>
                           <li>

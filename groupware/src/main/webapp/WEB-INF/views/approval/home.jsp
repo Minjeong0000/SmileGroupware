@@ -16,10 +16,10 @@
     <div id="mySidenav" class="sidenav">
       <a href="#" onclick="toggleNav(event)"><span class="menu-icon">&#9776;</span><span class="link-text">메뉴</span></a>
       <a href="home.html"><span class="menu-icon">&#8962;</span><span class="link-text">홈</span></a>
-      <a href="#"><span class="menu-icon">&#128736;</span><span class="link-text">일정관리</span></a>
-      <a href="#"><span class="menu-icon">&#128100;</span><span class="link-text">근태관리</span></a>
+      <a href="/event/personal/calendar"><span class="menu-icon">&#128736;</span><span class="link-text">일정관리</span></a>
+      <a href="/emp/attendance/cal"><span class="menu-icon">&#128100;</span><span class="link-text">근태관리</span></a>
       <a href="/approval/home"><span class="menu-icon">&#128203;</span><span class="link-text">결재</span></a>
-      <a href="#"><span class="menu-icon">&#9742;</span><span class="link-text">연락처</span></a>
+      <a href="/message/received"><span class="menu-icon">&#9742;</span><span class="link-text">연락처</span></a>
       <a href="#"><span class="menu-icon">&#128101;</span><span class="link-text">커뮤니티</span></a>
     </div>
     <div id="main" onclick="closeNav()">
@@ -45,9 +45,10 @@
                       <li>
                         <a href="#" class="collapsed">결재목록   &nbsp;<span class="indicator">&#9654;</span></a>
                         <ul>
-                          <li><a href="#">결재중</a></li>
+                          <li><a href="/approval/ing">결재중</a></li>
                           <li><a href="#">결재처리</a></li>
                           <li><a href="#">임시저장</a></li>
+                          <li><a href="#">결재목록</a></li>
                         </ul>
                       </li>
                       <li>
