@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smile.office.groupware.admin.dao.AdminDao;
 import smile.office.groupware.admin.vo.AdminVo;
+import smile.office.groupware.department.vo.DepartmentVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
+import smile.office.groupware.position.vo.PositionVo;
 import smile.office.groupware.question.vo.QuestionVo;
+import smile.office.groupware.role.vo.RoleVo;
 
 import java.util.List;
 
@@ -47,6 +50,20 @@ public class AdminService {
     public int addEmployee(EmployeeVo vo) throws Exception{
         return dao.addEmployee(vo);
     }
+
+    public List<DepartmentVo> getDepartments() {
+        return dao.getDepartments();
+    }
+
+    public List<RoleVo> getRoles() {
+        return dao.getRoles();
+    }
+
+    public List<PositionVo> getPositions() {
+        return dao.getPositions();
+    }
+
+
 
     public EmployeeVo getEmployeeById(String empId) {
         return dao.getEmployeeById(empId);

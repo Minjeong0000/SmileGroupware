@@ -3,6 +3,7 @@ package smile.office.groupware.admin.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import smile.office.groupware.admin.service.AdminService;
 import smile.office.groupware.admin.vo.AdminVo;
+import smile.office.groupware.department.vo.DepartmentVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
+import smile.office.groupware.position.vo.PositionVo;
 import smile.office.groupware.question.vo.QuestionVo;
+import smile.office.groupware.role.vo.RoleVo;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -120,7 +125,6 @@ public class AdminController {
     @PostMapping("userAdd")
     public String userAdd(@ModelAttribute EmployeeVo vo, @RequestParam("profileFile") MultipartFile profileFile, Model model) {
         try {
-            // 프로필 사진 저장
             if (!profileFile.isEmpty()) {
                 String uploadDir = "D:/smailOffice/groupware/src/main/resources/static/img/userProfile";
                 File uploadDirFile = new File(uploadDir);
@@ -149,10 +153,30 @@ public class AdminController {
         }
     }//method
 
+    ////////////////////////////////////////////////////////////////
 
+    // 부서 목록 가져오기 (REST API)
+    @GetMapping("/api/departments")
+    @ResponseBody
+    public List<DepartmentVo> getDepartments() {
+        return service.getDepartments();
+    }
 
+    // 역할 목록 가져오기 (REST API)
+    @GetMapping("/api/roles")
+    @ResponseBody
+    public List<RoleVo> getRoles() {
+        return service.getRoles();
+    }
 
-    ///////////////////////////////////////////////////////////////////////
+    // 직위 목록 가져오기 (REST API)
+    @GetMapping("/api/positions")
+    @ResponseBody
+    public List<PositionVo> getPositions() {
+        return service.getPositions();
+    }
+
+    ////////////////////////////////////////////////////////////////
 
     //관리자 조회
     @GetMapping("inquiry")
@@ -209,9 +233,4 @@ public class AdminController {
         session.invalidate(); // 세션 무효화
         return "redirect:/login";
     }
-
-
-
 }//class
-
-
