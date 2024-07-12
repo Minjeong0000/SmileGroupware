@@ -136,13 +136,13 @@
 </head>
 <body>
     <div id="mySidenav" class="sidenav">
-      <a href="#" onclick="toggleNav(event)"><span class="menu-icon">&#9776;</span><span class="link-text">메뉴</span></a>
-      <a href="#"><span class="menu-icon">&#8962;</span><span class="link-text">홈</span></a>
-      <a href="#"><span class="menu-icon">&#128736;</span><span class="link-text">일정관리</span></a>
-      <a href="#"><span class="menu-icon">&#128100;</span><span class="link-text">근태관리</span></a>
-      <a href="#"><span class="menu-icon">&#128203;</span><span class="link-text">결재</span></a>
-      <a href="#"><span class="menu-icon">&#9742;</span><span class="link-text">연락처</span></a>
-      <a href="#"><span class="menu-icon">&#128101;</span><span class="link-text">커뮤니티</span></a> 
+<a href="#" onclick="toggleNav(event)"><span class="menu-icon">&#9776;</span><span class="link-text">메뉴</span></a>
+            <a href="home.html"><span class="menu-icon">&#8962;</span><span class="link-text">홈</span></a>
+            <a href="/event/personal/calendar"><span class="menu-icon">&#128736;</span><span class="link-text">일정관리</span></a>
+            <a href="/emp/attendance/cal"><span class="menu-icon">&#128100;</span><span class="link-text">근태관리</span></a>
+            <a href="/approval/home"><span class="menu-icon">&#128203;</span><span class="link-text">결재</span></a>
+            <a href="/message/received"><span class="menu-icon">&#9742;</span><span class="link-text">연락처</span></a>
+            <a href="#"><span class="menu-icon">&#128101;</span><span class="link-text">커뮤니티</span></a>
     </div>
 
     <div id="main" onclick="closeNav()">
@@ -266,6 +266,8 @@
                     openViewModal(info.event);
                 },
 
+                
+
                 //달력에서 '일' 삭제하기 함수 
                 dayCellContent: function(info) {
                     var number = document.createElement("a");
@@ -282,14 +284,17 @@
                 },
                 dateClick: function(info) {
                     openEventModal({ start: info.dateStr });
-                }
+                },
+
+                
             });
             calendar.render();
 
-         // 달력에 데이터 로드(개인일정목록)
+
+
+        // AJAX를 사용하여 서버에서 이벤트를 달력에 데이터 로드(개인일정목록)
          function loadEvents() {
-        // AJAX를 사용하여 서버에서 이벤트 데이터를 로드합니다.
-    
+        
          $.ajax({
             url: '/api/event/list', // 서버의 엔드포인트
             method: 'GET',
@@ -298,8 +303,15 @@
                 // 데이터 로딩 성공 시, 달력에 이벤트를 추가
                 data.forEach(function(event) {
                 console.log(event); // 디버깅을 위해 데이터 출력
-                const start = event.startDate.split(' ')[0] + 'T' + event.startTime.split(' ')[1];
-                const end = event.endDate.split(' ')[0] + 'T' + event.endTime.split(' ')[1];
+                let startDate = event.startDate;
+                let endDate = event.endDate;
+                
+                console.log(startDate);
+                console.log(endDate);
+
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+
                 calendar.addEvent({
                     title: event.title,
                     start: start,
@@ -318,6 +330,54 @@
             });
         }
         loadEvents(); // 달력 초기화 후 이벤트 로드
+
+
+    document.getElementById('saveEvent').addEventListener('click', function() {
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('content').value;
+    const attendees = document.getElementById('attendees').value;
+    const typeNo = document.getElementById('typeNo').value; // 카테고리 선택 값을 확인
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+    const startTime= document.getElementById('startTime').value;
+    const endTime = document.getElementById('endTime').value;
+
+
+
+    $.ajax({
+        url: '/api/event',
+        method: 'POST',
+        data:{
+            personalNo : 1,
+            title: title,
+            content: content,
+            attendees: attendees,
+            typeNo: typeNo,
+            startDate: startDate,
+            endDate: endDate,
+            startTime: startTime,
+            endTime: endTime,
+        },
+        success: function(response) {
+            console.log('Event saved successfully:', response);
+            calendar.refetchEvents(); // 캘린더 업데이트
+            closeEventModal(); // 모달 닫기
+        },
+        error: function(xhr, status, error) {
+            console.error('Error saving event:', error);
+            alert('Event saving failed. Please try again.');
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
 
             var eventModal = document.getElementById("eventModal");
             var viewEventModal = document.getElementById("viewEventModal");
@@ -462,34 +522,7 @@
 
 
 
-    document.getElementById('saveEvent').addEventListener('click', function() {
-    var eventData = {
-        title: document.getElementById('title').value,
-        content: document.getElementById('content').value,
-        attendees: document.getElementById('attendees').value,
-        typeNo: document.getElementById('typeNo').value, // 카테고리 선택 값을 확인
-        startDate: document.getElementById('startDate').value,
-        endDate: document.getElementById('endDate').value,
-        startTime: document.getElementById('startDate').value + 'T' + document.getElementById('startTime').value,
-        endTime: document.getElementById('endDate').value + 'T' + document.getElementById('endTime').value
-    };
-
-    $.ajax({
-        url: '/api/event',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(eventData),
-        success: function(eventData) {
-            console.log('Event saved successfully:', eventData);
-            calendar.refetchEvents(); // 캘린더 업데이트
-            closeEventModal(); // 모달 닫기
-        },
-        error: function(xhr, status, error) {
-            console.error('Error saving event:', error);
-            alert('Event saving failed. Please try again.');
-        }
-    });
-});
+    
 
 
 
