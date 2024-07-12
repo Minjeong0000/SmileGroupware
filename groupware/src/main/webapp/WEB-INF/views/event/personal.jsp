@@ -373,45 +373,7 @@
 
 
 
-document.getElementById('deleteEvent').addEventListener('click', function() {
-    const title = document.getElementById('title').value;
-    const content = document.getElementById('content').value;
-    const attendees = document.getElementById('attendees').value;
-    const typeNo = document.getElementById('typeNo').value; // 카테고리 선택 값을 확인
-    const startDate = document.getElementById('startDate').value;
-    const endDate = document.getElementById('endDate').value;
-    const startTime= document.getElementById('startTime').value;
-    const endTime = document.getElementById('endTime').value;
 
-    $.ajax({
-        url: '/api/event',
-        method: 'Delete',
-        contentType: "application/json",
-        data:{
-            personalNo : 1,
-            title: title,
-            content: content,
-            attendees: attendees,
-            typeNo: typeNo,
-            startDate: startDate,
-            endDate: endDate,
-            startTime: startTime,
-            endTime: endTime,
-        },
-        
-
-        success: function(response) {
-            console.log('삭제성공:', response);
-            calendar.refetchEvents(); // 캘린더 업데이트
-            closeEventModal(); // 모달 닫기
-        },
-        error: function(xhr, status, error) {
-            console.error('삭제실패:', error);
-            alert('삭제실패');
-        }
-    });
-
-            });
 
 
 
