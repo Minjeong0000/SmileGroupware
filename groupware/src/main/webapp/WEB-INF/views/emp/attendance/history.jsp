@@ -159,8 +159,8 @@
           <c:if test="${not empty pvo}">
             <div class="pagination">
                 <c:if test="${pvo.currentPage > 1}">
-                    <a href="?pno=1">First</a>
-                    <a href="?pno=${pvo.currentPage - 1}">Previous</a>
+                    <a href="?pno=1">&laquo;</a>
+                    <a href="?pno=${pvo.currentPage - 1}">&lt;</a>
                 </c:if>
                 <c:forEach var="i" begin="${pvo.startPage}" end="${pvo.endPage}">
                     <c:choose>

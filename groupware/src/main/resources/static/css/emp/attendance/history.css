@@ -264,7 +264,7 @@ td{
 .record-list tr:last-child td {
   border-bottom: none; /* 마지막 행 하단 테두리 제거 */
 }
-.pagination {
+/* .pagination {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -288,4 +288,43 @@ td{
 .pagination button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+} */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+.pagination a, .pagination strong {
+  margin: 0 5px;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #6f7bc9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover {
+  background-color: #6f7bc9;
+  color: #fff;
+}
+
+.pagination strong {
+  background-color: #6f7bc9;
+  color: #fff;
+  border-color: #6f7bc9;
+}
+
+.pagination a:first-child, .pagination a:last-child {
+  font-weight: bold;
+}
+
+.pagination a.disabled, .pagination a.disabled:hover {
+  color: #ddd;
+  cursor: not-allowed;
+  background-color: transparent;
 }
