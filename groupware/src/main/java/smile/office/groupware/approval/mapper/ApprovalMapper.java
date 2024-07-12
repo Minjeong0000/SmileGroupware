@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import smile.office.groupware.approval.vo.*;
+import smile.office.groupware.approval.vo.list.AppAlListVo;
 import smile.office.groupware.approval.vo.write.AppVacVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 import smile.office.groupware.prioritie.vo.PrioritieVo;
@@ -302,7 +303,6 @@ public interface ApprovalMapper {
             "JOIN priorities P ON P.priority_no = A.priority_no\n" +
             "JOIN statuses S ON S.status_no = A.status_no\n" +
             "JOIN approval_lines AL ON AL.approval_no = A.approval_no\n" +
-            "JOIN APPROVAL_RESPONSES AR ON AR.APPROVAL_LINE_NO=AL.APPROVAL_LINE_NO\n" +
             "LEFT JOIN VACATION_TEMPLATES VT ON VT.APPROVAL_NO = A.APPROVAL_NO\n" +
             "LEFT JOIN VAC_CATE VC ON VC.VAC_CATE_NO = VT.VAC_CATE_NO\n" +
             "LEFT JOIN DOCUMENT_TEMPLATES DT ON DT.APPROVAL_NO = A.APPROVAL_NO\n" +
@@ -312,4 +312,60 @@ public interface ApprovalMapper {
             "AND S.STATUS_NO = 1\n" +
             "GROUP BY a.approval_no, p.priority_name, s.status_name, a.title, a.create_date, e.emp_name, VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME")
     List<ApprovalListVo> getAppListIng(String empId);
+
+    @Select("SELECT E2.EMP_ID as empNo,E2.EMP_NAME as empName ,S.STATUS_NO as stNo,S.STATUS_NAME as stName  \n" +
+            "FROM APPROVALS A\n" +
+            "JOIN EMPLOYEE E ON A.EMP_ID =E.EMP_ID \n" +
+            "JOIN APPROVAL_LINES AL ON AL.APPROVAL_NO =A.APPROVAL_NO \n" +
+            "JOIN STATUSES S ON S.STATUS_NO =AL.STATUS_NO\n" +
+            "JOIN EMPLOYEE E2 ON E2.EMP_ID =AL.EMP_ID \n" +
+            "WHERE A.APPROVAL_NO =#{approvalNo}\n" +
+            "ORDER BY AL.SEQ ")
+    List<AppAlListVo> getApprovalLines(int approvalNo);
+
+    @Insert("DECLARE\n" +
+            "    P_MESSAGE_NO NUMBER;\n" +
+            "    P_MESSAGE_USER_NO1 NUMBER;\n" +
+            "    P_MESSAGE_USER_NO2 NUMBER;\n" +
+            "BEGIN\n" +
+            "    INSERT INTO MESSAGE (MESSAGE_NO, SENDER_NO, RECEIVER_NO, CONTENT)\n" +
+            "    VALUES (SEQ_MESSAGE.NEXTVAL, #{empId}, #{empNo}, #{message})\n" +
+            "    RETURNING MESSAGE_NO INTO P_MESSAGE_NO;\n" +
+            "\n" +
+            "    INSERT INTO MESSAGE_USER (MESSAGE_USER_NO, MESSAGE_NO, EMP_ID)\n" +
+            "    VALUES (SEQ_MESSAGE_USER.NEXTVAL, P_MESSAGE_NO, #{empId})\n" +
+            "    RETURNING MESSAGE_USER_NO INTO P_MESSAGE_USER_NO1;\n" +
+            "\n" +
+            "    INSERT INTO MESSAGE_USER (MESSAGE_USER_NO, MESSAGE_NO, EMP_ID)\n" +
+            "    VALUES (SEQ_MESSAGE_USER.NEXTVAL, P_MESSAGE_NO, #{empNo})\n" +
+            "    RETURNING MESSAGE_USER_NO INTO P_MESSAGE_USER_NO2;\n" +
+            "END;\n")
+    void getSendMassage(@Param("empId") String empId,
+                        @Param("empNo") String empNo,
+                        @Param("message") String message);
+
+    @Select("SELECT\n" +
+            "    a.approval_no AS approvalNo,\n" +
+            "    p.priority_name AS priority,\n" +
+            "    COALESCE(VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME) AS category,\n" +
+            "    a.title AS title,\n" +
+            "    a.content AS content,\n"+
+            "    TO_CHAR(a.create_date, 'YY\"년\"MM\"월\"DD\"일\"') AS createDate,\n" +
+            "    e.emp_name AS approver,\n" +
+            "    LISTAGG(e2.emp_name, '|') WITHIN GROUP (ORDER BY e2.role_no DESC) AS approvalLine,\n" +
+            "    s.status_name AS status\n" +
+            "FROM APPROVALS A\n" +
+            "JOIN EMPLOYEE E ON E.EMP_ID = A.EMP_ID\n" +
+            "JOIN priorities P ON P.priority_no = A.priority_no\n" +
+            "JOIN statuses S ON S.status_no = A.status_no\n" +
+            "JOIN approval_lines AL ON AL.approval_no = A.approval_no\n" +
+            "LEFT JOIN VACATION_TEMPLATES VT ON VT.APPROVAL_NO = A.APPROVAL_NO\n" +
+            "LEFT JOIN VAC_CATE VC ON VC.VAC_CATE_NO = VT.VAC_CATE_NO\n" +
+            "LEFT JOIN DOCUMENT_TEMPLATES DT ON DT.APPROVAL_NO = A.APPROVAL_NO\n" +
+            "LEFT JOIN DOCUMENT_CATEGORY DC ON DC.DOCUMENT_CATEGORY_NO = DT.DOCUMENT_CATEGORY_NO\n" +
+            "LEFT JOIN EMPLOYEE E2 ON E2.emp_id = AL.emp_id\n" +
+            "WHERE Al.EMP_ID = #{empId}\n" +
+            "AND S.STATUS_NO = 1\n" +
+            "GROUP BY a.approval_no, p.priority_name, s.status_name, a.title, a.content,a.create_date, e.emp_name, VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME")
+    List<ApprovalListVo> getAppListIngRes(String empId);
 }

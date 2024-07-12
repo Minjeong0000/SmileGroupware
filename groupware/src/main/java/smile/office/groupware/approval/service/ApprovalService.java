@@ -77,4 +77,24 @@ public class ApprovalService {
 
         return listApprovalVo;
     }
+
+    public List<AppAlListVo> getApprovalLines(int approvalNo) {
+        return dao.getApprovalLines(approvalNo);
+    }
+
+    public void getSendMassage(String empId, String empNo, String message) {
+        dao.getSendMassage(empId,empNo,message);
+    }
+
+    public ListApprovalVo getlistApprovalVoRes(String empId) {
+        ListApprovalVo listApprovalVo=new ListApprovalVo();
+
+        List<ApprovalListVo> approvalListVo=dao.getAppListIngRes(empId);
+
+        listApprovalVo.setApprovalListVoList(approvalListVo);
+
+        System.out.println("approvalListVo = " + approvalListVo);
+
+        return listApprovalVo;
+    }
 }

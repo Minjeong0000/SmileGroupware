@@ -46,7 +46,7 @@
                         <a href="#" class="collapsed">결재목록   &nbsp;<span class="indicator">&#9654;</span></a>
                         <ul>
                           <li><a href="/approval/ing">결재중</a></li>
-                          <li><a href="#">결재처리</a></li>
+                          <li><a href="/approval/response">결재처리</a></li>
                           <li><a href="#">임시저장</a></li>
                           <li><a href="#">결재목록</a></li>
                         </ul>

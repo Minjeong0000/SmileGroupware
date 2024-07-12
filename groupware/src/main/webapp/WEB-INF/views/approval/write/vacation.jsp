@@ -66,11 +66,12 @@
         <div class="column content">
             <main>
                 <div>
+                <h3>${loginEmployeeVo.empName}님의 잔여 연차 : ${loginEmployeeVo.remainVacCnt}</h3>
                   <form action="/approval/vac" method="post">
                     <table id="user-search" class="userList">
                       <tr>
                         <th>
-                          결재재목
+                          결재제목
                         </th>
                         <td class="search-field" style="text-align: left">
                           <input type="text" name="appTitle">
