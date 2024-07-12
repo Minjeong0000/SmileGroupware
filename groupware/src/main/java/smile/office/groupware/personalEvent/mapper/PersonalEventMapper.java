@@ -14,8 +14,8 @@ public interface PersonalEventMapper {
 
 
     @Insert("INSERT INTO PERSONAL_EVENT (PERSONAL_NO, TYPE_NO, EMP_ID, TITLE, CONTENT, LOCATION, DEL_YN, ENROLL_DATE, START_TIME, END_TIME, START_DATE, END_DATE) " +
-            "VALUES (SEQ_PERSONAL_EVENT.NEXTVAL, #{typeNo}, #{empId}, #{title}, #{content}, #{location}, 'N', SYSTIMESTAMP, " +
-            "TO_TIMESTAMP(#{startTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP(#{endTime}, 'YYYY-MM-DD HH24:MI:SS'), " +
+            "VALUES (SEQ_PERSONAL_EVENT.NEXTVAL, #{typeNo}, #{empId}, #{title}, #{content}, #{location}, 'N', SYSDATE, " +
+            "#{startTime}, #{endTime}, " +
             "#{startDate}, #{endDate})")
     int write(PersonalEventVo vo);
 

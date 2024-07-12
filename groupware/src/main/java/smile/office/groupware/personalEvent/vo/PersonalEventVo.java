@@ -1,9 +1,12 @@
 package smile.office.groupware.personalEvent.vo;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+//@Builder
 public class PersonalEventVo {
+
     private String personalNo;
     private String typeNo;
     private String reminderNo;

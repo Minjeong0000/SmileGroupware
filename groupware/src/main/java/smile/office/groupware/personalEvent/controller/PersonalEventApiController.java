@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/event")
 @RequiredArgsConstructor
+@CrossOrigin
 public class PersonalEventApiController {
 
     private final PersonalEventService service;
@@ -33,18 +34,24 @@ public class PersonalEventApiController {
         return ResponseEntity.ok(voList);
     }
 
+
     //개인일정작성
     @PostMapping
-    public int write(@RequestBody PersonalEventVo vo,HttpServletRequest request) {
+    public int write(PersonalEventVo vo,HttpServletRequest request) {
+        System.out.println("PersonalEventApiController.write");
+        System.out.println("vo = " + vo);
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo)session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();
+        vo.setEmpId(empId);
         System.out.println("empId = " + empId);
         System.out.println("vo = " + vo);
-        //TODO 나중에, 로그인한 유저 정보로 변경하기
+        System.out.println("일정등록요청들어옴");
+
         int result = service.write(vo);
 
         return result;
+
     }
 
 

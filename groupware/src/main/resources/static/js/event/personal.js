@@ -50,8 +50,6 @@ function closeNav() {
 
 
 
-calendar.on('dateClick', function(info) {
-  console.log('clicked on ' + info.dateStr);
-});
+
 
 
