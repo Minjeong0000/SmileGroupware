@@ -140,7 +140,7 @@
                         <th>상태</th>
                       </tr>
                       <c:forEach items="${listApprovalVo.approvalListVoList}" var="approval">
-                          <tr onclick="openModal(this)">
+                          <tr onclick="openModal('${approval.approvalNo}')">
                               <td>${approval.approvalNo}</td>
                               <td>${approval.priority}</td>
                               <td>${approval.category}</td>
@@ -168,42 +168,25 @@
                             <th>이름</th>
                             <th colspan="2">상태</th>
                           </tr>
-                          <tr>
-                            <th>결재선1</th>
-                            <td>이용진</td>
-                            <td>승인</td>
-                            <td><button onclick="openModal_2()">메세지보내기</button></td>
-                          </tr>
-                          <tr>
-                            <th>결재선2</th>
-                            <td>이부장</td>
-                            <td>진행중</td>
-                            <td><button onclick="openModal_2()">메세지보내기</button></td>
-                          </tr>
-                          <tr>
-                            <th>결재선3</th>
-                            <td>이이사</td>
-                            <td>진행중</td>
-                            <td><button onclick="openModal_2()">메세지보내기</button></td>
-                          </tr>
+                          <tbody id="approvalLines">
+
+
+                          </tbody>
                         </table>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div id="modal_2" class="modal_2">
-                  <div class="modal-content_2">
-                      <span class="close_2">&times;</span>
-                      <h2>쪽지 보내기</h2>
-                        사원 :
-                        <input type="text" value="emp.empName" readonly>
-                        <br />
-                        메시지 :<br/>
-                        <textarea name="message"></textarea>
-                        <br />
+                    <div class="modal-content_2">
+                        <span class="close_2">&times;</span>
+                        <h2>쪽지 보내기</h2>
+                        <input type="text" id="empNo" hidden><br>
+                        사원: <input type="text" id="empName" readonly><br>
+                        메시지:<br>
+                        <textarea id="message" name="message"></textarea><br>
                         <button id="sendMessageBtn">보내기</button>
-
-                  </div>
+                    </div>
                 </div>
             </main>
         </div>

@@ -3,17 +3,21 @@ package smile.office.groupware.approval.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import smile.office.groupware.approval.service.ApprovalService;
 import smile.office.groupware.approval.vo.ApprovalHomeVo;
+import smile.office.groupware.approval.vo.list.AppAlListVo;
 import smile.office.groupware.approval.vo.list.ListApprovalVo;
 import smile.office.groupware.approval.vo.write.AppVacVo;
 import smile.office.groupware.approval.vo.write.WriteVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/approval")
@@ -46,6 +50,7 @@ public class ApprovalController {
         String empId = loginEmployeeVo.getEmpId();
         WriteVo writeVo=service.getApprovalWrite(loginEmployeeVo);
         model.addAttribute("writeVo",writeVo);
+        model.addAttribute("loginEmployeeVo", loginEmployeeVo);
         return "approval/write/vacation";
     }
 
@@ -82,9 +87,21 @@ public class ApprovalController {
 
         return "approval/list/ing";
     }
+
     //결재 처리/응답
     @GetMapping("/response")
-    public String approvalListResponse(){return "approval/list/response";}
+    public String approvalListResponse(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        if (loginEmployeeVo == null) {
+            return "redirect:/login";
+        }
+        String empId = loginEmployeeVo.getEmpId();
+        ListApprovalVo listApprovalVo=service.getlistApprovalVoRes(empId);
+        model.addAttribute("listApprovalVo",listApprovalVo);
+        model.addAttribute("loginEmployeeVo", loginEmployeeVo);
+        return "approval/list/response";
+    }
     //결재 작성 중
     @GetMapping("/write")
     public String approvalListWrite(){return "approval/list/write";}

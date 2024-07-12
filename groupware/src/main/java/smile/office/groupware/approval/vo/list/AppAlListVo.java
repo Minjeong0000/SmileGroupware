@@ -6,6 +6,8 @@ import smile.office.groupware.statuse.vo.StatuseVo;
 
 @Data
 public class AppAlListVo {
-    private EmployeeVo employeeVo;
-    private StatuseVo statuseVo;
+    private String empNo;
+    private String empName;
+    private String stNo;
+    private String stName;
 }

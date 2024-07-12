@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import smile.office.groupware.approval.mapper.ApprovalMapper;
 import smile.office.groupware.approval.vo.*;
+import smile.office.groupware.approval.vo.list.AppAlListVo;
 import smile.office.groupware.approval.vo.write.AppVacVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 import smile.office.groupware.prioritie.vo.PrioritieVo;
@@ -66,5 +67,17 @@ public class ApprovalDao {
 
     public List<ApprovalListVo> getAppListIng(String empId) {
         return mapper.getAppListIng(empId);
+    }
+
+    public List<AppAlListVo> getApprovalLines(int approvalNo) {
+        return mapper.getApprovalLines(approvalNo);
+    }
+
+    public void getSendMassage(String empId, String empNo, String message) {
+        mapper.getSendMassage(empId,empNo,message);
+    }
+
+    public List<ApprovalListVo> getAppListIngRes(String empId) {
+        return mapper.getAppListIngRes(empId);
     }
 }
