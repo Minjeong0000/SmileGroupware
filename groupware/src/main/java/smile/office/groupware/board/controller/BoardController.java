@@ -1,0 +1,124 @@
+package smile.office.groupware.board.controller;
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import smile.office.groupware.board.service.BoardService;
+import smile.office.groupware.board.vo.BoardVo;
+import smile.office.groupware.employee.vo.EmployeeVo;
+import smile.office.groupware.page.PageVo;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+
+@Controller
+@RequestMapping("board")
+@RequiredArgsConstructor
+public class BoardController {
+    @Autowired
+    private ServletContext servletContext;
+
+    private final BoardService service;
+
+    //----------------------------게시글 작성 화면------------------------
+    @GetMapping("write")
+    public String write(){
+        return "board/write";
+    }
+
+    //--------------------------게시글 작성하기---------------------------
+    @PostMapping("write")
+    public String write(HttpServletRequest request,BoardVo vo){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String writerNo = loginEmployeeVo.getEmpId();
+        int result = service.write(writerNo,vo);
+        System.out.println("result = " + result);
+        return "redirect:/board/list";
+    }
+    //------------------게시글 상세조회 화면-----------------------------
+    @GetMapping("detail")
+    public String detail(HttpServletRequest request,@RequestParam String no, Model model){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+
+        BoardVo vo = service.getBoardByNo(no);
+        // 로그인한 사용자가 있고, 작성자와 로그인한 사용자가 다를 때만 조회수 증가
+        if (loginEmployeeVo != null && !vo.getWriterNo().equals(loginEmployeeVo.getEmpId())) {
+
+            service.increaseHit(no); // 조회수 증가 메서드 호출
+        }
+        model.addAttribute("vo",vo);
+        return "board/detail";
+    }
+//    //----------------------게시글 상세 조회 기능-------------------------
+//    @GetMapping("detail/{no}")
+//    @ResponseBody
+//    public BoardVo getBoardByNo(@PathVariable String no){
+//        BoardVo vo = service.getBoardByNo(no);
+//        return vo;
+//    }
+    //---------------------게시글 목록 화면-------------------
+    @GetMapping("list")
+    public String list(){
+        return "board/list";
+    }
+    //----------------게시글 목록 조회------------------
+    @GetMapping("list/data")
+    @ResponseBody
+    public ResponseEntity<?> getBoardList(@RequestParam("pno") String pno){
+        int listCount = service.getTotalBoardCount();
+        int currentPage = Integer.parseInt(pno);
+        int pageLimit =5;
+        int boardLimit = 10;
+        PageVo pvo= new PageVo(listCount,currentPage,pageLimit,boardLimit);
+        List<BoardVo>boardVoList = service.getBoardList(pvo);
+        Map<String,Object> response = new HashMap<>();
+        response.put("boardVoList",boardVoList);
+        response.put("pvo",pvo);
+        return ResponseEntity.ok(response);
+    }
+
+
+    // 여러 파일 업로드 처리
+    @PostMapping("/upload")
+    public List<String> uploadFiles(@RequestParam("fileList") List<MultipartFile> fileList) throws IOException {
+        List<String> fileUrls = new ArrayList<>();
+
+        String uploadDir = servletContext.getRealPath("/") + "img/";
+
+        for (MultipartFile file : fileList) {
+            // 파일 저장 경로 설정
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            // 파일을 지정된 경로로 저장
+            File targetFile = new File(uploadDir + fileName);
+            file.transferTo(targetFile);
+
+            // 업로드된 파일의 URL 생성
+            String fileUrl = "/img/board/" + fileName;
+            fileUrls.add(fileUrl);
+        }
+
+        return fileUrls;
+    }
+
+}
