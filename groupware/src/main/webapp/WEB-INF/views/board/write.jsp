@@ -15,18 +15,20 @@
   </head>
   <body>
 
-    <form action="/board/write" method="post">
-        <input type="text" name="title">
-        <br />
-        <textarea id="summernote" name="content"></textarea>
-        <br />
-        <input type="submit" value="작성하기">
-    </form>
+<form action="/board/write" method="post">
+    <input type="text" name="title">
+    <br />
+    <textarea id="summernote" name="content"></textarea>
+    <br />
+    <input type="submit" value="작성하기">
+</form>
 
   </body>
 </html>
 
 <script>
+        var contextPath = "<%= request.getContextPath() %>";
+
     $('#summernote').summernote({
     placeholder: 'Hello stand alone ui',
     tabsize: 2,
@@ -47,22 +49,34 @@
     } ,
     });
 
-    function handleImgUpload( fileList ){
-        const fd = new FormData();
-        for (let i = 0; i < fileList.length; i++) {
-            fd.append('fileList[]', fileList[i]);
-        }
-        $.ajax( {
-            url: "/board/upload" ,
-            method: "POST" ,
-            data: fd ,
-            processData: false,
-            contentType: false,
-            success: function(resp){
-                console.log("handleImgUpload 성공 ~~~ !");
-                console.log(resp);
-                $('#summernote').summernote('insertImage', resp);
-            } ,
-        } );
+    function handleImgUpload(fileList) {
+    const fd = new FormData();
+
+    // 모든 fileList를 FormData에 추가
+    for (let i = 0; i < fileList.length; i++) {
+        fd.append('fileList', fileList[i]);
     }
+
+    $.ajax({
+        url: "/board/upload",
+        method: "POST",
+        data: fd,
+        processData: false,
+        contentType: false,
+        success: function(resp) {
+            console.log("handleImgUpload 성공 ~~~ !");
+            console.log(resp);
+            
+            // resp는 업로드된 각 이미지의 URL을 포함한 배열일 것으로 가정
+            // 썸머노트에서 각 이미지를 삽입
+            for (let i = 0; i < resp.length; i++) {
+                $('#summernote').summernote('insertImage', resp[i]);
+            }
+        },
+        error: function(err) {
+            console.error("handleImgUpload 실패 ㅠㅠ");
+            console.error(err);
+        }
+    });
+}
 </script>

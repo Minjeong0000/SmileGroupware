@@ -1,9 +1,6 @@
 package smile.office.groupware.board.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.session.RowBounds;
 import smile.office.groupware.board.vo.BoardVo;
 
@@ -23,8 +20,8 @@ public interface BoardMapper {
             VALUES
             (
                 SEQ_BOARD.NEXTVAL
-                ,#{title}
-                ,#{content}
+                ,#{vo.title}
+                ,#{vo.content}
                 ,#{writerNo}
             )
             """)
@@ -64,6 +61,39 @@ public interface BoardMapper {
             SELECT COUNT(B_NO) FROM BOARD WHERE DEL_YN = 'N'
             """)
     int getTotalBoardCount();
+
+    //좋아요
+    @Insert("""
+            INSERT INTO LIKES(B_NO,LIKED_PPL)VALUES(#{no},#{empId})
+            """)
+    int makeLike(String no, String empId);
+
+    //좋아요취소
+    @Delete("""
+            DELETE FROM LIKES WHERE B_NO =#{no}AND LIKED_PPL = #{empId}
+            """)
+    int withdrawalLike(String no , String empId);
+
+    //이미 추천했는지 검사
+    @Select("""
+        
+        SELECT COUNT(*) FROM LIKES WHERE LIKED_PPL = #{empId} AND B_NO =#{no};
+        """)
+    int isLiked(String no, String empId);
+
+    //게시글삭제
+    @Update("""
+            UPDATE BOARD SET DEL_YN = 'Y' WHERE B_NO = #{bNo} AND WRITER_NO = #{writerNo} AND DEL_YN = 'N'
+            """)
+    int delete(BoardVo vo);
+
+    //게시글수정
+    @Update("""
+            UPDATE BOARD SET CONTENT = #{content},TITLE =#{title} WHERE B_NO =#{bNo};
+            """)
+    int edit(BoardVo vo);
+
+
 
 
 }

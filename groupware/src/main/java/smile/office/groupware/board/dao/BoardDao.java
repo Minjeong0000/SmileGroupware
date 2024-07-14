@@ -34,4 +34,8 @@ public class BoardDao {
         RowBounds rb = new RowBounds(offset,limit);
         return mapper.getBoardList(rb);
     }
+
+    public int increaseHit(String no) {
+        return mapper.increaseHit(no);
+    }
 }

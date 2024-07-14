@@ -33,4 +33,8 @@ public class BoardService {
     public List<BoardVo> getBoardList(PageVo pvo) {
         return dao.getBoardList(pvo);
     }
+
+    public int increaseHit(String no) {
+        return dao.increaseHit(no);
+    }
 }

@@ -128,7 +128,7 @@
                     <button>검색</button>
                 </div>
                 <div class="write">
-                    <button>글쓰기</button>
+                    <button onclick="location.href='/board/write'">글쓰기</button>
                 </div>
             </div>
         </div>

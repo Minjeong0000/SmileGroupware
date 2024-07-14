@@ -130,7 +130,7 @@ function closeNav() {
             $(".pagination a").click(function (e) {
                 e.preventDefault(); // 기본 동작 방지
                 let pno = $(this).data("pno"); // 클릭한 링크의 페이지 번호 추출
-                loadAttendanceList(pno); // 해당 페이지 번호로 다시 목록 로드
+                loadBoardList(pno); // 해당 페이지 번호로 다시 목록 로드
             });
 
             },
