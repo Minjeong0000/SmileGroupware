@@ -27,7 +27,6 @@
 </html>
 
 <script>
-        var contextPath = "<%= request.getContextPath() %>";
 
     $('#summernote').summernote({
     placeholder: 'Hello stand alone ui',
@@ -53,9 +52,8 @@
     const fd = new FormData();
 
     // 모든 fileList를 FormData에 추가
-    for (let i = 0; i < fileList.length; i++) {
-        fd.append('fileList', fileList[i]);
-    }
+    fd.append('fileList' , fileList[0]);
+
 
     $.ajax({
         url: "/board/upload",
@@ -66,12 +64,11 @@
         success: function(resp) {
             console.log("handleImgUpload 성공 ~~~ !");
             console.log(resp);
-            
-            // resp는 업로드된 각 이미지의 URL을 포함한 배열일 것으로 가정
+
             // 썸머노트에서 각 이미지를 삽입
-            for (let i = 0; i < resp.length; i++) {
-                $('#summernote').summernote('insertImage', resp[i]);
-            }
+  
+                $('#summernote').summernote('insertImage', resp);
+         
         },
         error: function(err) {
             console.error("handleImgUpload 실패 ㅠㅠ");
