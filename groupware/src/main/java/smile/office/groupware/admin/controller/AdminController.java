@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import smile.office.groupware.admin.service.AdminService;
 import smile.office.groupware.admin.vo.AdminVo;
+import smile.office.groupware.admin.vo.AttendanceDetailVo;
+import smile.office.groupware.attendanceStatistics.vo.AttendanceStatisticsVo;
 import smile.office.groupware.department.vo.DepartmentVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 import smile.office.groupware.position.vo.PositionVo;
@@ -95,7 +97,7 @@ public class AdminController {
         try {
             int result = service.addAdmin(vo);
             System.out.println("result = " + result);
-            return "redirect:/admin/login";
+            return "redirect:/login";
         } catch (Exception e) {
             model.addAttribute("errMsg", "관리자 추가 실패: " + e.getMessage());
             return "common/error";
@@ -233,4 +235,28 @@ public class AdminController {
         session.invalidate(); // 세션 무효화
         return "redirect:/login";
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    // 출근 통계 화면
+    @GetMapping("attendanceStatistics")
+    public String attendanceStatistics() {
+        return "admin/attendanceStatistics";
+    }
+
+    // 모든 직원의 출근 통계 데이터 가져오기
+    @GetMapping("getAttendanceStatistics")
+    @ResponseBody
+    public List<AttendanceStatisticsVo> getAttendanceStatistics() {
+        return service.getAttendanceStatistics();
+    }
+
+    // 특정 직원의 출근 상세 데이터 가져오기
+    @GetMapping("getAttendanceDetails/{empId}")
+    @ResponseBody
+    public List<AttendanceDetailVo> getAttendanceDetails(@PathVariable("empId") String empId) {
+        return service.getAttendanceDetails(empId);
+    }
+
+
 }//class

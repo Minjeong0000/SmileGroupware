@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import smile.office.groupware.admin.mapper.AdminMapper;
 import smile.office.groupware.admin.vo.AdminVo;
+import smile.office.groupware.admin.vo.AttendanceDetailVo;
+import smile.office.groupware.attendanceStatistics.vo.AttendanceStatisticsVo;
 import smile.office.groupware.department.vo.DepartmentVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 import smile.office.groupware.position.vo.PositionVo;
@@ -83,4 +85,13 @@ public class AdminDao {
     public List<QuestionVo> getQuestions() {
         return mapper.getQuestions();
     }
+
+    public List<AttendanceStatisticsVo> getAttendanceStatistics() {
+        return mapper.getAttendanceStatistics();
+    }
+
+    public List<AttendanceDetailVo> getAttendanceDetails(String empId) {
+        return mapper.getAttendanceDetails(empId);
+    }
+
 }

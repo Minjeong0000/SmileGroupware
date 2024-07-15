@@ -3,6 +3,8 @@ package smile.office.groupware.admin.mapper;
 import org.apache.ibatis.annotations.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import smile.office.groupware.admin.vo.AdminVo;
+import smile.office.groupware.admin.vo.AttendanceDetailVo;
+import smile.office.groupware.attendanceStatistics.vo.AttendanceStatisticsVo;
 import smile.office.groupware.department.vo.DepartmentVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 import smile.office.groupware.position.vo.PositionVo;
@@ -88,5 +90,25 @@ public interface AdminMapper {
     // 문의사항 목록 가져오기
     @Select("SELECT * FROM QUESTION")
     List<QuestionVo> getQuestions();
+
+    @Select("SELECT e.emp_id AS empId, e.emp_name AS empName, SUM(a.day_work_time) AS totalWorkTime " +
+            "FROM employee e " +
+            "JOIN attendance a ON e.emp_id = a.emp_id " +
+            "GROUP BY e.emp_id, e.emp_name")
+    List<AttendanceStatisticsVo> getAttendanceStatistics();
+
+    @Select("SELECT a.emp_id AS empId, " +
+            "       e.emp_name AS empName, " +
+            "       TO_CHAR(a.start_time, 'YYYY-MM-DD') AS startDate, " +
+            "       TO_CHAR(a.start_time, 'HH24:MI') AS startTime, " +
+            "       TO_CHAR(a.end_time, 'HH24:MI') AS endTime, " +
+            "       a.day_work_time AS workTime, " +
+            "       a.state " +
+            "FROM attendance a " +
+            "JOIN employee e ON a.emp_id = e.emp_id " +
+            "WHERE a.emp_id = #{empId} " +
+            "ORDER BY a.start_time")
+    List<AttendanceDetailVo> getAttendanceDetails(@Param("empId") String empId);
+
 
 }

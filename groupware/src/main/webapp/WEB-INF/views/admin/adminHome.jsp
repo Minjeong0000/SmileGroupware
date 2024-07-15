@@ -17,7 +17,7 @@
         <a href="/admin/adminQuestion"><span class="menu-icon">&#128172;</span><span class="link-text">문의사항</span></a>
         <a href="/admin/userEdit"><span class="menu-icon">&#128295;</span><span class="link-text">사용자 관리</span></a>
         <a href="#"><span class="menu-icon">🏢</span><span class="link-text">사원 조직도</span></a>
-        <a href="#"><span class="menu-icon">&#128337;</span><span class="link-text">직원 근태관리</span></a>
+        <a href="attendanceStatistics"><span class="menu-icon">&#128337;</span><span class="link-text">직원 근태관리</span></a>
         <a href="/admin/logout" class="logout-button"><span class="menu-icon">❌</span><span class="link-text">로그아웃</span></a>
     </div>
 
@@ -37,7 +37,7 @@
             <div class="grid-container">
                 <a href="#" class="grid-item">공지사항</a>
                 <a href="userEdit" class="grid-item">사용자 수정</a>
-                <a href="#" class="grid-item">근태관리</a>
+                <a href="attendanceStatistics" class="grid-item">근태관리</a>
                 <a href="adminQuestion" class="grid-item">문의사항</a>
             </div>
         </div>
