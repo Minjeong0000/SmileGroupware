@@ -174,13 +174,13 @@
                 <label for="typeNo">카테고리</label>
                 <select id="typeNo" name="typeNo">
                     <option value="1">연차</option>
-                    <option value="2">회의</option>
-                    <option value="3">개인업무</option>
-                    <option value="4">미팅</option>
-                    <option value="5">오전반차</option>
-                    <option value="6">오후반차</option>
-                    <option value="7">외근</option>
-                    <option value="8">휴가</option>
+                    <option value="2">휴가</option>
+                    <option value="3">오전반차</option>
+                    <option value="4">오후반차</option>
+                    <option value="5">개인업무</option>
+                    <option value="6">미팅</option>
+                    <option value="7">회의</option>
+                    <option value="8">외근</option>
                     <option value="9">무역 협상</option>
                     <option value="10">제품 설명회</option>
                 </select>
@@ -304,8 +304,11 @@
                 // 데이터 로딩 성공 시, 달력에 이벤트를 추가
                 data.forEach(function(event) {
                 console.log(event); // 디버깅을 위해 데이터 출력
+                const backgroundColor = event.typeNo <= 5 ? 'lightpink' : 'lightskyblue';
+                const borderColor = backgroundColor; // 테두리 색상도 동일하게 설정
                 let startDate = event.startDate;
                 let endDate = event.endDate;
+                
                 
                 console.log(startDate);
                 console.log(endDate);
@@ -323,9 +326,11 @@
                     title: event.title,
                     start: start,
                     end: end,
+                    backgroundColor: backgroundColor,
+                    borderColor: borderColor,
                     extendedProps: {
                     location: event.location,
-                    // attendees: event.attendees
+                    attendees: event.attendees
                     },
                     // color: event.color // 이벤트의 색상 설정, 서버에서 받아온 데이터에 따라 조정 가능
                 });
@@ -344,7 +349,8 @@
     const title = document.getElementById('title').value;
     const content = document.getElementById('content').value;
     const attendees = document.getElementById('attendees').value;
-    const typeNo = document.getElementById('typeNo').value; // 카테고리 선택 값을 확인
+    // const typeNo = document.getElementById('typeNo').value; // 카테고리 선택 값을 확인
+    const typeNo = parseInt(document.getElementById('typeNo').value); // 카테고리 선택 값을 확인
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
     const startTime= document.getElementById('startTime').value;
@@ -365,8 +371,19 @@
             endDate: endDate,
             startTime: startTime,
             endTime: endTime,
+
         },
         success: function(response) {
+            calendar.addEvent({
+                title: title,
+                start: startTime,
+                end: endTime,
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
+                extendedProps: {
+                    typeNo: typeNo
+                }
+            });
             console.log('Event saved successfully:', response);
             calendar.refetchEvents(); // 캘린더 업데이트
             closeEventModal(); // 모달 닫기
