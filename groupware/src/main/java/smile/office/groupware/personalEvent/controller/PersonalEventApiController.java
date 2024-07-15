@@ -12,6 +12,7 @@ import smile.office.groupware.personalEvent.service.PersonalEventService;
 import smile.office.groupware.personalEvent.vo.PersonalEventVo;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/event")
@@ -21,7 +22,7 @@ public class PersonalEventApiController {
 
     private final PersonalEventService service;
 
-//
+    //
     //개인일정 목록조회
     @GetMapping("/list")
     public ResponseEntity<List<PersonalEventVo>>getPersonalEventList(HttpServletRequest request ) {
@@ -60,16 +61,27 @@ public class PersonalEventApiController {
     public String edit(PersonalEventVo vo) {
         System.out.println("vo = " + vo);
         int result = service.edit(vo);
-        return result == 1 ? "수정성공" : "수정실패";
+        if(result==1){
+            return "수정성공";
+        }
+
+        return "수정실패";
     }
 
 
     //개인일정삭제
     @DeleteMapping
-    public String delete(String num){
-        int result = service.delete(num);
-        return result == 1 ? "삭제성공" : "삭제실패";
+    public String delete(@RequestBody Map<String, String> request) {
+        String personalNo = request.get("personalNo");
+        System.out.println("Received personalNo for deletion: " + personalNo); // 로그 추가
+
+        int result = service.delete(personalNo);
+        if (result == 1) {
+            return "삭제 성공";
+        }
+        return "삭제 실패";
     }
+
 
 
     //개인일정검색(카테고리)
