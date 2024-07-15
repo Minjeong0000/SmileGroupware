@@ -99,22 +99,27 @@ public class BoardController {
     public List<String> uploadFiles(@RequestParam("fileList") List<MultipartFile> fileList) throws IOException {
         List<String> fileUrls = new ArrayList<>();
 
-        String uploadDir = servletContext.getRealPath("/") + "img/";
+//        String uploadDir = servletContext.getRealPath("/") + "img/board/";
+//        System.out.println("uploadDir = " + uploadDir);
+        String realPath = servletContext.getRealPath("/");
+        String targetPath = "src\\main\\";
+        int index = realPath.indexOf(targetPath);
+        String desiredPath = realPath.substring(0, index + targetPath.length())+"resources\\static\\img\\board\\";
 
+        System.out.println("desiredPath = " + desiredPath);
         for (MultipartFile file : fileList) {
             // 파일 저장 경로 설정
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            Path uploadPath = Paths.get(uploadDir);
+            Path uploadPath = Paths.get(desiredPath);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
 
             // 파일을 지정된 경로로 저장
-            File targetFile = new File(uploadDir + fileName);
+            File targetFile = new File(desiredPath + file.getOriginalFilename());
             file.transferTo(targetFile);
 
             // 업로드된 파일의 URL 생성
-            String fileUrl = "/img/board/" + fileName;
+            String fileUrl = "http://192.168.40.105:5500/img/board/" + file.getOriginalFilename();
             fileUrls.add(fileUrl);
         }
 
