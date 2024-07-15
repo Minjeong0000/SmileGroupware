@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smile.office.groupware.admin.dao.AdminDao;
 import smile.office.groupware.admin.vo.AdminVo;
+import smile.office.groupware.admin.vo.AttendanceDetailVo;
+import smile.office.groupware.attendanceStatistics.vo.AttendanceStatisticsVo;
 import smile.office.groupware.department.vo.DepartmentVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 import smile.office.groupware.position.vo.PositionVo;
@@ -79,4 +81,14 @@ public class AdminService {
         System.out.println("Fetched questions: " + questions);
         return questions;
     }
+
+    //통계
+    public List<AttendanceStatisticsVo> getAttendanceStatistics() {
+        return dao.getAttendanceStatistics();
+    }
+
+    public List<AttendanceDetailVo> getAttendanceDetails(String empId) {
+        return dao.getAttendanceDetails(empId);
+    }
+
 }
