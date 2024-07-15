@@ -192,9 +192,9 @@
                     </div>
                 </div>
                 <div id="canvasModal" class="modal">
-                  <div class="modal-content">
+                  <div class="modal-content-2">
                     <span class="close">&times;</span>
-                    <canvas id="myCanvas" width="600" height="400"></canvas>
+                    <canvas id="myCanvas" width="600" height="400" style="border: 1px solid black;"></canvas><br />
                     <input type="text" id="response" placeholder="답변을 입력하세요...">
                     <button id="saveDrawingBtn">저장하기</button>
                   </div>
