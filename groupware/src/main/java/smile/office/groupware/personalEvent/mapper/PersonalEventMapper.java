@@ -23,7 +23,7 @@ public interface PersonalEventMapper {
     int edit(PersonalEventVo vo);
 
 
-    @Delete("DELETE PERSONAL_EVENT WHERE EMP_ID = #{empId} AND PERSONAL_NO = #{personalNo}")
+    @Delete("DELETE PERSONAL_EVENT WHERE PERSONAL_NO = #{num}")
     int delete(String num);
 
     @Select({"<script>",

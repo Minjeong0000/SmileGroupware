@@ -310,10 +310,16 @@
                 console.log(startDate);
                 console.log(endDate);
 
+
+                const personalNo=event.personalNo
+                console.log("안녕"+personalNo);
+
+
                 const start = new Date(startDate);
                 const end = new Date(endDate);
 
                 calendar.addEvent({
+                    personalNo:event.personalNo,
                     title: event.title,
                     start: start,
                     end: end,
@@ -334,6 +340,7 @@
 
 
     document.getElementById('saveEvent').addEventListener('click', function() {
+    
     const title = document.getElementById('title').value;
     const content = document.getElementById('content').value;
     const attendees = document.getElementById('attendees').value;
@@ -349,7 +356,7 @@
         url: '/api/event',
         method: 'POST',
         data:{
-            personalNo : 1,
+            
             title: title,
             content: content,
             attendees: attendees,
@@ -373,7 +380,33 @@
 
 
 
+document.getElementById('deleteEvent').addEventListener('click', function() {
+    const personalNo = selectedEvent.extendedProps.personalNo;
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('content').value;
+    const attendees = document.getElementById('attendees').value;
+    const typeNo = document.getElementById('typeNo').value; // 카테고리 선택 값을 확인
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+    const startTime= document.getElementById('startTime').value;
+    const endTime = document.getElementById('endTime').value;
 
+    $.ajax({
+            url: '/api/event',
+            method: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify({ personalNo: personalNo }),
+            success: function(response) {
+                console.log('삭제 성공:', response);
+                calendar.refetchEvents(); // 캘린더 업데이트
+                closeEventModal(); // 모달 닫기
+            },
+            error: function(xhr, status, error) {
+                console.error('삭제 실패:', error);
+                alert('삭제 실패');
+            }
+        });
+    });
 
 
 
