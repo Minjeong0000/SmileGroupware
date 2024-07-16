@@ -169,6 +169,9 @@ saveBtn.onclick = function() {
     // 밝게 조정된 이미지 데이터를 Canvas에 다시 그리기
     ctx.putImageData(imageData, 0, 0);
 
+    //사진의 주소 설정
+    
+
     // Canvas 이미지를 PNG 파일로 저장하기
     var downloadLink = document.createElement('a');
     downloadLink.download = 'yongjin.png';
