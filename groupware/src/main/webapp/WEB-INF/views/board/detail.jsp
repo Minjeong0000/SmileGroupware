@@ -102,7 +102,7 @@
                             <p><strong>작성자1</strong></p>
                             <p>이것은 첫 번째 댓글입니다.</p>
                             <p class="text-muted">2024-07-16</p>
-                            <button class="btn btn-danger" onclick="alert('댓글 삭제 기능')">삭제</button>
+                            <button class="btn btn-secondary" onclick="alert('댓글 삭제 기능')">삭제</button>
                         </div>
                         <hr>
                         <div class="comment-item">
@@ -116,7 +116,7 @@
                             <p><strong>작성자3</strong></p>
                             <p>이것은 세 번째 댓글입니다.</p>
                             <p class="text-muted">2024-07-16</p>
-                            <button class="btn btn-danger" onclick="alert('댓글 삭제 기능')">삭제</button>
+                            <button class="btn btn-secondary" onclick="alert('댓글 삭제 기능')">삭제</button>
                         </div>
                         <hr>
                     </div>
