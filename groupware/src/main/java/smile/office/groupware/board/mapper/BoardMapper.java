@@ -2,6 +2,7 @@ package smile.office.groupware.board.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.session.RowBounds;
+import smile.office.groupware.board.vo.BoardReplyVo;
 import smile.office.groupware.board.vo.BoardVo;
 
 import java.util.List;
@@ -93,6 +94,32 @@ public interface BoardMapper {
             """)
     int edit(BoardVo vo);
 
+
+
+    //댓글조회
+    @Select("""
+            
+            SELECT
+                R.NO
+                ,R.CONTENT
+                ,R.REF_NO
+                ,R.WRITE_DATE
+                ,R.DEL_YN
+                ,R.WRITER_NO
+                ,E.EMP_NAME AS WRITER_NAME
+            FROM BOARD_REPLY R
+            JOIN EMPLOYEE E ON R.WRITER_NO = E.EMP_ID
+            WHERE R.REF_NO = #{refNo}
+            AND R.DEL_YN = 'N'
+            ORDER BY R.NO DESC
+            """)
+    List<BoardReplyVo> getBoardReply(String refNo);
+
+    //댓글작성
+    @Insert("""
+            INSERT INTO BOARD_REPLY( NO ,REF_NO ,WRITER_NO ,CONTENT )VALUES( SEQ_BOARD_REPLY.NEXTVAL ,#{refNo} ,#{writerNo} ,#{content} );
+            """)
+    int writeReply(BoardReplyVo vo);
 
 
 

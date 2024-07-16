@@ -8,32 +8,74 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-    <script defer src="/js/board/boardWrite.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/board/boardWrite.css">
+    <script defer src="/js/board/write.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/board/write.css">
+    <!-- 부트스트랩 -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+    integrity="sha384-E4W1a11fF4Rp8FexMlti9R4yIhWm2KwPkvbEriKo6Pv1Pw2Q+m5scsmvMQ/t0xIz"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-+0wb6s6gGP2rI0oBDxYOVJvqbT2yl0Y3BQkmQx8KkO8Vh1jNnT/4kew2e2tzS9zE"
+    crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+    crossorigin="anonymous">
 
 
   </head>
   <body>
 
-<form action="/board/write" method="post">
-    <input type="text" name="title">
-    <br />
-    <textarea id="summernote" name="content"></textarea>
-    <br />
-    <input type="submit" value="작성하기">
-</form>
+    <body>
+        <div id="mySidenav" class="sidenav">
+            <a href="#" onclick="toggleNav(event)"><span class="menu-icon">&#9776;</span><span class="link-text">메뉴</span></a>
+            <a href="#"><span class="menu-icon">&#8962;</span><span class="link-text">홈</span></a>
+            <a href="/event/personal/calendar"><span class="menu-icon">&#128736;</span><span class="link-text">일정관리</span></a>
+            <a href="/emp/attendance/cal"><span class="menu-icon">&#128100;</span><span class="link-text">근태관리</span></a>
+            <a href="/approval/home"><span class="menu-icon">&#128203;</span><span class="link-text">결재</span></a>
+            <a href="/message/received"><span class="menu-icon">&#9742;</span><span class="link-text">연락처</span></a>
+            <a href="#"><span class="menu-icon">&#128101;</span><span class="link-text">커뮤니티</span></a>
+        </div>
+    
+        <div id="main" onclick="closeNav()">
 
+    
+    
+            <div class="column">
+                
+                <!-- <form action="/board/write" method="post"> -->
+                    <div class="write-area">
+                        <div><h2>게시글 작성</h2></div>
+                        <p class="card-subtitle text-muted">제목</p>
+                        <input type="text" name="title" placeholder="제목을 입력하세요.">
+                        <br />
+                        <p class="card-subtitle text-muted">내용</p>
+                        <textarea id="summernote" name="content"></textarea>
+                        <br />
+                        <div class="submit-btn-wrap">
+                            <button type="submit" class="btn btn-secondary" onclick="location.href='/board/list'">취소</button>
+                            <button type="submit" class="btn btn-primary">게시글 작성</button>
+                        </div>
+
+                    </div>
+                    
+
+                <!-- </form> -->
+                
+
+            </div>
+        </div>
   </body>
 </html>
 
 <script>
 
     $('#summernote').summernote({
-    placeholder: 'Hello stand alone ui',
+    placeholder: '내용을 입력하세요.',
     tabsize: 2,
-    height: 300,
-    minHeight: 200,
-    maxHeight: 400,
+    width: '100%',
+    height: 500,
+    minHeight: 450,
+    maxHeight: 600,
     toolbar: [
         ['style', ['style']],
         ['font', ['bold', 'underline', 'clear']],
@@ -51,7 +93,6 @@
     function handleImgUpload(fileList) {
     const fd = new FormData();
 
-    // 모든 fileList를 FormData에 추가
     fd.append('fileList' , fileList[0]);
 
 
@@ -64,11 +105,7 @@
         success: function(resp) {
             console.log("handleImgUpload 성공 ~~~ !");
             console.log(resp);
-
-            // 썸머노트에서 각 이미지를 삽입
-  
-                $('#summernote').summernote('insertImage', resp);
-         
+            $('#summernote').summernote('insertImage', resp);
         },
         error: function(err) {
             console.error("handleImgUpload 실패 ㅠㅠ");

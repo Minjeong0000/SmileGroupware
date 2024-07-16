@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
 
 //공통
-document.addEventListener('DOMContentLoaded', function() {
+
   var sidenav = document.getElementById("mySidenav");
   var main = document.getElementById("main");
 
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
       sidenav.classList.remove("open");
     }
   });
-});
+
 
 // 토글 버튼을 클릭할 때 사이드바 열고 닫기
 function toggleNav(event) {
@@ -63,11 +63,7 @@ function closeNav() {
         }
     });
 
-    // 제목 클릭 시 상세 페이지로 이동하는 이벤트 처리
-    $(document).on('click', '.board-row .title', function() {
-        var boardNo = $(this).parent().find('.number').text(); // 해당 행의 번호를 가져옴
-        window.location.href = '/board/detail/' + boardNo; // 상세 페이지로 이동
-    });
+
 
     // 페이징 링크 클릭 시 페이지 변경
     $(document).on('click', '.pagination a', function(event) {

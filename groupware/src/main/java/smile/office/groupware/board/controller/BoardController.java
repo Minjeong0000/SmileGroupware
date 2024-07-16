@@ -52,17 +52,18 @@ public class BoardController {
     }
     //------------------게시글 상세조회 화면-----------------------------
     @GetMapping("detail")
-    public String detail(HttpServletRequest request,@RequestParam String no, Model model){
+    public String detail(HttpServletRequest request,@RequestParam(name = "no") String no, Model model){
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
-
+        System.out.println(loginEmployeeVo.getEmpId());
         BoardVo vo = service.getBoardByNo(no);
-        // 로그인한 사용자가 있고, 작성자와 로그인한 사용자가 다를 때만 조회수 증가
-        if (loginEmployeeVo != null && !vo.getWriterNo().equals(loginEmployeeVo.getEmpId())) {
+        // 작성자와 로그인한 사용자가 다를 때만 조회수 증가
+        if (!vo.getWriterNo().equals(loginEmployeeVo.getEmpId())) {
 
             service.increaseHit(no); // 조회수 증가 메서드 호출
         }
         model.addAttribute("vo",vo);
+        System.out.println("vo = " + vo);
         return "board/detail";
     }
 //    //----------------------게시글 상세 조회 기능-------------------------
@@ -96,18 +97,16 @@ public class BoardController {
 
     // 여러 파일 업로드 처리
     @PostMapping("/upload")
-    public List<String> uploadFiles(@RequestParam("fileList") List<MultipartFile> fileList) throws IOException {
-        List<String> fileUrls = new ArrayList<>();
-
-//        String uploadDir = servletContext.getRealPath("/") + "img/board/";
-//        System.out.println("uploadDir = " + uploadDir);
+    @ResponseBody
+    public String uploadFiles(@RequestParam("fileList") List<MultipartFile> fileList) throws IOException {
+        MultipartFile file = fileList.get(0);
         String realPath = servletContext.getRealPath("/");
         String targetPath = "src\\main\\";
         int index = realPath.indexOf(targetPath);
         String desiredPath = realPath.substring(0, index + targetPath.length())+"resources\\static\\img\\board\\";
 
         System.out.println("desiredPath = " + desiredPath);
-        for (MultipartFile file : fileList) {
+
             // 파일 저장 경로 설정
             Path uploadPath = Paths.get(desiredPath);
             if (!Files.exists(uploadPath)) {
@@ -119,11 +118,10 @@ public class BoardController {
             file.transferTo(targetFile);
 
             // 업로드된 파일의 URL 생성
-            String fileUrl = "http://192.168.40.105:5500/img/board/" + file.getOriginalFilename();
-            fileUrls.add(fileUrl);
-        }
+            String fileUrl = "http://192.168.40.105:5500/" + file.getOriginalFilename();
 
-        return fileUrls;
+
+        return fileUrl;
     }
 
 }
