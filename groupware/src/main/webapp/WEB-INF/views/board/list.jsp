@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="/css/board/boardList.css">
-    <script defer src="/js/board/boardList.js"></script>
+    <script src="${pageContext.request.contextPath}/js/board/boardList.js"></script>
 
 </head>
 <body>
@@ -38,6 +38,9 @@
             </div>
         </div>
         <div class="column content">
+
+            <div><h1>자유게시판</h1></div>
+
             <div class="board">
                 <div class="board-header">
                     <div class="board-column number">번호</div>
@@ -135,11 +138,3 @@
     </div>
 </body>
 </html>
-<script>
-$(document).ready(function() {
-
-});
-
-
-
-</script>
