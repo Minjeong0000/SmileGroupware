@@ -42,24 +42,26 @@
     
             <div class="column">
                 
-                <!-- <form action="/board/write" method="post"> -->
-                    <div class="write-area">
+/                    <div class="write-area">
                         <div><h2>게시글 작성</h2></div>
-                        <p class="card-subtitle text-muted">제목</p>
-                        <input type="text" name="title" placeholder="제목을 입력하세요.">
-                        <br />
-                        <p class="card-subtitle text-muted">내용</p>
-                        <textarea id="summernote" name="content"></textarea>
-                        <br />
-                        <div class="submit-btn-wrap">
-                            <button type="submit" class="btn btn-secondary" onclick="location.href='/board/list'">취소</button>
-                            <button type="submit" class="btn btn-primary">게시글 작성</button>
-                        </div>
+                        <form action="/board/write" method="post">
+                            <p class="card-subtitle text-muted">제목</p>
+                            <input type="text" name="title" placeholder="제목을 입력하세요.">
+                            <br />
+                            <p class="card-subtitle text-muted">내용</p>
+                            <textarea id="summernote" name="content"></textarea>
+                            <br />
+                            <div class="submit-btn-wrap">
+                                <button class="btn btn-secondary" onclick="location.href='/board/list'">취소</button>
+                                <button type="submit" class="btn btn-primary">게시글 작성</button>
+                            </div>
+
+                        </form>
+
 
                     </div>
                     
 
-                <!-- </form> -->
                 
 
             </div>

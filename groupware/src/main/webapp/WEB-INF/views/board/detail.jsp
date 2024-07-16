@@ -60,7 +60,7 @@
                     <div class="card-body">
                         <h3 class="card-title" id="title">${vo.title}</h3>
                         <p class="card-subtitle text-muted">작성자: ${vo.writerName}</p>
-                        <div>
+                        <div class="date-hit-wrap">
                             <span class="card-subtitle text-muted">
                              작성일: ${vo.writeDate}
                             </span>
@@ -68,7 +68,7 @@
                                 조회수: ${vo.hit}
                             </span>
                         </div>
-                        <p class="card-subtitle text-muted">좋아요 수: ${vo.likeCount}</p>
+                        <!-- <p class="card-subtitle text-muted">좋아요 수: ${vo.likeCount}</p> -->
                         <p class="card-text">${vo.content}</p>
                         <div class="like-btn-wrap">
                             <button type="button" class="btn btn-primary like-btn">추천</button>
@@ -102,7 +102,7 @@
                             <p><strong>작성자1</strong></p>
                             <p>이것은 첫 번째 댓글입니다.</p>
                             <p class="text-muted">2024-07-16</p>
-                            <button class="btn btn-danger" onclick="alert('댓글 삭제 기능')">삭제</button>
+                            <button class="btn btn-secondary" onclick="alert('댓글 삭제 기능')">삭제</button>
                         </div>
                         <hr>
                         <div class="comment-item">
@@ -116,7 +116,7 @@
                             <p><strong>작성자3</strong></p>
                             <p>이것은 세 번째 댓글입니다.</p>
                             <p class="text-muted">2024-07-16</p>
-                            <button class="btn btn-danger" onclick="alert('댓글 삭제 기능')">삭제</button>
+                            <button class="btn btn-secondary" onclick="alert('댓글 삭제 기능')">삭제</button>
                         </div>
                         <hr>
                     </div>

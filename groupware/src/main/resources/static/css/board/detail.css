@@ -214,3 +214,14 @@ body {
   margin-bottom: 10px;
   border-radius: 5px;
 }
+.date-hit-wrap{
+  border-bottom: 1px solid #ccc;
+}
+
+/* 댓글폼 */
+.comment-form{
+  background-color: #f1efed; /* 배경색 지정 */
+  padding: 10px; /* 패딩 지정 */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
