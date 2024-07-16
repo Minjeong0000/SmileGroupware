@@ -24,6 +24,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 //	implementation 'javax.servlet:jstl:1.2'
