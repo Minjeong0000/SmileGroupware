@@ -60,7 +60,7 @@
                     <div class="card-body">
                         <h3 class="card-title" id="title">${vo.title}</h3>
                         <p class="card-subtitle text-muted">작성자: ${vo.writerName}</p>
-                        <div>
+                        <div class="date-hit-wrap">
                             <span class="card-subtitle text-muted">
                              작성일: ${vo.writeDate}
                             </span>
@@ -68,7 +68,7 @@
                                 조회수: ${vo.hit}
                             </span>
                         </div>
-                        <p class="card-subtitle text-muted">좋아요 수: ${vo.likeCount}</p>
+                        <!-- <p class="card-subtitle text-muted">좋아요 수: ${vo.likeCount}</p> -->
                         <p class="card-text">${vo.content}</p>
                         <div class="like-btn-wrap">
                             <button type="button" class="btn btn-primary like-btn">추천</button>
