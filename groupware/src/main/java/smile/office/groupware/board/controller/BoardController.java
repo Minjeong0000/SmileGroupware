@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import smile.office.groupware.board.service.BoardService;
+import smile.office.groupware.board.vo.BoardReplyVo;
 import smile.office.groupware.board.vo.BoardVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 import smile.office.groupware.page.PageVo;
@@ -52,27 +53,60 @@ public class BoardController {
     }
     //------------------게시글 상세조회 화면-----------------------------
     @GetMapping("detail")
-    public String detail(HttpServletRequest request,@RequestParam(name = "no") String no, Model model){
+    public String detail(HttpServletRequest request,@RequestParam("no") String no, Model model){
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
-        System.out.println(loginEmployeeVo.getEmpId());
         BoardVo vo = service.getBoardByNo(no);
         // 작성자와 로그인한 사용자가 다를 때만 조회수 증가
         if (!vo.getWriterNo().equals(loginEmployeeVo.getEmpId())) {
-
             service.increaseHit(no); // 조회수 증가 메서드 호출
         }
         model.addAttribute("vo",vo);
-        System.out.println("vo = " + vo);
         return "board/detail";
     }
-//    //----------------------게시글 상세 조회 기능-------------------------
-//    @GetMapping("detail/{no}")
-//    @ResponseBody
-//    public BoardVo getBoardByNo(@PathVariable String no){
-//        BoardVo vo = service.getBoardByNo(no);
-//        return vo;
-//    }
+
+    //추천토글
+    @PostMapping("like")
+    public ResponseEntity<?>toggleLike(HttpServletRequest request, String no){
+        try{
+            HttpSession session = request.getSession();
+            EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+            String empId = loginEmployeeVo.getEmpId();
+
+            boolean isLiked = service.toggleLike(no,empId);
+            return ResponseEntity.ok(isLiked ? "liked":"unliked");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("추천 혹은 추천 취소 실패");
+        }
+
+    }
+    //게시글 삭제
+    @PutMapping("delete")
+    public ResponseEntity<?>deleteBoardByNo(String no){
+        int result = service.deleteBoardByNo(no);
+        if(result ==1){
+           return ResponseEntity.ok("게시글 삭제 성공, 목록으로 이동합니다.");
+        }else{
+            System.out.println("no = " + no);
+            System.out.println("result = " + result);
+            return ResponseEntity.badRequest().body("게시글 삭제 실패");
+        }
+    }
+    //--------------------게시글별 댓글 불러오기----------------------------
+    @GetMapping("replyList")
+    @ResponseBody
+    public ResponseEntity<?>getBoardReply(HttpServletRequest request, @RequestParam("refNo") String refNo,Model model){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        String empId = loginEmployeeVo.getEmpId();
+        List<BoardReplyVo>replyVoList = service.getBoardReply(refNo);
+        Map<String, Object> response = new HashMap<>();
+        response.put("empId",empId);
+        response.put("replyVoList",replyVoList);
+        //
+        model.addAttribute("replyVoList",replyVoList);
+        return ResponseEntity.ok(response);
+    }
     //---------------------게시글 목록 화면-------------------
     @GetMapping("list")
     public String list(){
@@ -94,8 +128,8 @@ public class BoardController {
         return ResponseEntity.ok(response);
     }
 
-
     // 여러 파일 업로드 처리
+    //TODO 이미지명랜덤바꾸기
     @PostMapping("/upload")
     @ResponseBody
     public String uploadFiles(@RequestParam("fileList") List<MultipartFile> fileList) throws IOException {

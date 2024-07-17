@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class BoardVo {
-    private String bNo;
+    private String no;
     private String title;
     private String content;
     private String writerNo;
@@ -13,5 +13,5 @@ public class BoardVo {
     private String writeDate;
     private String writerName; // 작성자 이름
     private int likeCount; // 좋아요 수
-
+    private int replyCount;//댓글수
 }

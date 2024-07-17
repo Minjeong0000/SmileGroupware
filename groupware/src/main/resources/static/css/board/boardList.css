@@ -120,6 +120,12 @@ body {
   width: 10%;
 }
 
+.board-column a {
+  text-decoration: none;
+  font-weight: bold;
+  
+}
+
 
 
 .search {

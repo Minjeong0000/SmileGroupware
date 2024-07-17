@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,14 +69,20 @@
                             </span>
                         </div>
                         <!-- <p class="card-subtitle text-muted">좋아요 수: ${vo.likeCount}</p> -->
-                        <p class="card-text">${vo.content}</p>
+                         <div class="content-wrap">
+
+                             <p class="card-text">${vo.content}</p>
+
+                         </div>
                         <div class="like-btn-wrap">
-                            <button type="button" class="btn btn-primary like-btn">추천</button>
+                            <button type="button" class="btn btn-primary like-btn" data-no="${vo.no}">
+                                <i class="fa-solid fa-thumbs-up"></i> 추천하기 (${vo.likeCount})
+                            </button>
                         </div>
                         <c:if test="${vo.writerNo eq sessionScope.loginEmployeeVo.empId}">
                             <div class="del-edit-wrap">
-                                <button class="btn btn-secondary" onclick="location.href='/board/edit?no=${vo.getBNo()}'">수정</button>
-                                <button class="btn btn-secondary" onclick="location.href='/board/delete?no=${vo.getBNo()}'">삭제</button>
+                                <button class="btn btn-secondary" onclick="location.href='/board/edit?no=${vo.getNo()}'">수정</button>
+                                <button class="btn btn-secondary btn-delete" data-no="${vo.no}">삭제</button>
                             </div>
                         </c:if>
                         
@@ -96,7 +102,10 @@
                     </form>
                 </div>
                 <div class="container mt-4">
-                    <h4>댓글 목록</h4>
+                    <div>
+                        <h4>댓글 목록 (${vo.replyCount})</h4>
+                        <span> <button class="btn-secondary" onclick="loadReplyList(`${vo.no}`);">댓글 목록 열기</button></span>
+                    </div>
                     <div class="comment-list">
                         <div class="comment-item">
                             <p><strong>작성자1</strong></p>
@@ -106,7 +115,12 @@
                         </div>
                         <hr>
                         <div class="comment-item">
-                            <p><strong>작성자2</strong></p>
+                            <div class="comment-head">
+                                <p><strong>작성자2</strong></p>
+                                <c:if test="${vo.writerNo eq sessionScope.loginEmployeeVo.empId}">
+                                    <button class="btn btn-secondary" onclick="alert('댓글 삭제 기능')">삭제</button>
+                                </c:if>
+                            </div>
                             <p>이것은 두 번째 댓글입니다.</p>
                             <p class="text-muted">2024-07-16</p>
                             <!-- 로그인한 사용자가 아닌 경우 삭제 버튼 없음 -->
@@ -119,12 +133,8 @@
                             <button class="btn btn-secondary" onclick="alert('댓글 삭제 기능')">삭제</button>
                         </div>
                         <hr>
-                    </div>
+                    </div><!--댓글컨테이너끝나는부분-->
                 </div>
-
-
-
-
             </div>
         </div>
     </div>
@@ -137,14 +147,73 @@
 <script>
    
 $(document).ready(function () {
+
+    //댓글목록불러오기
+    function loadReplyList(refNo){
+        $.ajax({
+            url:'/board/replyList',
+            method:'GET',
+            data:{refNo: refNo},
+            success:function(replyVoList){
+                let str = "";
+                for(let i = 0; i< replyVoList.length; ++i){
+
+
+                }
+            }
+
+        })
+    }
+
+
+
+
     // 추천 버튼 클릭 시 동작
     $('.like-btn').click(function () {
-        // 여기에 추천 버튼 클릭 시 동작할 코드를 추가합니다.
-        // 예: 추천 수를 증가시키는 AJAX 요청 등
-        alert('추천되었습니다!');
+        var no = $(this).data('no');
+
+        $.ajax({
+            url:'/board/like',
+            method:'POST',
+            data:{
+                no:no,
+            },
+            success:function(response){
+                if(response==='liked'){
+                    alert('추천되었습니다!');
+                }else{
+                    alert('추천이 취소되었습니다.');
+                }
+                location.reload();//새로고침으로 추천수업데이트
+            },
+            error:function(e){
+                alert(e.responseText);
+            }
+        })
     });
 
+    $('.btn-delete').click(function(){
+        if(confirm('게시글을 삭제하시겠습니까?')){
+            var no = $(this).data('no');
+        $.ajax({
+            url:'/board/delete',
+            method:'PUT',
+            data:{
+                no:no
+            },
+            success:function(response){
+                alert(response);
+                location.href="/board/list";
+            },
+            error:function(e){
+                alert(e.responseText);
+            }
 
+        })
+        
+        }
+
+    })
 
 
 

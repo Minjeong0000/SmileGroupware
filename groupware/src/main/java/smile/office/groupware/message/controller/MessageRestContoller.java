@@ -66,7 +66,6 @@ public class MessageRestContoller {
         }
         String empId = loginEmployeeVo.getEmpId();
         //확인
-        System.out.println(empId);
         List<MessageVo>messageVoList = service.getTrashMsgList(empId);
         //empId, messageVoList함께 반환
         Map<String, Object> response = new HashMap<>();
