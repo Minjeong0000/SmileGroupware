@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import smile.office.groupware.notice.dao.NoticeDao;
 import smile.office.groupware.notice.vo.NoticeVo;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -19,5 +21,9 @@ public class NoticeService {
 
     public NoticeVo getNoticeByNo(String no) {
         return dao.getNoticeByNo(no);
+    }
+
+    public List<NoticeVo> getNoticeList() {
+        return dao.getNoticeList();
     }
 }
