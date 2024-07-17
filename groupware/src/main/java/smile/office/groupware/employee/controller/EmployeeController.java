@@ -52,7 +52,7 @@ public class EmployeeController {
     public String logout(HttpServletRequest request){
         HttpSession session = request.getSession();
         session.invalidate();
-        return "redirect:/home";
+        return "redirect:/login";
     }
 
 
