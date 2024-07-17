@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import smile.office.groupware.notice.mapper.NoticeMapper;
 import smile.office.groupware.notice.vo.NoticeVo;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class NoticeDao {
@@ -13,6 +15,13 @@ public class NoticeDao {
 
     public int write(NoticeVo vo) {
         return mapper.write(vo);
+    }
+
+
+
+    public List<NoticeVo> getNoticeList() {
+
+        return mapper.getNoticeList();
     }
 
     public NoticeVo getNoticeByNo(String no) {
