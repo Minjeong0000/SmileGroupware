@@ -23,8 +23,6 @@
 
 
   </head>
-  <body>
-
     <body>
         <div id="mySidenav" class="sidenav">
             <a href="#" onclick="toggleNav(event)"><span class="menu-icon">&#9776;</span><span class="link-text">메뉴</span></a>
@@ -42,7 +40,7 @@
     
             <div class="column">
                 
-/                    <div class="write-area">
+                    <div class="write-area">
                         <div><h2>게시글 작성</h2></div>
                         <form action="/board/write" method="post">
                             <p class="card-subtitle text-muted">제목</p>

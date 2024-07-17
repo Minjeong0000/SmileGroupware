@@ -185,6 +185,17 @@ body {
 }
 
 /*  */
+.content-wrap{
+  margin-top: 35px;
+  margin-bottom: 35px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 30px;
+}
+
+
+
+
+/*  */
 .like-btn-wrap{
   width: 100%;
   display: flex;
@@ -224,4 +235,9 @@ body {
   padding: 10px; /* 패딩 지정 */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comment-head{
+  display: flex;
+  justify-content: space-between;
 }

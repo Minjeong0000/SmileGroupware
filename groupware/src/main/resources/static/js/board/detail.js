@@ -91,8 +91,8 @@ document.addEventListener("DOMContentLoaded", function() {
                   let str ="";
                   for(let i = 0; i < boardVoList.length; ++i){
                     str += '<div class="board-row">';
-                    str += '<div class="board-column number">' + boardVoList[i].bno + '</div>';
-                    str += `<div class="board-column title"><a href="/board/detail?no=${boardVoList[i].bno}">${boardVoList[i].title}</a></div>`;
+                    str += '<div class="board-column number">' + boardVoList[i].no + '</div>';
+                    str += `<div class="board-column title"><a href="/board/detail?no=${boardVoList[i].no}">${boardVoList[i].title}</a></div>`;
                     str += '<div class="board-column name">' + boardVoList[i].writerName + '</div>';
                     str += '<div class="board-column date">' + boardVoList[i].writeDate + '</div>';
                     str += '<div class="board-column views">' + boardVoList[i].hit + '</div>';

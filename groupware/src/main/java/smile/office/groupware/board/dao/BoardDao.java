@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Repository;
 import smile.office.groupware.board.mapper.BoardMapper;
+import smile.office.groupware.board.vo.BoardReplyVo;
 import smile.office.groupware.board.vo.BoardVo;
 import smile.office.groupware.page.PageVo;
 
@@ -37,5 +38,25 @@ public class BoardDao {
 
     public int increaseHit(String no) {
         return mapper.increaseHit(no);
+    }
+
+    public int checkLike(String no, String empId) {
+        return mapper.checkLike(no,empId);
+    }
+
+    public int insertLike(String no, String empId) {
+        return mapper.insertLike(no,empId);
+    }
+
+    public int deleteLike(String no, String empId) {
+        return mapper.deleteLike(no,empId);
+    }
+
+    public int deleteBoardByNo(String no) {
+        return mapper.deleteBoardByNo(no);
+    }
+
+    public List<BoardReplyVo> getBoardReply(String refNo) {
+        return mapper.getBoardReply(refNo);
     }
 }

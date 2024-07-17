@@ -3,6 +3,7 @@ package smile.office.groupware.board.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import smile.office.groupware.board.dao.BoardDao;
+import smile.office.groupware.board.vo.BoardReplyVo;
 import smile.office.groupware.board.vo.BoardVo;
 import smile.office.groupware.page.PageVo;
 
@@ -34,7 +35,28 @@ public class BoardService {
         return dao.getBoardList(pvo);
     }
 
+    //조회수증가
     public int increaseHit(String no) {
         return dao.increaseHit(no);
+    }
+
+    //좋아요기능 혹은 취소
+    public boolean toggleLike(String no, String empId) {
+        int count = dao.checkLike(no, empId);
+        if (count == 0) {
+            dao.insertLike(no, empId);
+            return true; // liked
+        } else {
+            dao.deleteLike(no, empId);
+            return false; // unliked
+        }
+    }
+
+    public int deleteBoardByNo(String no) {
+        return dao.deleteBoardByNo(no);
+    }
+    //게시글 댓글 불러오기
+    public List<BoardReplyVo> getBoardReply(String refNo) {
+        return dao.getBoardReply(refNo);
     }
 }

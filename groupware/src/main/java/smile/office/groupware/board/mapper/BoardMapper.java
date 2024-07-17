@@ -32,15 +32,16 @@ public interface BoardMapper {
 //상세조회
     @Select("""
             
-            SELECT B.B_NO, B.TITLE, B.CONTENT, B.WRITER_NO, B.HIT, B.DEL_YN, B.WRITE_DATE, E.EMP_NAME AS WRITER_NAME,
-                   (SELECT COUNT(*) FROM LIKES L WHERE L.B_NO = B.B_NO) AS LIKE_COUNT
+            SELECT B.B_NO AS NO, B.TITLE, B.CONTENT, B.WRITER_NO, B.HIT, B.DEL_YN, B.WRITE_DATE, E.EMP_NAME AS WRITER_NAME,
+                          (SELECT COUNT(*) FROM LIKES L WHERE L.B_NO = B.B_NO) AS LIKE_COUNT,
+                          (SELECT COUNT(*) FROM BOARD_REPLY BR WHERE B.B_NO = BR.REF_NO)AS REPLY_COUNT
             FROM BOARD B
             LEFT JOIN EMPLOYEE E ON B.WRITER_NO = E.EMP_ID
-            WHERE B.B_NO = #{no}
+            WHERE B.B_NO = #{no} AND DEL_YN='N'
             
             """)
     BoardVo getBoardByNo(String no);
-//조회수증가
+    //조회수증가
     @Update("""
             UPDATE BOARD SET HIT = HIT+1 WHERE B_NO = #{no} AND DEL_YN = 'N'
             """)
@@ -48,11 +49,12 @@ public interface BoardMapper {
 
     //게시글목록조회
     @Select("""
-            SELECT B.B_NO, B.TITLE, B.CONTENT, B.WRITER_NO, B.HIT, B.DEL_YN, B.WRITE_DATE, E.EMP_NAME AS WRITER_NAME,
-                   (SELECT COUNT(*) FROM LIKES L WHERE L.B_NO = B.B_NO) AS LIKE_COUNT
+            SELECT B.B_NO AS NO, B.TITLE, B.CONTENT, B.WRITER_NO, B.HIT, B.DEL_YN, B.WRITE_DATE, E.EMP_NAME AS WRITER_NAME,
+                         (SELECT COUNT(*) FROM LIKES L WHERE L.B_NO = B.B_NO) AS LIKE_COUNT,
+                         (SELECT COUNT(*) FROM BOARD_REPLY BR WHERE B.B_NO = BR.REF_NO)AS REPLY_COUNT
             FROM BOARD B
             LEFT JOIN EMPLOYEE E ON B.WRITER_NO = E.EMP_ID
-            WHERE DEL_YN='N'
+            WHERE DEL_YN='N' ORDER BY NO DESC
             
             """)
     List<BoardVo> getBoardList(RowBounds rb);
@@ -67,30 +69,29 @@ public interface BoardMapper {
     @Insert("""
             INSERT INTO LIKES(B_NO,LIKED_PPL)VALUES(#{no},#{empId})
             """)
-    int makeLike(String no, String empId);
+    int insertLike(String no, String empId);
 
     //좋아요취소
     @Delete("""
             DELETE FROM LIKES WHERE B_NO =#{no}AND LIKED_PPL = #{empId}
             """)
-    int withdrawalLike(String no , String empId);
+    int deleteLike(String no , String empId);
 
     //이미 추천했는지 검사
     @Select("""
-        
-        SELECT COUNT(*) FROM LIKES WHERE LIKED_PPL = #{empId} AND B_NO =#{no};
+        SELECT COUNT(*) FROM LIKES WHERE LIKED_PPL = #{empId} AND B_NO =#{no}
         """)
-    int isLiked(String no, String empId);
+    int checkLike(String no, String empId);
 
     //게시글삭제
     @Update("""
-            UPDATE BOARD SET DEL_YN = 'Y' WHERE B_NO = #{bNo} AND WRITER_NO = #{writerNo} AND DEL_YN = 'N'
+            UPDATE BOARD SET DEL_YN = 'Y' WHERE B_NO = #{no} AND DEL_YN = 'N'
             """)
-    int delete(BoardVo vo);
+    int deleteBoardByNo(String no);
 
     //게시글수정
     @Update("""
-            UPDATE BOARD SET CONTENT = #{content},TITLE =#{title} WHERE B_NO =#{bNo};
+            UPDATE BOARD SET CONTENT = #{content},TITLE =#{title} WHERE B_NO =#{no}
             """)
     int edit(BoardVo vo);
 
