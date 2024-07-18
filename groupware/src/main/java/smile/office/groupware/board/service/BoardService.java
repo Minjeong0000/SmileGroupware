@@ -66,10 +66,10 @@ public class BoardService {
     }
 
     public int writeReply(BoardReplyVo replyVo) throws Exception {
-        if(replyVo.getWriterNo()==null){
+        if(replyVo.getWriterNo() == null){
             throw new Exception("로그인 후 이용해주세요.");
         }
-        if(replyVo.getContent()==null){
+        if(replyVo.getContent() == null){
             throw new Exception("내용을 작성해주세요.");
         }
         if(replyVo.getContent().contains("사장놈")){

@@ -42,7 +42,7 @@
     <%@ include file="/WEB-INF/views/nav/sideNav.jsp" %>
     <div id="main" onclick="closeNav()">
         <div class="column">
-            <div class="container">
+            <div class="container" id="first-container">
                 <h2>자유게시판 이용규칙</h2>
                 <h3>1. 목적</h3>
                 <p>사내 자유게시판은 직원 간의 소통과 정보 공유를 목적으로 합니다.</p>
@@ -160,7 +160,7 @@
                     str+='<div class="comment-item"><div class="comment-head">';
                     str+= '<p><strong>' + reply.writerName + '</strong></p>';
                     if (reply.writerNo == loginEmployeeId) {
-                        str += '<button class="btn btn-secondary" onclick="deleteReply(' + reply.no + ');">삭제</button>';
+                        str += '<button class="btn btn-secondary" onclick="deleteReply(' + reply.no + ','+reply.refNo+');">삭제</button>';
                     }
                     str += '</div>';
                     str += '<p>' + reply.content + '</p>';
@@ -229,7 +229,7 @@ $(document).ready(function () {
 });
 
 //댓글 삭제
-function deleteReply(no){
+function deleteReply(no,refNo){
 
     if(confirm('댓글을 삭제하시겠습니까?')){
 

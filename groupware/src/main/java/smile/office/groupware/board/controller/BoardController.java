@@ -1,11 +1,14 @@
 package smile.office.groupware.board.controller;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,7 @@ import smile.office.groupware.page.PageVo;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,6 +39,11 @@ public class BoardController {
     private ServletContext servletContext;
 
     private final BoardService service;
+
+    private final AmazonS3 s3;
+    @Value("${aws.s3.bucket-name}")
+    private String bucketName;
+
 
     //----------------------------게시글 작성 화면------------------------
     @GetMapping("write")
@@ -143,14 +152,7 @@ public class BoardController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
-
     }
-
-
-
-
-
-
 
 
         //---------------------게시글 목록 화면-------------------
@@ -176,32 +178,54 @@ public class BoardController {
 
     // 여러 파일 업로드 처리
     //TODO 이미지명랜덤바꾸기
+//    @PostMapping("/upload")
+//    @ResponseBody
+//    public String uploadFiles(@RequestParam("fileList") List<MultipartFile> fileList) throws IOException {
+//        MultipartFile file = fileList.get(0);
+//        String realPath = servletContext.getRealPath("/");
+//        String targetPath = "src\\main\\";
+//        int index = realPath.indexOf(targetPath);
+//        String desiredPath = realPath.substring(0, index + targetPath.length())+"resources\\static\\img\\board\\";
+//
+//        System.out.println("desiredPath = " + desiredPath);
+//
+//            // 파일 저장 경로 설정
+//            Path uploadPath = Paths.get(desiredPath);
+//            if (!Files.exists(uploadPath)) {
+//                Files.createDirectories(uploadPath);
+//            }
+//            // 파일을 지정된 경로로 저장
+//            File targetFile = new File(desiredPath + file.getOriginalFilename());
+//            file.transferTo(targetFile);
+//            // 업로드된 파일의 URL 생성
+//            String fileUrl = "http://192.168.40.105:5500/" + file.getOriginalFilename();
+//
+//
+//        return fileUrl;
+//    }
+
+//s3
     @PostMapping("/upload")
     @ResponseBody
     public String uploadFiles(@RequestParam("fileList") List<MultipartFile> fileList) throws IOException {
         MultipartFile file = fileList.get(0);
-        String realPath = servletContext.getRealPath("/");
-        String targetPath = "src\\main\\";
-        int index = realPath.indexOf(targetPath);
-        String desiredPath = realPath.substring(0, index + targetPath.length())+"resources\\static\\img\\board\\";
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(file.getContentType());
+        metadata.setContentLength(file.getSize());
 
-        System.out.println("desiredPath = " + desiredPath);
+        // 파일 이름을 UUID로 변경
+        String randomFileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
 
-            // 파일 저장 경로 설정
-            Path uploadPath = Paths.get(desiredPath);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
+        //s3에 업로드
+        s3.putObject(bucketName,randomFileName,file.getInputStream(),metadata);
 
-            // 파일을 지정된 경로로 저장
-            File targetFile = new File(desiredPath + file.getOriginalFilename());
-            file.transferTo(targetFile);
+        // 파일을 지정된 경로로 저장
+        URL url = s3.getUrl(bucketName,randomFileName);
+        System.out.println("url = " + url);
+        return url.toString();
 
-            // 업로드된 파일의 URL 생성
-            String fileUrl = "http://192.168.40.105:5500/" + file.getOriginalFilename();
-
-
-        return fileUrl;
     }
+
+
 
 }

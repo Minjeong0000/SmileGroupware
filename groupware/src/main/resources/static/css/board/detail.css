@@ -227,7 +227,7 @@ body {
   margin-top: 20px;
 }
 
-.container p, ul {
+#first-container p, ul {
   margin: 10px 0;
   padding-left: 20px;
 }
