@@ -33,7 +33,7 @@ public interface ApprovalMapper {
             "    FROM APPROVALS A\n" +
             "    JOIN EMPLOYEE E ON E.EMP_ID = A.EMP_ID\n" +
             "    JOIN STATUSES S ON A.STATUS_NO = S.STATUS_NO\n" +
-            "    WHERE A.EMP_ID = #{empId} AND S.STATUS_NO = 4\n" +
+            "    WHERE A.EMP_ID = #{empId} AND S.STATUS_NO IN(2,3)\n" +
             "    \n" +
             "    UNION ALL\n" +
             "    \n" +
@@ -41,7 +41,7 @@ public interface ApprovalMapper {
             "    FROM APPROVALS A\n" +
             "    JOIN EMPLOYEE E ON E.EMP_ID = A.EMP_ID\n" +
             "    JOIN STATUSES S ON A.STATUS_NO = S.STATUS_NO\n" +
-            "    WHERE A.EMP_ID = #{empId} AND S.STATUS_NO != 4\n" +
+            "    WHERE A.EMP_ID = #{empId} AND S.STATUS_NO = 4\n" +
             ") subquery")
     CntAppVo getCntApp(String empId);
 
