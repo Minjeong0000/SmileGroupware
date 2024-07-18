@@ -63,4 +63,8 @@ public class BoardDao {
     public int deleteReply(String no) {
         return mapper.deleteReply(no);
     }
+
+    public int writeReply(BoardReplyVo replyVo) {
+        return mapper.writeReply(replyVo);
+    }
 }

@@ -116,7 +116,7 @@
                             <textarea class="form-control" id="commentContent" name="commentContent" rows="3" required></textarea>
                         </div>
                         <div class="reply-submit-wrapper">
-                            <button type="submit" class="btn btn-primary">댓글 등록</button>
+                            <button type="submit" class="btn btn-primary" onclick="writeReply(`${vo.no}`);" >댓글 등록</button>
                         </div>
                     </form>
                 </div>
@@ -257,7 +257,31 @@ function deleteReply(no){
 
 
 //댓글 작성
+function writeReply(refNo){
+    var loginEmployeeId = "${sessionScope.loginEmployeeVo.empId}";
+    const replyValue = document.querySelector("textarea[name=commentContent]").value;
+    document.querySelector("textarea[name=commentContent]").value="";
+    $.ajax({
+        url:'/board/reply/write',
+        method:'POST',
+        data:{
+            writerNo:loginEmployeeId,
+            refNo:refNo,
+            content:replyValue
+        },
+        success:function(response){
+            alert(response);
+            loadReplyList(refNo);
 
+        },
+        error : function(xhr, status, error){
+            alert(xhr.responseText);//예외메세지
+        }
+
+
+
+    })
+}
 
 
 

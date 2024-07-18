@@ -119,7 +119,7 @@ public interface BoardMapper {
     int deleteReply(String no);
     //댓글작성
     @Insert("""
-            INSERT INTO BOARD_REPLY( NO ,REF_NO ,WRITER_NO ,CONTENT )VALUES( SEQ_BOARD_REPLY.NEXTVAL ,#{refNo} ,#{writerNo} ,#{content} );
+            INSERT INTO BOARD_REPLY( NO ,REF_NO ,WRITER_NO ,CONTENT )VALUES( SEQ_BOARD_REPLY.NEXTVAL ,#{refNo} ,#{writerNo} ,#{content} )
             """)
     int writeReply(BoardReplyVo vo);
 

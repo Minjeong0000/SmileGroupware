@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -124,6 +125,26 @@ public class BoardController {
             return ResponseEntity.badRequest().body("댓글 삭제 중 오류가 발생했습니다.");
         }
     }
+    //--------------댓글 작성-----------------
+    @PostMapping("reply/write")
+    public ResponseEntity<?>writeReply(BoardReplyVo replyVo){
+        try{
+            System.out.println("replyVo = " + replyVo);
+            int result = service.writeReply(replyVo);
+
+            if(result==1){
+                return ResponseEntity.ok("작성 성공");
+            }else{
+                return ResponseEntity.badRequest().body("작성 실패");
+            }
+
+
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
+
+    }
 
 
 
@@ -131,7 +152,8 @@ public class BoardController {
 
 
 
-    //---------------------게시글 목록 화면-------------------
+
+        //---------------------게시글 목록 화면-------------------
     @GetMapping("list")
     public String list(){
         return "board/list";
