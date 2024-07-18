@@ -66,7 +66,7 @@
               </div>
 
         <div class="column content">
-            <main>
+            <div id="me">
                 <div class="seller-div">
                   <div>
                     <span><span id="b-g">&#10073;</span> 검색</span>
@@ -188,7 +188,7 @@
                         <button id="sendMessageBtn">보내기</button>
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
     </div>
 </div>

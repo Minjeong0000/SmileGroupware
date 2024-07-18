@@ -1,5 +1,7 @@
 /* styles.css */
 
+
+
 button {
   padding: 10px 20px;
   font-size: 16px;
@@ -169,17 +171,6 @@ th {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 /* css */
 
 #first ,#second,#third,#four,#search,#info,.seller-div{
@@ -249,7 +240,7 @@ color: gray;
 #userCnt {
 margin: 10px auto; /* 가운데 정렬 */
 border-collapse: collapse; /* 테이블 셀 경계를 병합 */
-width: 80%; /* 표의 너비 지정 */
+width: 100%; /* 표의 너비 지정 */
 }
 .userList{
 margin: 10px auto; /* 가운데 정렬 */

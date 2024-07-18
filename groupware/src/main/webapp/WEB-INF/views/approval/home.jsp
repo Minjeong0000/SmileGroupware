@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <title>슬라이드 네비게이터 바</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/approval/common/common.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/approval/home.css">
+<link rel="stylesheet" type="text/css" href="/css/approval/home.css">
+<link rel="stylesheet" type="text/css" href="/css/approval/common/common.css">
 <script defer src="${pageContext.request.contextPath}/js/approval/common/common.js"></script>
 <script defer src="${pageContext.request.contextPath}/js/approval/home.js"></script>
 </head>
@@ -56,7 +56,7 @@
           </div>
 
         <div class="column content">
-          <main>
+          <div id="me">
             <div id="addr">결재 홈</div>
             <br>
             <div id="first">
@@ -172,7 +172,7 @@
               </table>
               </div>
             </div>
-          </main>
+          </div>
         </div>
     </div>
 </div>

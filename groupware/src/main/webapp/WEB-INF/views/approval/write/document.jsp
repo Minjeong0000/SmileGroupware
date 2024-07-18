@@ -68,7 +68,7 @@
           </div>
 
         <div class="column content">
-            <main>
+            <div id="me">
                 <div>
                   <form action="">
                     <table id="user-search" class="userList">
@@ -198,7 +198,7 @@
 
 
 
-            </main>
+            </div>
         </div>
     </div>
 </div>

@@ -49,6 +49,9 @@ public class ApprovalController {
         }
         String empId = loginEmployeeVo.getEmpId();
         WriteVo writeVo=service.getApprovalWrite(loginEmployeeVo);
+        ApprovalHomeVo appHomeVo = service.getApprovalHome(empId);
+
+        model.addAttribute("approvalHomeVo", appHomeVo);
         model.addAttribute("writeVo",writeVo);
         model.addAttribute("loginEmployeeVo", loginEmployeeVo);
         return "approval/write/vacation";
@@ -82,6 +85,9 @@ public class ApprovalController {
             return "redirect:/login";
         }
         String empId = loginEmployeeVo.getEmpId();
+        ApprovalHomeVo appHomeVo = service.getApprovalHome(empId);
+
+        model.addAttribute("approvalHomeVo", appHomeVo);
         ListApprovalVo listApprovalVo=service.getlistApprovalVo(empId);
         model.addAttribute("listApprovalVo",listApprovalVo);
 
@@ -97,6 +103,9 @@ public class ApprovalController {
             return "redirect:/login";
         }
         String empId = loginEmployeeVo.getEmpId();
+        ApprovalHomeVo appHomeVo = service.getApprovalHome(empId);
+
+        model.addAttribute("approvalHomeVo", appHomeVo);
         ListApprovalVo listApprovalVo=service.getlistApprovalVoRes(empId);
         model.addAttribute("listApprovalVo",listApprovalVo);
         model.addAttribute("loginEmployeeVo", loginEmployeeVo);
