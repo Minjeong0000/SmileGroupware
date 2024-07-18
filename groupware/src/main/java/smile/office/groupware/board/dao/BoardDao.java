@@ -59,4 +59,12 @@ public class BoardDao {
     public List<BoardReplyVo> getBoardReply(String refNo) {
         return mapper.getBoardReply(refNo);
     }
+
+    public int deleteReply(String no) {
+        return mapper.deleteReply(no);
+    }
+
+    public int writeReply(BoardReplyVo replyVo) {
+        return mapper.writeReply(replyVo);
+    }
 }

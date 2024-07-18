@@ -41,7 +41,7 @@
                             <textarea id="summernote" name="content"></textarea>
                             <br />
                             <div class="submit-btn-wrap">
-                                <button class="btn btn-secondary" onclick="location.href='/board/list'">취소</button>
+                                <button type ="button" class="btn btn-secondary" onclick="location.href='/board/list'">취소</button>
                                 <button type="submit" class="btn btn-primary">게시글 작성</button>
                             </div>
 

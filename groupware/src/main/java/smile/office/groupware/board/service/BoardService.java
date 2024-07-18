@@ -59,4 +59,23 @@ public class BoardService {
     public List<BoardReplyVo> getBoardReply(String refNo) {
         return dao.getBoardReply(refNo);
     }
+
+    public int deleteReply(String no) {
+        return dao.deleteReply(no);
+
+    }
+
+    public int writeReply(BoardReplyVo replyVo) throws Exception {
+        if(replyVo.getWriterNo() == null){
+            throw new Exception("로그인 후 이용해주세요.");
+        }
+        if(replyVo.getContent() == null){
+            throw new Exception("내용을 작성해주세요.");
+        }
+        if(replyVo.getContent().contains("사장놈")){
+            throw new Exception("부적절한 단어가 포함되어있습니다.");
+        }
+        return dao.writeReply(replyVo);
+
+    }
 }

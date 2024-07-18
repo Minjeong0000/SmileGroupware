@@ -15,17 +15,33 @@
     <%@ include file="/WEB-INF/views/nav/sideNav.jsp" %>
     <div id="main" onclick="closeNav()">
         <div class="column">
-            <div><h1><i class="fa-regular fa-message"></i> 게시판</h1></div>
-            <div class="msg-menu">
-                <div>
-                    <i class="fa-solid fa-envelope">받은 쪽지함</i>
-                    <ul>
-                        <li><i class="fa-solid fa-star"></i> 중요 쪽지함</li>
-                        <li> <i class="fa-solid fa-trash-can"></i> 휴지통</li>
-                    </ul>
-                </div>
-                <div><i class="fa-regular fa-envelope-open"></i> 읽은 쪽지함</div>
-                <div><i class="fa-regular fa-paper-plane"></i> 보낸 쪽지함</div>
+            <div class="container">
+                <h2>자유게시판 이용규칙</h2>
+                <h3>1. 목적</h3>
+                <p>사내 자유게시판은 직원 간의 소통과 정보 공유를 목적으로 합니다.</p>
+                
+                <h3>2. 게시글 작성 시 유의사항</h3>
+                <ul>
+                    <li>존중과 예의를 지킵니다.</li>
+                    <li>적절한 언어를 사용합니다.</li>
+                    <li>허위 정보를 유포하지 않습니다.</li>
+                    <li>광고 및 홍보를 금지합니다.</li>
+                </ul>
+                
+                <h3>3. 게시글 주제</h3>
+                <ul>
+                    <li>업무 관련 정보</li>
+                    <li>복지 및 이벤트</li>
+                    <li>자유로운 의견 교환</li>
+                </ul>
+                
+                <h3>4. 금지사항</h3>
+                <ul>
+                    <li>비방 및 욕설</li>
+                    <li>정치적/종교적 논의</li>
+                    <li>개인 정보 노출</li>
+                    <li>저작권 침해</li>
+                </ul>
             </div>
         </div>
         <div class="column content">

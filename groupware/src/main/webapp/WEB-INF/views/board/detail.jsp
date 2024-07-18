@@ -6,23 +6,35 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 상세조회</title>
+<style>
+    *,
+    *::before,
+    *::after {
+        box-sizing: content-box !important;
+    }
+    #commentContent {
+            box-sizing: border-box !important; /* 패딩과 보더 포함한 너비를 설정 */
+            max-width: 100% !important; /* 부모 영역을 넘지 않도록 설정 */
+        }
+
+</style>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
           crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script defer src="${pageContext.request.contextPath}/js/board/detail.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/board/detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <!-- 부트스트랩 -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
     integrity="sha384-E4W1a11fF4Rp8FexMlti9R4yIhWm2KwPkvbEriKo6Pv1Pw2Q+m5scsmvMQ/t0xIz"
     crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
     integrity="sha384-+0wb6s6gGP2rI0oBDxYOVJvqbT2yl0Y3BQkmQx8KkO8Vh1jNnT/4kew2e2tzS9zE"
     crossorigin="anonymous"></script>
 
-
+    <link rel="stylesheet" type="text/css" href="/css/board/detail.css">
+    
 
 </head>
 
@@ -30,22 +42,38 @@
     <%@ include file="/WEB-INF/views/nav/sideNav.jsp" %>
     <div id="main" onclick="closeNav()">
         <div class="column">
-            <div><h1><i class="fa-regular fa-message"></i> 게시판</h1></div>
-            <div class="msg-menu">
-                <div>
-                    <i class="fa-solid fa-envelope">받은 쪽지함</i>
-                    <ul>
-                        <li><i class="fa-solid fa-star"></i> 중요 쪽지함</li>
-                        <li> <i class="fa-solid fa-trash-can"></i> 휴지통</li>
-                    </ul>
-                </div>
-                <div><i class="fa-regular fa-envelope-open"></i> 읽은 쪽지함</div>
-                <div><i class="fa-regular fa-paper-plane"></i> 보낸 쪽지함</div>
+            <div class="container" id="first-container">
+                <h2>자유게시판 이용규칙</h2>
+                <h3>1. 목적</h3>
+                <p>사내 자유게시판은 직원 간의 소통과 정보 공유를 목적으로 합니다.</p>
+                
+                <h3>2. 게시글 작성 시 유의사항</h3>
+                <ul>
+                    <li>존중과 예의를 지킵니다.</li>
+                    <li>적절한 언어를 사용합니다.</li>
+                    <li>허위 정보를 유포하지 않습니다.</li>
+                    <li>광고 및 홍보를 금지합니다.</li>
+                </ul>
+                
+                <h3>3. 게시글 주제</h3>
+                <ul>
+                    <li>업무 관련 정보</li>
+                    <li>복지 및 이벤트</li>
+                    <li>자유로운 의견 교환</li>
+                </ul>
+                
+                <h3>4. 금지사항</h3>
+                <ul>
+                    <li>비방 및 욕설</li>
+                    <li>정치적/종교적 논의</li>
+                    <li>개인 정보 노출</li>
+                    <li>저작권 침해</li>
+                </ul>
             </div>
         </div>
         <div class="column content">
 
-            <div class="container mt-4">
+            <div class="container">
                 <h1>게시글 상세조회</h1>
                 <div class="card mt-4">
                     <div class="card-body">
@@ -81,49 +109,24 @@
                 </div>
                 </br>
                 </hr>
-                <div class="container mt-4">
+                <div class="container mt-4 comment-form">
                     <form id="commentForm" class="comment-form">
                         <div class="form-group">
                             <label for="commentContent">댓글 작성</label>
                             <textarea class="form-control" id="commentContent" name="commentContent" rows="3" required></textarea>
                         </div>
                         <div class="reply-submit-wrapper">
-                            <button type="submit" class="btn btn-primary">댓글 등록</button>
+                            <button type="submit" class="btn btn-primary" onclick="writeReply(`${vo.no}`);" >댓글 등록</button>
                         </div>
                     </form>
                 </div>
                 <div class="container mt-4">
                     <div>
-                        <h4>댓글 목록 (${vo.replyCount})</h4>
+                        <h4>댓글 (${vo.replyCount})</h4>
                         <span> <button class="btn-secondary" onclick="loadReplyList(`${vo.no}`);">댓글 목록 열기</button></span>
                     </div>
                     <div class="comment-list">
-                        <div class="comment-item">
-                            <p><strong>작성자1</strong></p>
-                            <p>이것은 첫 번째 댓글입니다.</p>
-                            <p class="text-muted">2024-07-16</p>
-                            <button class="btn btn-secondary" onclick="alert('댓글 삭제 기능')">삭제</button>
-                        </div>
-                        <hr>
-                        <div class="comment-item">
-                            <div class="comment-head">
-                                <p><strong>작성자2</strong></p>
-                                <c:if test="${vo.writerNo eq sessionScope.loginEmployeeVo.empId}">
-                                    <button class="btn btn-secondary" onclick="alert('댓글 삭제 기능')">삭제</button>
-                                </c:if>
-                            </div>
-                            <p>이것은 두 번째 댓글입니다.</p>
-                            <p class="text-muted">2024-07-16</p>
-                            <!-- 로그인한 사용자가 아닌 경우 삭제 버튼 없음 -->
-                        </div>
-                        <hr>
-                        <div class="comment-item">
-                            <p><strong>작성자3</strong></p>
-                            <p>이것은 세 번째 댓글입니다.</p>
-                            <p class="text-muted">2024-07-16</p>
-                            <button class="btn btn-secondary" onclick="alert('댓글 삭제 기능')">삭제</button>
-                        </div>
-                        <hr>
+  
                     </div><!--댓글컨테이너끝나는부분-->
                 </div>
             </div>
@@ -137,27 +140,40 @@
 <!-- Custom JS (필요한 경우 추가) -->
 <script>
    
-$(document).ready(function () {
 
     //댓글목록불러오기
     function loadReplyList(refNo){
+        var loginEmployeeId = "${sessionScope.loginEmployeeVo.empId}";
+        console.log(refNo);
         $.ajax({
             url:'/board/replyList',
             method:'GET',
             data:{refNo: refNo},
             success:function(replyVoList){
+                //map 으로 리턴했을때
+                // const empId = response.empId;
+                // const replyVoList = response.replyVoList;
                 let str = "";
                 for(let i = 0; i< replyVoList.length; ++i){
+                    var reply = replyVoList[i];
 
-
+                    str+='<div class="comment-item"><div class="comment-head">';
+                    str+= '<p><strong>' + reply.writerName + '</strong></p>';
+                    if (reply.writerNo == loginEmployeeId) {
+                        str += '<button class="btn btn-secondary" onclick="deleteReply(' + reply.no + ','+reply.refNo+');">삭제</button>';
+                    }
+                    str += '</div>';
+                    str += '<p>' + reply.content + '</p>';
+                    str +='<p>'+reply.writeDate+'</p>';
+                    str +='</div><hr>'
                 }
+                $('.comment-list').html(str);
             }
 
-        })
+        });
     }
 
-
-
+$(document).ready(function () {
 
     // 추천 버튼 클릭 시 동작
     $('.like-btn').click(function () {
@@ -211,6 +227,63 @@ $(document).ready(function () {
 
 
 });
+
+//댓글 삭제
+function deleteReply(no,refNo){
+
+    if(confirm('댓글을 삭제하시겠습니까?')){
+
+        console.log('삭제할댓글번호'+no);
+        
+        $.ajax({
+            url:'/board/reply/delete',
+            method:'PUT',
+            data:{
+                no:no
+            },
+            success:function(response){
+                alert(response);
+                loadReplyList(refNo);
+
+            },
+            error:function(e){
+                alert(e.responseText);
+            }
+
+        })
+    }
+
+}
+
+
+//댓글 작성
+function writeReply(refNo){
+    var loginEmployeeId = "${sessionScope.loginEmployeeVo.empId}";
+    const replyValue = document.querySelector("textarea[name=commentContent]").value;
+    document.querySelector("textarea[name=commentContent]").value="";
+    $.ajax({
+        url:'/board/reply/write',
+        method:'POST',
+        data:{
+            writerNo:loginEmployeeId,
+            refNo:refNo,
+            content:replyValue
+        },
+        success:function(response){
+            alert(response);
+            loadReplyList(refNo);
+
+        },
+        error : function(xhr, status, error){
+            alert(xhr.responseText);//예외메세지
+        }
+
+
+
+    })
+}
+
+
 
 
 </script>
