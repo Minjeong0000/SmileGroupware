@@ -28,8 +28,8 @@
                   <h1 id="big">결재관리</h1>
                   <div class="approval_status">
                     <a href="#"><span class="circle"><span>결재중</span><span id="pendingCount">${approvalHomeVo.cntAppVo.cntApprovalIng}</span></span></a>
-                    <a href="#"><span class="circle"><span>임시저장</span><span id="processingCount">${approvalHomeVo.cntAppVo.cntApprovalSave}</span></span></a>
-                    <a href="#"><span class="circle"><span>전체결재</span><span id="totalCount">${approvalHomeVo.cntAppVo.cntApprovalAll}</span></span></a>
+                    <a href="#"><span class="circle"><span>결재처리</span><span id="processingCount">${approvalHomeVo.cntAppVo.cntApprovalSave}</span></span></a>
+                    <a href="#"><span class="circle"><span>임시저장</span><span id="totalCount">${approvalHomeVo.cntAppVo.cntApprovalAll}</span></span></a>
 
                   </div>
                   <div class="approval_nav">

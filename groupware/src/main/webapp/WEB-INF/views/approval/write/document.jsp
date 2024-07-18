@@ -29,7 +29,7 @@
               <div class="approval_status">
                 <span class="circle"><span>결재중</span><span id="pendingCount">1</span></span>
                 <span class="circle"><span>결재처리</span><span id="processingCount">3</span></span>
-                <span class="circle"><span>전체결재</span><span id="totalCount">10</span></span>
+                <span class="circle"><span>임시저장</span><span id="totalCount">10</span></span>
               </div>
               <div class="approval_nav">
                   <ul>
