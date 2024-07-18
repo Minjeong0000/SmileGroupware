@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 마우스가 사이드바 위에 있을 때 열기
     sidenav.addEventListener('mouseover', function() {
       sidenav.style.width = "250px";
-      main.style.marginLeft = "280px";
+      main.style.marginLeft = "250px"; // 여기만 수정
       sidenav.classList.add("open");
     });
 
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     sidenav.addEventListener('mouseout', function() {
       if (!sidenav.matches(':hover') && sidenav.classList.contains("open")) {
         sidenav.style.width = "70px";
-        main.style.marginLeft = "70px";
+        main.style.marginLeft = "70px"; // 여기만 수정
         sidenav.classList.remove("open");
       }
     });
@@ -26,11 +26,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var main = document.getElementById("main");
     if (sidenav.classList.contains("open")) {
       sidenav.style.width = "70px";
-      main.style.marginLeft = "70px";
+      main.style.marginLeft = "70px"; // 여기만 수정
       sidenav.classList.remove("open");
     } else {
       sidenav.style.width = "250px";
-      main.style.marginLeft = "280px";
+      main.style.marginLeft = "250px"; // 여기만 수정
       sidenav.classList.add("open");
     }
   }
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var main = document.getElementById("main");
     if (sidenav.classList.contains("open")) {
       sidenav.style.width = "70px";
-      main.style.marginLeft = "70px";
+      main.style.marginLeft = "70px"; // 여기만 수정
       sidenav.classList.remove("open");
     }
   }

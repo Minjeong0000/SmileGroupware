@@ -66,7 +66,7 @@
               </div>
 
         <div class="column content">
-            <main>
+            <div id="me">
                 <div class="seller-div">
                   <div>
                     <span><span id="b-g">&#10073;</span> 검색</span>
@@ -172,17 +172,17 @@
                         <span class="close">&times;</span>
                         <p>상세보기 창입니다.</p><br />
                         <p>결재 번호: <span id="detailApprovalNo"></span></p><br />
-                        <p>로그인 직원 ID: <span id="empId"></span></p><br />
-                        <p>결재선1: <span id="approver1"></span><img id="approver1Img" src="" alt="결재자1" /></p><br />
-                        <p>결재선2: <span id="approver2"></span><img id="approver2Img" src="" alt="결재자2" /></p><br />
-                        <p>결재선3: <span id="approver3"></span><img id="approver3Img" src="" alt="결재자3" /></p><br />
+                        <p>결재자 ID: <span id="empId"></span></p><br />
+                        <p>결재선1: <span id="approver1"></span><img id="approver1Img" src=""  width="100px" height="100px"/></p><br />
+                        <p>결재선2: <span id="approver2"></span><img id="approver2Img" src=""  width="100px" height="100px"/></p><br />
+                        <p>결재선3: <span id="approver3"></span><img id="approver3Img" src=""  width="100px" height="100px"/></p><br />
                         <p>휴가양식: <span id="leaveForm"></span></p><br />
                         <p>우선순위: <span id="priority"></span></p><br />
                         <p>시작일: <span id="startDate"></span></p><br />
                         <p>종료일: <span id="endDate"></span></p><br />
                         <p>사용수: <span id="usageCount"></span></p><br />
                         <p>휴가사유: <span id="reason"></span></p><br />
-                        <p>결재일: <span id="approvalDate"></span></p><br />
+                        <p>결재일: <span id="approvalDateDetail"></span></p><br />
                         <p>결재선1: <span id="approvalLine1"></span></p><br />
                         <p>결재선2: <span id="approvalLine2"></span></p><br />
                         <p>결재선3: <span id="approvalLine3"></span></p><br />
@@ -199,7 +199,7 @@
                     <button id="saveDrawingBtn">저장하기</button>
                   </div>
                 </div>
-            </main>
+            </div>
         </div>
     </div>
 </div>

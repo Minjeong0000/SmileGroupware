@@ -18,7 +18,7 @@ public class ApprovalDetailsDto {
     private String endDate;
     private int usageCount;
     private String reason;
-    private String approvalDate;
+    private String approvalDateDetail;
     private String approvalLine1;
     private String approvalLine2;
     private String approvalLine3;

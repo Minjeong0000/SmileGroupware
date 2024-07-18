@@ -64,7 +64,7 @@
               </div>
 
         <div class="column content">
-            <main>
+            <div id="me">
                 <div>
                 <h3>${loginEmployeeVo.empName}님의 잔여 연차 : ${loginEmployeeVo.remainVacCnt}</h3>
                   <form action="/approval/vac" method="post">
@@ -204,7 +204,7 @@
 
 
 
-            </main>
+            </div>
         </div>
     </div>
 </div>

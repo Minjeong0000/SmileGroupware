@@ -81,7 +81,7 @@ $('#detailButton').click(function() {
             $('#endDate').text(response.endDate);
             $('#usageCount').text(response.usageCount);
             $('#reason').text(response.reason);
-            $('#approvalDate').text(response.approvalDate);
+            $('#approvalDateDetail').text(response.approvalDateDetail);
             $('#approvalLine1').text(response.approvalLine1);
             $('#approvalLine2').text(response.approvalLine2);
             $('#approvalLine3').text(response.approvalLine3);
@@ -90,8 +90,7 @@ $('#detailButton').click(function() {
             $('#tempModal').css('display', 'block');
         },
         error: function(xhr, status, error) {
-            // 에러 처리
-            console.error('AJAX Error:', status, error);
+            console.error('에이잭스 에러남!:', status, error);
         }
     });
 });

@@ -78,22 +78,22 @@ public class ApprovalRestController {
         ApprovalDetailsDto approvalDetails = new ApprovalDetailsDto();
         approvalDetails.setApprovalNo(detailsDto.getApprovalNo()); // 결재번호 설정
         approvalDetails.setEmpId(loginEmployeeVo.getEmpId()); // 로그인 직원 ID 설정
-        approvalDetails.setApprover1("John Doe");
-        approvalDetails.setApprover1ImageUrl("path/to/approver1/image.png");
-        approvalDetails.setApprover2("Jane Smith");
-        approvalDetails.setApprover2ImageUrl("path/to/approver2/image.png");
-        approvalDetails.setApprover3("Michael Brown");
-        approvalDetails.setApprover3ImageUrl("path/to/approver3/image.png");
-        approvalDetails.setLeaveForm("Vacation Form");
-        approvalDetails.setPriority("High");
-        approvalDetails.setStartDate("2024-07-15");
-        approvalDetails.setEndDate("2024-07-20");
+        approvalDetails.setApprover1("이용진");
+        approvalDetails.setApprover1ImageUrl("http://192.168.40.14:5500/choiCeo.png");
+        approvalDetails.setApprover2("강아지");
+        approvalDetails.setApprover2ImageUrl("");
+        approvalDetails.setApprover3("고양이");
+        approvalDetails.setApprover3ImageUrl("");
+        approvalDetails.setLeaveForm("휴가 관련 문서");
+        approvalDetails.setPriority("높음");
+        approvalDetails.setStartDate("24년 7월 15일");
+        approvalDetails.setEndDate("24년 7월 20일");
         approvalDetails.setUsageCount(5);
         approvalDetails.setReason("Vacation");
-        approvalDetails.setApprovalDate("2024-07-12");
-        approvalDetails.setApprovalLine1("Approved (Response content)");
-        approvalDetails.setApprovalLine2("Approved (Response content)");
-        approvalDetails.setApprovalLine3("Approved (Response content)");
+        approvalDetails.setApprovalDateDetail("24년 7월 12일");
+        approvalDetails.setApprovalLine1("수락했음");
+        approvalDetails.setApprovalLine2("");
+        approvalDetails.setApprovalLine3("");
 
         return ResponseEntity.ok(approvalDetails);
     }
