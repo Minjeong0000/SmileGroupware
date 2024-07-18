@@ -100,13 +100,37 @@ public class BoardController {
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();
         List<BoardReplyVo>replyVoList = service.getBoardReply(refNo);
-        Map<String, Object> response = new HashMap<>();
-        response.put("empId",empId);
-        response.put("replyVoList",replyVoList);
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("empId",empId);
+//        response.put("replyVoList",replyVoList);
         //
         model.addAttribute("replyVoList",replyVoList);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(replyVoList);
     }
+    //------------댓글 삭제---------------
+    @PutMapping("reply/delete")
+    public ResponseEntity<?>deleteReply(@RequestParam("no")String no){
+
+
+        int result = service.deleteReply(no);
+        if(result==1){
+            System.out.println("if문 no = " + no);
+            System.out.println("result = " + result);
+
+            return ResponseEntity.ok("댓글을 삭제했습니다.");
+        }else{
+            System.out.println("else문 no = " + no);
+            System.out.println("result = " + result);
+            return ResponseEntity.badRequest().body("댓글 삭제 중 오류가 발생했습니다.");
+        }
+    }
+
+
+
+
+
+
+
     //---------------------게시글 목록 화면-------------------
     @GetMapping("list")
     public String list(){

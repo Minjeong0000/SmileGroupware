@@ -33,8 +33,8 @@ public interface BoardMapper {
     @Select("""
             
             SELECT B.B_NO AS NO, B.TITLE, B.CONTENT, B.WRITER_NO, B.HIT, B.DEL_YN, B.WRITE_DATE, E.EMP_NAME AS WRITER_NAME,
-                          (SELECT COUNT(*) FROM LIKES L WHERE L.B_NO = B.B_NO) AS LIKE_COUNT,
-                          (SELECT COUNT(*) FROM BOARD_REPLY BR WHERE B.B_NO = BR.REF_NO)AS REPLY_COUNT
+                  (SELECT COUNT(*) FROM LIKES L WHERE L.B_NO = B.B_NO) AS LIKE_COUNT,
+                  (SELECT COUNT(*) FROM BOARD_REPLY BR WHERE B.B_NO = BR.REF_NO AND DEL_YN='N')AS REPLY_COUNT
             FROM BOARD B
             LEFT JOIN EMPLOYEE E ON B.WRITER_NO = E.EMP_ID
             WHERE B.B_NO = #{no} AND DEL_YN='N'
@@ -50,12 +50,11 @@ public interface BoardMapper {
     //게시글목록조회
     @Select("""
             SELECT B.B_NO AS NO, B.TITLE, B.CONTENT, B.WRITER_NO, B.HIT, B.DEL_YN, B.WRITE_DATE, E.EMP_NAME AS WRITER_NAME,
-                         (SELECT COUNT(*) FROM LIKES L WHERE L.B_NO = B.B_NO) AS LIKE_COUNT,
-                         (SELECT COUNT(*) FROM BOARD_REPLY BR WHERE B.B_NO = BR.REF_NO)AS REPLY_COUNT
+                (SELECT COUNT(*) FROM LIKES L WHERE L.B_NO = B.B_NO) AS LIKE_COUNT,
+                (SELECT COUNT(*) FROM BOARD_REPLY BR WHERE B.B_NO = BR.REF_NO AND DEL_YN='N')AS REPLY_COUNT
             FROM BOARD B
             LEFT JOIN EMPLOYEE E ON B.WRITER_NO = E.EMP_ID
             WHERE DEL_YN='N' ORDER BY NO DESC
-            
             """)
     List<BoardVo> getBoardList(RowBounds rb);
 
@@ -94,9 +93,6 @@ public interface BoardMapper {
             UPDATE BOARD SET CONTENT = #{content},TITLE =#{title} WHERE B_NO =#{no}
             """)
     int edit(BoardVo vo);
-
-
-
     //댓글조회
     @Select("""
             
@@ -116,12 +112,16 @@ public interface BoardMapper {
             """)
     List<BoardReplyVo> getBoardReply(String refNo);
 
+    //댓글삭제
+    @Update("""
+            UPDATE BOARD_REPLY SET DEL_YN = 'Y' WHERE NO =#{no} AND DEL_YN = 'N'
+            """)
+    int deleteReply(String no);
     //댓글작성
     @Insert("""
             INSERT INTO BOARD_REPLY( NO ,REF_NO ,WRITER_NO ,CONTENT )VALUES( SEQ_BOARD_REPLY.NEXTVAL ,#{refNo} ,#{writerNo} ,#{content} );
             """)
     int writeReply(BoardReplyVo vo);
-
 
 
 }

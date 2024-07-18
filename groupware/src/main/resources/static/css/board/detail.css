@@ -67,7 +67,7 @@ body {
 
 .column:first-child {
   flex: none;
-  width: 270px;
+  width: 270px !important; /* 필요시 !important로 강제 적용 */
   border-right: 2px solid #ccc;
 }
 
@@ -145,44 +145,6 @@ body {
   padding: 10px 20px;
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
-  font-family: Arial, sans-serif;
-}
-
-.pagination a, .pagination strong {
-  margin: 0 5px;
-  padding: 10px 15px;
-  text-decoration: none;
-  color: #6f7bc9;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.pagination a:hover {
-  background-color: #6f7bc9;
-  color: #fff;
-}
-
-.pagination strong {
-  background-color: #6f7bc9;
-  color: #fff;
-  border-color: #6f7bc9;
-}
-
-.pagination a:first-child, .pagination a:last-child {
-  font-weight: bold;
-}
-
-.pagination a.disabled, .pagination a.disabled:hover {
-  color: #ddd;
-  cursor: not-allowed;
-  background-color: transparent;
-}
 
 /*  */
 .content-wrap{
@@ -241,3 +203,44 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
+/* 게시글작성시유의사항 */
+.container {
+  width: 80%;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.container h3 {
+  color: #444;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+  margin-top: 20px;
+}
+
+.container p, ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.container ul {
+  list-style: disc;
+}
+
+.container li {
+  margin: 5px 0;
+}
+
+/* 부트스트랩적용취소 */
+/* .container > .mt-4 *{
+  box-sizing: content-box !important;
+} */

@@ -59,4 +59,9 @@ public class BoardService {
     public List<BoardReplyVo> getBoardReply(String refNo) {
         return dao.getBoardReply(refNo);
     }
+
+    public int deleteReply(String no) {
+        return dao.deleteReply(no);
+
+    }
 }
