@@ -7,6 +7,7 @@ import smile.office.groupware.board.vo.BoardReplyVo;
 import smile.office.groupware.board.vo.BoardVo;
 import smile.office.groupware.page.PageVo;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -111,5 +112,40 @@ public class BoardService {
     public List<BoardVo> searchTitleContent(String titleContent, PageVo pvo) {
         return dao.searchTitleContent(titleContent,pvo);
 
+    }
+
+    // 비속어 리스트를 정의.
+    private static final List<String> BAD_WORDS = Arrays.asList(
+            "사장놈", "사장ㅅㄲ", "부장놈", "부장ㅅㄲ", "이사놈", "이사ㅅㄲ","개새키"
+    );
+
+    public int edit(BoardVo vo) throws Exception {
+        // 제목이 비어있으면 예외를 던집니다.
+        if (vo.getTitle() == null || vo.getTitle().trim().isEmpty()) {
+            throw new Exception("제목을 입력하세요.");
+        }
+        // 내용이 비어있으면 예외를 던집니다.
+        if (vo.getContent() == null || vo.getContent().trim().isEmpty()) {
+            throw new Exception("내용을 입력하세요.");
+        }
+        // 제목과 내용에서 비속어가 포함되어 있는지 검사합니다.
+        if (containsBadWords(vo.getTitle()) || containsBadWords(vo.getContent())) {
+            throw new Exception("부적절한 단어가 포함되어있습니다.");
+        }
+        // 비속어가 포함되지 않으면 정상 처리합니다.
+        return dao.edit(vo);
+    }
+
+    // 비속어가 포함되어 있는지 확인하는 메서드입니다.
+    private boolean containsBadWords(String text) {
+        if (text == null) {
+            return false;
+        }
+        for (String badWord : BAD_WORDS) {
+            if (text.contains(badWord)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

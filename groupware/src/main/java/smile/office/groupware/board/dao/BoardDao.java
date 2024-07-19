@@ -114,4 +114,8 @@ public class BoardDao {
         RowBounds rb = new RowBounds(offset,limit);
         return mapper.searchTitleContent(titleContent,pvo);
     }
+
+    public int edit(BoardVo vo) {
+        return mapper.edit(vo);
+    }
 }
