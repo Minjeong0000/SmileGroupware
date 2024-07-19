@@ -16,6 +16,7 @@ public class NoticeService {
     private final NoticeDao dao;
 
     public int write(NoticeVo vo) {
+
         return dao.write(vo);
     }
 

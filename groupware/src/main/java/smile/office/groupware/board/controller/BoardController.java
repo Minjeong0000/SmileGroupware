@@ -137,15 +137,15 @@ public class BoardController {
         String realPath = servletContext.getRealPath("/");
         String targetPath = "src\\main\\";
         int index = realPath.indexOf(targetPath);
-        String desiredPath = realPath.substring(0, index + targetPath.length())+"resources\\static\\img\\board\\";
+        String desiredPath = realPath.substring(0, index + targetPath.length()) + "resources\\static\\img\\board\\";
 
         System.out.println("desiredPath = " + desiredPath);
 
-            // 파일 저장 경로 설정
-            Path uploadPath = Paths.get(desiredPath);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
+        // 파일 저장 경로 설정
+        Path uploadPath = Paths.get(desiredPath);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
 
             // 파일을 지정된 경로로 저장
             File targetFile = new File(desiredPath + file.getOriginalFilename());
