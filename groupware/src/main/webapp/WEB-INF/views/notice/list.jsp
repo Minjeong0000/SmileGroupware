@@ -75,11 +75,17 @@
             </thead>
 
             <tbody> </tbody>
+            
           </table>
         
           <hr>
         
-          <div id="result"></div>
+          <div id="result">
+
+            <h3></h3>
+            
+          
+          </div>
           
 
         </div>
@@ -100,17 +106,15 @@ tbody.addEventListener( "click" , getNoticeByNo );
 </script>
 
 
-
-
 <script>
 
   const h3Tag = document.querySelector("h3");    
 
   $.ajax( {
-      url: "/notice" ,
+      url: "api/noice" ,
       method: "get" ,
       data: {
-         
+          no:no
       } ,
       success: function(vo){
           h3Tag.innerHTML = vo.title;
@@ -119,7 +123,8 @@ tbody.addEventListener( "click" , getNoticeByNo );
   } );
 
 
-</script>
+
+
 
 
 

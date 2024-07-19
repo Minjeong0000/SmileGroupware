@@ -33,19 +33,15 @@
             <h2>사내 공지 게시판</h2>
 
             <form id="noticeForm" action="/api/notice" method="post">
-              <input type="text" name="title">
+              <input type="text" name="title" placeholder="제목을 입력하세요">
               <br />
-              <textarea id="summernote" name="content"></textarea>
+              <textarea id="summernote" name="content" placeholder="내용을 입력하세요"></textarea>
               <br />
               <input type="submit" value="작성하기">
+              <br />
+           
             </form>
             
-
-
-
-
-
-
 
 
         </div>
@@ -57,11 +53,12 @@
 
 <script>
   $('#summernote').summernote({
-  placeholder: 'Hello stand alone ui',
+  placeholder: '내용을 입력하세요',
   tabsize: 2,
-  height: 300,
-  minHeight: 200,
-  maxHeight: 400,
+  width: '100%',
+  height: 500,
+  minHeight: 450,
+  maxHeight: 600,
   toolbar: [
       ['style', ['style']],
       ['font', ['bold', 'underline', 'clear']],
@@ -91,12 +88,13 @@
           success: function(resp){
               console.log("handleImgUpload 성공 ~~~ !");
               console.log(resp);
-              $('#summernote').summernote('insertImage', resp);
+              $('#summernote').summernote('insertImage', resp.url);
           } ,
       } );
   }
 
 
+  //공지사항 작성하기 
   document.querySelector('#noticeForm').addEventListener('submit', function(event) {
   // 기본 폼 제출 방지
   event.preventDefault();
@@ -107,12 +105,12 @@
   const content = $("<div>").html(rawContent).text(); // HTML 태그를 제거하고 순수 텍스트만 추출
   console.log("content:", content);
 
+
   
   // AJAX 요청
   $.ajax({
     url: "/api/notice", // 서버의 URL
     method: "post", // HTTP 메소드
-    dataType : "json" ,
     data: {
       title: title,  // 제목 데이터
       content: content  // 내용 데이터
@@ -128,14 +126,6 @@
     }
   });
 });
-
-
-
-
-
-
-
-
 
 
 </script>
