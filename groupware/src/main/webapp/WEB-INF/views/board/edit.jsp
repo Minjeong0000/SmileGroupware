@@ -33,16 +33,17 @@
                 
                     <div class="write-area">
                         <div><h2>게시글 작성</h2></div>
-                        <form action="/board/write" method="post">
+                        <form action="/board/edit" method="post">
+                            <input type="hidden" name="no" value="${vo.no}">
                             <p class="card-subtitle text-muted">제목</p>
-                            <input type="text" name="title" placeholder="제목을 입력하세요.">
+                            <input type="text" name="title" value="${vo.title}" placeholder="제목을 입력하세요.">
                             <br />
                             <p class="card-subtitle text-muted">내용</p>
-                            <textarea id="summernote" name="content"></textarea>
+                            <textarea id="summernote" value="${vo.content}" name="content"></textarea>
                             <br />
                             <div class="submit-btn-wrap">
                                 <button type ="button" class="btn btn-secondary" onclick="location.href='/board/list'">취소</button>
-                                <button type="submit" class="btn btn-primary">게시글 작성</button>
+                                <button type="submit" class="btn btn-primary">게시글 수정</button>
                             </div>
 
                         </form>

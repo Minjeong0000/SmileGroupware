@@ -62,6 +62,38 @@ public class BoardController {
         System.out.println("result = " + result);
         return "redirect:/board/list";
     }
+    //------게시글 수정 화면
+    @GetMapping("edit")
+    public String edit(@RequestParam("no")String no, Model model){
+        BoardVo vo = service.getBoardByNo(no);
+        model.addAttribute("vo",vo);
+        return "board/edit";
+    }
+    //----------게시글 수정 기능
+
+    @PostMapping("edit")
+    public String edit(BoardVo vo,Model model){
+        try{
+
+            int result = service.edit(vo);
+            System.out.println("result = " + result);
+            if(result!=1){
+                throw new Exception("게시글 수정 실패..");
+                
+            }
+            return "redirect:/board/list";
+
+        }
+        catch (Exception e){
+            model.addAttribute("errMsg",e.getMessage());
+        }
+        return "redirect:/board/list";
+    }
+
+
+
+
+
     //------------------게시글 상세조회 화면-----------------------------
     @GetMapping("detail")
     public String detail(HttpServletRequest request,@RequestParam("no") String no, Model model){
