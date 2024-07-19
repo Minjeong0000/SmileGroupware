@@ -85,10 +85,18 @@ public class AdminController {
 
     ////////////////////////////////////////////////////////////////
 
-    //관리자 추가 (화면)
+    // 관리자 추가 (화면)
     @GetMapping("adminAdd")
-    public String adminAdd(){
-        return "admin/adminAdd";
+    public String adminAdd(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        AdminVo loginAdminVo = (AdminVo) session.getAttribute("loginAdminVo");
+
+        if (loginAdminVo != null && "1".equals(loginAdminVo.getAdminLevel())) {
+            return "admin/adminAdd";
+        } else {
+            model.addAttribute("errMsg", "접근 권한이 없습니다.");
+            return "common/error";
+        }
     }
 
     // 관리자 추가 기능구현
@@ -128,7 +136,7 @@ public class AdminController {
     public String userAdd(@ModelAttribute EmployeeVo vo, @RequestParam("profileFile") MultipartFile profileFile, Model model) {
         try {
             if (!profileFile.isEmpty()) {
-                String uploadDir = "D:/smailOffice/groupware/src/main/resources/static/img/userProfile";
+                String uploadDir = "D:\\smailOffice\\groupware\\src\\main\\resources\\static\\img\\userProfile";
                 File uploadDirFile = new File(uploadDir);
                 if (!uploadDirFile.exists()) {
                     uploadDirFile.mkdirs();

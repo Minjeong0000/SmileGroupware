@@ -28,7 +28,7 @@ public interface AdminMapper {
     int addAdmin(AdminVo vo);
 
     //관리자 조회
-    @Select("SELECT * FROM ADMIN")
+    @Select("SELECT * FROM ADMIN ORDER BY ADMIN_ID ASC")
     List<AdminVo> adminInquiry();
 
     //회원삭제
@@ -88,7 +88,7 @@ public interface AdminMapper {
     int employeeDelete(String employeeNum);
 
     // 문의사항 목록 가져오기
-    @Select("SELECT * FROM QUESTION")
+    @Select("SELECT * FROM QUESTION ORDER BY WRITE_DATE ASC")
     List<QuestionVo> getQuestions();
 
     @Select("SELECT e.emp_id AS empId, e.emp_name AS empName, SUM(a.day_work_time) AS totalWorkTime " +

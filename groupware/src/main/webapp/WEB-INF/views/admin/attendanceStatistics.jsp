@@ -27,10 +27,10 @@
                 <table id="statisticsTable">
                     <thead>
                         <tr>
-                            <th>Employee ID</th>
-                            <th>Employee Name</th>
-                            <th>Total Work Time (hours)</th>
-                            <th>Details</th>
+                            <th>사원 번호</th>
+                            <th>사원 이름</th>
+                            <th>근무시간(시간)</th>
+                            <th>상세정보</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,14 +48,14 @@
                 <table id="detailsTable">
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                            <th>Work Time</th>
-                            <th>Status</th>
+                            <th>아직 미정</th>
+                            <th>출근</th>
+                            <th>퇴근</th>
+                            <th>근무시간</th>
+                            <th>상태</th>
                         </tr>
                     </thead>
-                    <tbody>((taller))#1804$
+                    <tbody>
 
                         <!-- 데이터는 JS에 의해 추가될 예정 -->
                     </tbody>
