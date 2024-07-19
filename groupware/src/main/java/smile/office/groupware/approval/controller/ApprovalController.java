@@ -111,6 +111,8 @@ public class ApprovalController {
         model.addAttribute("loginEmployeeVo", loginEmployeeVo);
         return "approval/list/response";
     }
+
+
     //결재 작성 중
     @GetMapping("/write")
     public String approvalListWrite(){return "approval/list/write";}
@@ -125,5 +127,10 @@ public class ApprovalController {
     @GetMapping("/private")
     public String approvalFinPrivate(){return "approval/fin/private";}
 
+
+    @GetMapping("/test")
+    public String test(){
+        return "approval/list/response_ex";
+    }
 
 }
