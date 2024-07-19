@@ -14,10 +14,30 @@ public class WebConfig implements WebMvcConfigurer {
         return new LoginInterceptor();
     }
 
+    @Bean
+    public EmpLoginInterceptor empLoginInterceptor(){
+        return new EmpLoginInterceptor();
+    }
+
+
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor())
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/login", "/admin/error");
+
+
+        registry.addInterceptor(empLoginInterceptor())
+                .addPathPatterns("/emp/attendance/**")
+                .addPathPatterns("/message/**")
+                .addPathPatterns("/board/**")
+                .excludePathPatterns();
+
+
+
     }
+
+
+
 }
