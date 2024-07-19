@@ -78,4 +78,38 @@ public class BoardService {
         return dao.writeReply(replyVo);
 
     }
+
+    //제목으로검색
+    public List<BoardVo> searchTitle(String title, PageVo pvo) {
+        return dao.searchTitle(title,pvo);
+    }
+    //제목검색게시글수
+    public int getSearchTitleCnt(String title) {
+        return dao.getSearchTitleCnt(title);
+    }
+
+    public int getSearchContentCnt(String content) {
+        return dao.getSearchContentCnt(content);
+    }
+
+    public List<BoardVo> searchContent(String content, PageVo pvo) {
+        return dao.searchContent(content,pvo);
+    }
+    //작성자이름 게시글수
+    public int getSearchWriterNameCnt(String writerName) {
+        return dao.getSearchWriterNameCnt(writerName);
+    }
+
+    public List<BoardVo> searchWriterName(String writerName, PageVo pvo) {
+        return dao.searchWriterName(writerName,pvo);
+    }
+
+    public int getSearchTitleContentCnt(String titleContent) {
+        return dao.getSearchTitleContentCnt(titleContent);
+    }
+
+    public List<BoardVo> searchTitleContent(String titleContent, PageVo pvo) {
+        return dao.searchTitleContent(titleContent,pvo);
+
+    }
 }

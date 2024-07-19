@@ -190,6 +190,46 @@ body {
   background-color: transparent;
 }
 
+.search-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+.search-pagination a, .search-pagination strong {
+  margin: 0 5px;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #6f7bc9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.search-pagination a:hover {
+  background-color: #6f7bc9;
+  color: #fff;
+}
+
+.search-pagination strong {
+  background-color: #6f7bc9;
+  color: #fff;
+  border-color: #6f7bc9;
+}
+
+.search-pagination a:first-child, .search-pagination a:last-child {
+  font-weight: bold;
+}
+
+.search-pagination a.disabled, .search-pagination a.disabled:hover {
+  color: #ddd;
+  cursor: not-allowed;
+  background-color: transparent;
+}
+
+
 
 /* 게시글작성시유의사항 */
 .container {
