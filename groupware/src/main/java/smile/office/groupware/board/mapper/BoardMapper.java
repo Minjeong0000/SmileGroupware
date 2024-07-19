@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.session.RowBounds;
 import smile.office.groupware.board.vo.BoardReplyVo;
 import smile.office.groupware.board.vo.BoardVo;
+import smile.office.groupware.page.PageVo;
 
 import java.util.List;
 
@@ -124,6 +125,89 @@ public interface BoardMapper {
     int writeReply(BoardReplyVo vo);
 
 
+    //제목검색수 조회
+@Select("""
+        SELECT COUNT(*)
+        FROM BOARD B
+        LEFT JOIN EMPLOYEE E ON B.WRITER_NO = E.EMP_ID
+        WHERE B.DEL_YN='N' AND B.TITLE LIKE '%'||#{title} ||'%'
+        """)
+    int getSearchTitleCnt(String title);
+
+@Select("""
+        SELECT B.B_NO AS NO, B.TITLE, B.CONTENT, B.WRITER_NO, B.HIT, B.DEL_YN, B.WRITE_DATE, E.EMP_NAME AS WRITER_NAME,
+               (SELECT COUNT(*) FROM LIKES L WHERE L.B_NO = B.B_NO) AS LIKE_COUNT,
+               (SELECT COUNT(*) FROM BOARD_REPLY BR WHERE B.B_NO = BR.REF_NO AND DEL_YN='N')AS REPLY_COUNT
+
+        FROM BOARD B
+        LEFT JOIN EMPLOYEE E ON B.WRITER_NO = E.EMP_ID
+        WHERE DEL_YN='N' AND B.TITLE LIKE '%'||#{title} ||'%' ORDER BY NO DESC
+        """)
+    List<BoardVo> searchTitle(String title, RowBounds rb);
+
+@Select("""
+        SELECT COUNT(*)
+        FROM BOARD B
+        LEFT JOIN EMPLOYEE E ON B.WRITER_NO = E.EMP_ID
+        WHERE B.DEL_YN='N' AND B.CONTENT LIKE '%'||#{content}||'%'
+        """)
+    int getSearchContentCnt(String content);
+
+
+@Select("""
+        SELECT B.B_NO AS NO, B.TITLE, B.CONTENT, B.WRITER_NO, B.HIT, B.DEL_YN, B.WRITE_DATE, E.EMP_NAME AS WRITER_NAME,
+               (SELECT COUNT(*) FROM LIKES L WHERE L.B_NO = B.B_NO) AS LIKE_COUNT,
+               (SELECT COUNT(*) FROM BOARD_REPLY BR WHERE B.B_NO = BR.REF_NO AND DEL_YN='N')AS REPLY_COUNT
+
+        FROM BOARD B
+        LEFT JOIN EMPLOYEE E ON B.WRITER_NO = E.EMP_ID
+        WHERE DEL_YN='N' AND B.CONTENT LIKE '%'||#{content}||'%' ORDER BY NO DESC
+        """)
+    List<BoardVo> searchContent(String content, RowBounds rb);
+
+
+    @Select("""
+            SELECT COUNT(*)
+            FROM BOARD B
+            LEFT JOIN EMPLOYEE E ON B.WRITER_NO = E.EMP_ID
+            WHERE B.DEL_YN='N'
+              AND E.EMP_NAME LIKE '%'||#{writerName}||'%'
+            """)
+    int getSearchWriterNameCnt(String writerName);
+
+    @Select("""
+            SELECT B.B_NO AS NO, B.TITLE, B.CONTENT, B.WRITER_NO, B.HIT, B.DEL_YN, B.WRITE_DATE, E.EMP_NAME AS WRITER_NAME,
+                   (SELECT COUNT(*) FROM LIKES L WHERE L.B_NO = B.B_NO) AS LIKE_COUNT,
+                   (SELECT COUNT(*) FROM BOARD_REPLY BR WHERE B.B_NO = BR.REF_NO AND BR.DEL_YN='N') AS REPLY_COUNT
+            FROM BOARD B
+            LEFT JOIN EMPLOYEE E ON B.WRITER_NO = E.EMP_ID
+            WHERE B.DEL_YN='N'
+              AND E.EMP_NAME LIKE '%'||#{writerName}||'%'
+            ORDER BY B.B_NO DESC
+            """)
+    List<BoardVo> searchWriterName(String writerName, PageVo pvo);
+
+    @Select("""
+            SELECT COUNT(*)
+            FROM BOARD B
+            LEFT JOIN EMPLOYEE E ON B.WRITER_NO = E.EMP_ID
+            WHERE B.DEL_YN='N'
+              AND (B.TITLE LIKE '%'||#{titleContent}||'%' OR B.CONTENT LIKE '%'||#{titleContent}||'%')
+            """)
+    int getSearchTitleContentCnt(String titleContent);
+
+
+    @Select("""
+            SELECT B.B_NO AS NO, B.TITLE, B.CONTENT, B.WRITER_NO, B.HIT, B.DEL_YN, B.WRITE_DATE, E.EMP_NAME AS WRITER_NAME,
+                       (SELECT COUNT(*) FROM LIKES L WHERE L.B_NO = B.B_NO) AS LIKE_COUNT,
+                       (SELECT COUNT(*) FROM BOARD_REPLY BR WHERE B.B_NO = BR.REF_NO AND DEL_YN='N') AS REPLY_COUNT
+                FROM BOARD B
+                LEFT JOIN EMPLOYEE E ON B.WRITER_NO = E.EMP_ID
+                WHERE B.DEL_YN='N'
+                  AND (B.TITLE LIKE '%'||#{titleContent}||'%' OR B.CONTENT LIKE '%'||#{titleContent}||'%')
+            """)
+    List<BoardVo> searchTitleContent(String titleContent, PageVo pvo);
+    
 }
 
 

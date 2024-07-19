@@ -8,7 +8,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="/css/board/boardList.css">
-    <script src="${pageContext.request.contextPath}/js/board/boardList.js"></script>
 
 </head>
 <body>
@@ -77,65 +76,29 @@
                         <div class="board-column likes">2</div>
     
                     </div>
-                    <div class="board-row">
-                        <div class="board-column number">4</div>
-                        <div class="board-column title">일반 게시판 입니다.</div>
-                        <div class="board-column name">호사원</div>
-                        <div class="board-column date">2012-05-20</div>
-                        <div class="board-column views">4</div>
-                        <div class="board-column likes">0</div>
-    
-                    </div>
-                    <div class="board-row">
-                        <div class="board-column number">3</div>
-                        <div class="board-column title">일반 게시판 입니다.</div>
-                        <div class="board-column name">호사원</div>
-                        <div class="board-column date">2012-05-20</div>
-                        <div class="board-column views">4</div>
-                        <div class="board-column likes">8</div>
-    
-                    </div>
-                    <div class="board-row">
-                        <div class="board-column number">2</div>
-                        <div class="board-column title">일반 게시판 입니다.</div>
-                        <div class="board-column name">호사원</div>
-                        <div class="board-column date">2012-05-20</div>
-                        <div class="board-column views">4</div>
-                        <div class="board-column likes">7</div>
-    
-                    </div>
-
                 </div>
               
 
                 <!-- 추가 행들 -->
 
-                <c:if test="${not empty pvo}">
+                
                     <div class="pagination">
-                        <c:if test="${pvo.currentPage > 1}">
-                            <a href="?pno=1">&laquo;</a>
-                            <a href="?pno=${pvo.currentPage - 1}">&lt;</a>
-                        </c:if>
-                        <c:forEach var="i" begin="${pvo.startPage}" end="${pvo.endPage}">
-                            <c:choose>
-                                <c:when test="${i == pvo.currentPage}">
-                                    <strong>${i}</strong>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="?pno=${i}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                        <c:if test="${pvo.currentPage < pvo.maxPage}">
-                            <a href="?pno=${pvo.currentPage + 1}">Next</a>
-                            <a href="?pno=${pvo.maxPage}">Last</a>
-                        </c:if>
+
                     </div>
-                 </c:if>
+                    <div class="search-pagination">
+
+                    </div>
+               
         
                 <div class="search">
-                    <input type="text" placeholder="검색어">
-                    <button>검색</button>
+                    <select id="searchOption">
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="titleContent">제목+내용</option>
+                        <option value="writerName">작성자</option>
+                    </select>
+                    <input type="text" id="keyword" placeholder="검색어를 입력하세요.">
+                    <button id="search-btn">검색</button>
                 </div>
                 <div class="write">
                     <button onclick="location.href='/board/write'">글쓰기</button>
@@ -143,5 +106,7 @@
             </div>
         </div>
     </div>
+    <script src="${pageContext.request.contextPath}/js/board/boardList.js"></script>
+
 </body>
 </html>

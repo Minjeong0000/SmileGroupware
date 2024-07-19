@@ -35,6 +35,30 @@ public class BoardDao {
         RowBounds rb = new RowBounds(offset,limit);
         return mapper.getBoardList(rb);
     }
+    //제목검색게시글수
+    public int getSearchTitleCnt(String title) {
+        return mapper.getSearchTitleCnt(title);
+    }
+    //제목검색
+    public List<BoardVo> searchTitle(String title, PageVo pvo) {
+        int offset = pvo.getStartNum()-1;
+        int limit = pvo.getBoardLimit();
+        RowBounds rb = new RowBounds(offset,limit);
+        return mapper.searchTitle(title,rb);
+    }
+    //내용검색 게시글수
+    public int getSearchContentCnt(String content) {
+        return mapper.getSearchContentCnt(content);
+    }
+    //내용검색
+    public List<BoardVo> searchContent(String content, PageVo pvo) {
+        int offset = pvo.getStartNum()-1;
+        int limit = pvo.getBoardLimit();
+        RowBounds rb = new RowBounds(offset,limit);
+        return mapper.searchContent(content,rb);
+
+    }
+
 
     public int increaseHit(String no) {
         return mapper.increaseHit(no);
@@ -66,5 +90,28 @@ public class BoardDao {
 
     public int writeReply(BoardReplyVo replyVo) {
         return mapper.writeReply(replyVo);
+    }
+
+
+    public int getSearchWriterNameCnt(String writerName) {
+        return mapper.getSearchWriterNameCnt(writerName);
+    }
+
+    public List<BoardVo> searchWriterName(String writerName, PageVo pvo) {
+        int offset = pvo.getStartNum()-1;
+        int limit = pvo.getBoardLimit();
+        RowBounds rb = new RowBounds(offset,limit);
+        return mapper.searchWriterName(writerName,pvo);
+    }
+
+    public int getSearchTitleContentCnt(String titleContent) {
+        return mapper.getSearchTitleContentCnt(titleContent);
+    }
+
+    public List<BoardVo> searchTitleContent(String titleContent, PageVo pvo) {
+        int offset = pvo.getStartNum()-1;
+        int limit = pvo.getBoardLimit();
+        RowBounds rb = new RowBounds(offset,limit);
+        return mapper.searchTitleContent(titleContent,pvo);
     }
 }

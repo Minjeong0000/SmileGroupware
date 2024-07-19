@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
+import org.eclipse.tags.shaded.org.apache.regexp.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -163,7 +164,7 @@ public class BoardController {
     //----------------게시글 목록 조회------------------
     @GetMapping("list/data")
     @ResponseBody
-    public ResponseEntity<?> getBoardList(@RequestParam("pno") String pno){
+    public ResponseEntity<?> getBoardList(@RequestParam(value="pno",defaultValue = "1") String pno){
         int listCount = service.getTotalBoardCount();
         int currentPage = Integer.parseInt(pno);
         int pageLimit =5;
@@ -175,6 +176,59 @@ public class BoardController {
         response.put("pvo",pvo);
         return ResponseEntity.ok(response);
     }
+
+    //----------------------------게시글 검색------------------
+    @GetMapping("list/search")
+    @ResponseBody
+    public ResponseEntity<?>searchBoard(@RequestParam(value = "title",required = false)String title,
+                                        @RequestParam(value = "content",required = false)String content,
+                                        @RequestParam(value = "writerName",required = false)String writerName,
+                                        @RequestParam(value = "titleContent",required = false)String titleContent,
+                                        @RequestParam(value="pno",defaultValue = "1") String pno
+                                        ){
+        int currentPage = Integer.parseInt(pno);
+        int pageLimit =5;
+        int boardLimit = 10;
+        List<BoardVo>boardVoList =null;
+        PageVo pvo = null;
+        if(title != null){
+            int listCount = service.getSearchTitleCnt(title);
+            pvo= new PageVo(listCount,currentPage,pageLimit,boardLimit);
+            boardVoList = service.searchTitle(title,pvo);
+            System.out.println("title = " + title);
+            System.out.println("boardVoList = " + boardVoList);
+        }
+        if(content != null){
+            int listCount = service.getSearchContentCnt(content);
+            pvo= new PageVo(listCount,currentPage,pageLimit,boardLimit);
+            boardVoList = service.searchContent(content,pvo);
+            System.out.println("content = " + content);
+            System.out.println("boardVoList = " + boardVoList);
+
+        }
+        if(writerName != null){
+            int listCount = service.getSearchWriterNameCnt(writerName);
+            pvo= new PageVo(listCount,currentPage,pageLimit,boardLimit);
+            boardVoList = service.searchWriterName(writerName,pvo);
+            System.out.println("writerName = " + writerName);
+            System.out.println("boardVoList = " + boardVoList);
+
+        }
+        if(titleContent!=null){
+            int listCount = service.getSearchTitleContentCnt(titleContent);
+            pvo= new PageVo(listCount,currentPage,pageLimit,boardLimit);
+            boardVoList = service.searchTitleContent(titleContent,pvo);
+            System.out.println("titleContent = " + titleContent);
+            System.out.println("boardVoList = " + boardVoList);
+
+        }
+        Map<String,Object> response = new HashMap<>();
+        response.put("boardVoList",boardVoList);
+        response.put("pvo",pvo);
+        return ResponseEntity.ok(response);
+    }
+
+
 
     // 여러 파일 업로드 처리
     //TODO 이미지명랜덤바꾸기
