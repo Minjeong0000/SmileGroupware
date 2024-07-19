@@ -25,7 +25,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // 검색 버튼 클릭 이벤트 처리
   $('#search-btn').click(function() {
-    search(1); // 페이지 번호를 1로 초기화하여 검색
+    const keyword = document.querySelector("#keyword").value;
+    if(keyword === ''){
+      loadBoardList(1);
+    }else{
+      search(1); // 페이지 번호를 1로 초기화하여 검색
+    }
   });
 
   function search(pno) {
@@ -99,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
             pagination.html(pageStr); // 페이징바 업데이트
 
             // 페이징바 클릭 이벤트 핸들러 등록
-            $(".pagination a").click(function(e) {
+            $(".search-pagination a").click(function(e) {
                 e.preventDefault(); // 기본 동작 방지
                 let pno = $(this).data("pno"); // 클릭한 링크의 페이지 번호 추출
                 search(pno); // 해당 페이지 번호로 다시 목록 로드
