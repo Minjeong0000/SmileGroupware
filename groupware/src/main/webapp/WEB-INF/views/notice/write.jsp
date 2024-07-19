@@ -3,46 +3,16 @@
     pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>헬로월드</title>
-
-<style>
-  #result {
-    width: 1000px;
-    height: 300px;
-    border: 1px solid black;
-  }
-
-  /* 게시판 CSS 추가 시작 */
-#noticeBoard {
-    width: 100%; /* 테이블 전체 너비를 부모 요소에 맞춤 */
-    margin-top: 20px; /* 상단 여백 추가 */
-}
-
-#noticeBoard th {
-    background-color: #edeef3; /* 헤더 배경색 설정 */
-    color: rgb(32, 31, 31); /* 헤더 텍스트 색상 */
-    padding: 10px; /* 헤더 패딩 */
-}
-
-#noticeBoard td {
-    text-align: center; /* 셀 내용을 중앙 정렬 */
-    padding: 8px; /* 셀 패딩 */
-}
-/* 게시판 CSS 추가 종료 */
-
-#writeButton {
-  padding: 10px 20px;
-  text-align: center;
-  margin-bottom: 2px;
-  background-color: #edeef3;
-  color: rgb(32, 31, 31);
-}
-</style>
+<title>슬라이드 네비게이터 바</title>
 <link rel="stylesheet" type="text/css" href="/css/common/common.css">
 <script defer src="/js/common/common.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
 </head>
 <body>
   <div id="mySidenav" class="sidenav">
@@ -57,25 +27,26 @@
 
     <div id="main" onclick="closeNav()">
         <div class="column">
-          <h1>사내공지사항</h1>
+            <h2>각 페이지의 <br>인적사항 <br> 근태관리 <br>일정 <br>결재 서류 <br>등을 작성하면 됩니다.</h2>
         </div>
         <div class="column content">
-          <button id="writeButton" onclick="">글쓰기</button>
-          <table id="noticeBoard" border="1">
-            <thead>
-              <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>작성자</th>
-              </tr>
-            </thead>
+            <h2>사내 공지 게시판</h2>
 
-            <tbody> </tbody>
-          </table>
-        
-          <hr>
-        
-          <div id="result"></div>
+            <form id="noticeForm" action="/api/notice" method="post">
+              <input type="text" name="title">
+              <br />
+              <textarea id="summernote" name="content"></textarea>
+              <br />
+              <input type="submit" value="작성하기">
+            </form>
+            
+
+
+
+
+
+
+
 
         </div>
     </div>
@@ -84,17 +55,87 @@
 </html>
 
 
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="/js/notice/noticeList.js"></script>
-<script src="/js/notice/noticeDetail.js"></script>
-
 <script>
-const tbody = document.querySelector("tbody");
-tbody.addEventListener( "click" , getNoticeByNo );
+  $('#summernote').summernote({
+  placeholder: 'Hello stand alone ui',
+  tabsize: 2,
+  height: 300,
+  minHeight: 200,
+  maxHeight: 400,
+  toolbar: [
+      ['style', ['style']],
+      ['font', ['bold', 'underline', 'clear']],
+      ['color', ['color']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['table', ['table']],
+      ['insert', ['link', 'picture', 'video']],
+      ['view', ['fullscreen', 'codeview', 'help']]
+  ],
+  callbacks: {
+      onImageUpload : handleImgUpload ,
+  } ,
+  });
+
+  function handleImgUpload( fileList ){
+    console.log("handleImgUpload 호출됨");
+      const fd = new FormData();
+
+      fd.append( 'fileList' , fileList[0] );
+
+      $.ajax( {
+          url: "/api/notice/upload" ,
+          method: "POST" ,
+          data: fd ,
+          processData: false,
+          contentType: false,
+          success: function(resp){
+              console.log("handleImgUpload 성공 ~~~ !");
+              console.log(resp);
+              $('#summernote').summernote('insertImage', resp);
+          } ,
+      } );
+  }
+
+
+  document.querySelector('#noticeForm').addEventListener('submit', function(event) {
+  // 기본 폼 제출 방지
+  event.preventDefault();
+
+  // 입력 데이터 가져오기
+  const title = document.querySelector('input[name="title"]').value;
+  const rawContent = $('#summernote').summernote('code');
+  const content = $("<div>").html(rawContent).text(); // HTML 태그를 제거하고 순수 텍스트만 추출
+  console.log("content:", content);
+
+  
+  // AJAX 요청
+  $.ajax({
+    url: "/api/notice", // 서버의 URL
+    method: "post", // HTTP 메소드
+    dataType : "json" ,
+    data: {
+      title: title,  // 제목 데이터
+      content: content  // 내용 데이터
+    },
+    success: function(response) {
+      // 성공 시 로직
+      alert('공지가 성공적으로 등록되었습니다.');
+      location.href = '/notice/list';
+    },
+    error: function(xhr, status, error) {
+      // 실패 시 로직
+      alert('공지 등록에 실패했습니다.');
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
 </script>
-
-
-
-
-

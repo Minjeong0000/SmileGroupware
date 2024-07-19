@@ -14,6 +14,7 @@ public class NoticeDao {
     private final NoticeMapper mapper;
 
     public int write(NoticeVo vo) {
+        System.out.println("vo = " + vo);
         return mapper.write(vo);
     }
 
