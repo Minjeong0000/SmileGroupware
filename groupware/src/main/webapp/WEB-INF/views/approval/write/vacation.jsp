@@ -74,7 +74,7 @@
                           결재제목
                         </th>
                         <td class="search-field" style="text-align: left">
-                          <input type="text" name="appTitle">
+                          <input type="text" name="appTitle"  required>
                         </td>
                       </tr>
                       <tr>
@@ -82,7 +82,7 @@
                           결재내용
                         </th>
                         <td class="search-field" style="text-align: left">
-                          <input type="text" name="appContent">
+                          <input type="text" name="appContent"  required>
                         </td>
                       </tr>
                       <tr>
@@ -162,7 +162,7 @@
                           휴가사유
                         </th>
                         <td class="search-field" style="text-align: left">
-                          <textarea name="vacContent"></textarea>
+                          <textarea name="vacContent"  required></textarea>
                         </td>
                       </tr>
                       <tr>
@@ -170,7 +170,7 @@
                           비고
                         </th>
                         <td class="search-field" style="text-align: left">
-                          <input type="text" name="note">
+                          <input type="text" name="note" >
                         </td>
                       </tr>
                       <tr>
