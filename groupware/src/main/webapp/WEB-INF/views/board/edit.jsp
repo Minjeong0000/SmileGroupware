@@ -92,7 +92,8 @@ function edit(no){
             success:function(vo){
                 console.log(vo);
                 const title = document.querySelector("#title")
-                title.innerHTML = vo.title;
+                title.value = vo.title;
+                console.log(title.val);
                 $('#summernote').summernote("pasteHTML" , vo.content);
 
             },
