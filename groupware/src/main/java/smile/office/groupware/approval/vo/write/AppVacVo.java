@@ -19,4 +19,6 @@ public class AppVacVo {
     private String note;
     private String range;
     private int statusNo;
+    private String approvalNo;
+    private String leaveForm;
 }

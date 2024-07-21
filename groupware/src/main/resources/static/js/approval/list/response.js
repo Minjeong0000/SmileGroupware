@@ -7,7 +7,7 @@ var loginEmployeeVo = {
 var modal = document.getElementById("myModal");
 var tempModal = document.getElementById("tempModal");
 var canvasModal = document.getElementById("canvasModal");
-var span = document.getElementsByClassName("close");
+var responseModal = document.getElementById("responseModal"); // 반려 모달 요소 추가
 
 // 모달 내 요소들
 var approvalNoText = document.getElementById("approvalNo");
@@ -33,22 +33,17 @@ function appDetail(approvalNo, approver, approvalTitle, approvalContent, approva
 }
 
 // 닫기 버튼 클릭 시 모달 닫기
-for (let i = 0; i < span.length; i++) {
-    span[i].onclick = function() {
-        modal.style.display = "none";
-        tempModal.style.display = "none";
-        canvasModal.style.display = "none";
+var spanClose = document.getElementsByClassName("close");
+for (let i = 0; i < spanClose.length; i++) {
+    spanClose[i].onclick = function() {
+        this.closest('.modal').style.display = "none";
     }
 }
 
 // 모달 외부 클릭 시 모달 닫기
 window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    } else if (event.target == tempModal) {
-        tempModal.style.display = "none";
-    } else if (event.target == canvasModal) {
-        canvasModal.style.display = "none";
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = "none";
     }
 }
 
@@ -86,6 +81,8 @@ $('#detailButton').click(function() {
             $('#approvalLine2').text(response.approvalLine2);
             $('#approvalLine3').text(response.approvalLine3);
 
+            $('#tempContent').text(response.tempContent);
+
             // 모달 열기
             $('#tempModal').css('display', 'block');
         },
@@ -95,12 +92,86 @@ $('#detailButton').click(function() {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    var approvalUpdate = document.getElementById('approvalUpdate');
+    if (approvalUpdate) {
+        approvalUpdate.onclick = function() {
+            console.log("approvalUpdate 버튼 클릭됨");
+            // Span 요소들의 값을 가져오기
+            var approvalNo = document.getElementById('approvalNo').textContent;
+            var empId = document.getElementById('empId').textContent;
+            var approver1 = document.getElementById('approver1').textContent;
+            var approver2 = document.getElementById('approver2').textContent;
+            var approver3 = document.getElementById('approver3').textContent;
+            var approvalLine1 = document.getElementById('approvalLine1').textContent;
+            var approvalLine2 = document.getElementById('approvalLine2').textContent;
+            var approvalLine3 = document.getElementById('approvalLine3').textContent;
+            var reason = document.getElementById('reason').textContent;
+            var leaveForm = document.getElementById('leaveForm').textContent;
+            var priority = document.getElementById('priority').textContent;
+            var startDate = document.getElementById('startDate').textContent;
+            var endDate = document.getElementById('endDate').textContent;
+            var tempContent = document.getElementById('tempContent').textContent;
+            var approvalDateDetail = document.getElementById('approvalDateDetail').textContent;
 
+            // 가져온 값들을 로그로 출력 (필요에 따라 다른 작업을 수행)
+            console.log("결재번호:", approvalNo);
+            console.log("결재자:", empId);
+            console.log("결재선1:", approver1);
+            console.log("결재선2:", approver2);
+            console.log("결재선3:", approver3);
+            console.log("결재라인1:", approvalLine1);
+            console.log("결재라인2:", approvalLine2);
+            console.log("결재라인3:", approvalLine3);
+            console.log("종류:", reason);
+            console.log("양식:", leaveForm);
+            console.log("우선순위:", priority);
+            console.log("시작일:", startDate);
+            console.log("종료일:", endDate);
+            console.log("내용:", tempContent);
+            console.log("결재일:", approvalDateDetail);
 
+            var url = (leaveForm === '휴가') ? '/approval/api/vac' : '/approval/api/doc';
 
-
-
-
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: JSON.stringify({
+                    approvalNo: approvalNo,
+                    empId: empId,
+                    approver1: approver1,
+                    approver1ImageUrl: '', // 이미지 URL 값 추가
+                    approver2: approver2,
+                    approver2ImageUrl: '', // 이미지 URL 값 추가
+                    approver3: approver3,
+                    approver3ImageUrl: '', // 이미지 URL 값 추가
+                    leaveForm: leaveForm,
+                    priority: priority,
+                    startDate: startDate,
+                    endDate: endDate,
+                    reason: reason,
+                    approvalDateDetail: approvalDateDetail,
+                    approvalLine1: approvalLine1,
+                    approvalLine2: approvalLine2,
+                    approvalLine3: approvalLine3,
+                    tempContent: tempContent
+                }),
+                contentType: 'application/json',
+                success: function(response) {
+                    console.log('성공:', response);
+                    if (response.redirectUrl) {
+                        window.location.href = response.redirectUrl;
+                    }
+                },
+                error: function(error) {
+                    console.log('실패:', error);
+                }
+            });
+        };
+    } else {
+        console.log("approvalUpdate 버튼을 찾을 수 없습니다.");
+    }
+});
 
 
 // 승인하기 버튼 클릭 시 canvas 모달 열기
@@ -168,12 +239,89 @@ saveBtn.onclick = function() {
     // 밝게 조정된 이미지 데이터를 Canvas에 다시 그리기
     ctx.putImageData(imageData, 0, 0);
 
-    //사진의 주소 설정
-    
-
     // Canvas 이미지를 PNG 파일로 저장하기
-    var downloadLink = document.createElement('a');
-    downloadLink.download = 'yongjin.png';
-    downloadLink.href = canvas.toDataURL('image/png');
-    downloadLink.click();
+    var drawingDataUrl = canvas.toDataURL("image/png"); // Canvas 이미지를 데이터 URL로 변환
+    console.log("그림 저장됨:", drawingDataUrl);
+    canvasModal.style.display = "none"; // 모달 닫기
+
+    // 입력된 텍스트 값 가져오기
+    var responseText = document.getElementById('response').value;
+    var approvalNo = $('#approvalNo').text();
+
+    // jQuery를 사용한 AJAX 요청 보내기
+    $.ajax({
+        url: '/approval/api/upload',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            image: drawingDataUrl,
+            response: responseText,
+            approvalNo: approvalNo
+        }),
+        success: function(data) {
+            console.log("응답:", data);
+            $('#canvasModal').hide(); // 모달 닫기
+            window.location.href = "/approval/response";
+        },
+        error: function(xhr, status, error) {
+            console.error("에러:", error);
+        }
+    });
 }
+
+// 반려하기 버튼 클릭 시 답변 모달 열기
+var rejectBtn = document.getElementById('rejectButton');
+rejectBtn.onclick = function() {
+    responseModal.style.display = "block";
+}
+
+// 저장 버튼 클릭 이벤트 (반려용 모달)
+var saveResponseBtn = document.getElementById('saveResponseBtn');
+saveResponseBtn.onclick = function() {
+    var responseText = document.getElementById('rejectResponse').value;
+    var approvalNo = $('#approvalNo').text();
+    $.ajax({
+        url: '/approval/api/reject',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            response: responseText,
+            approvalNo: approvalNo
+        }),
+        success: function(data) {
+            console.log("응답:", data);
+            window.location.href = "/approval/response";
+        },
+        error: function(xhr, status, error) {
+            console.error("에러:", xhr.responseText); // 서버에서 반환한 에러 메시지
+        }
+    });
+
+}
+
+
+
+
+
+
+
+
+// 모달 닫기 기능 추가
+var spanClose = document.getElementsByClassName("close");
+
+for (var i = 0; i < spanClose.length; i++) {
+    spanClose[i].onclick = function() {
+        // 가장 가까운 .modal 클래스 부모 요소를 찾아 닫기
+        var modal = this.closest('.modal');
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = "none";
+    }
+}
+

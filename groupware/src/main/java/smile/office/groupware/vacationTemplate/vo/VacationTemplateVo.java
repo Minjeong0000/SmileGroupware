@@ -15,4 +15,5 @@ public class VacationTemplateVo {
     private String updateDate;
     private String deleteDate;
     private String note;
+    private String vacCateName;
 }

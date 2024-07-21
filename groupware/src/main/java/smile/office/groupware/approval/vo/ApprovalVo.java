@@ -13,4 +13,8 @@ public class ApprovalVo {
     private String createDate;
     private String approvalRange;
     private String temporaryStorageYn;
+    private String statusName;
+    private String approvalType;
+    private String priorityName;
+    private String empName;
 }

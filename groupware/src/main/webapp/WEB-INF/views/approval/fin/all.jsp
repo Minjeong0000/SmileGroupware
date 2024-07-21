@@ -22,8 +22,8 @@
                   <h1 id="big">결재관리</h1>
                   <div class="approval_status">
                     <a href="/approval/ing"><span class="circle"><span>결재중</span><span id="pendingCount">${approvalHomeVo.cntAppVo.cntApprovalIng}</span></span></a>
-                                    <a href="/approval/response"><span class="circle"><span>결재처리</span><span id="processingCount">${approvalHomeVo.cntAppVo.cntApprovalSave}</span></span></a>
-                                    <a href="/approval/write"><span class="circle"><span>임시저장</span><span id="totalCount">${approvalHomeVo.cntAppVo.cntApprovalAll}</span></span></a>
+                    <a href="/approval/response"><span class="circle"><span>결재처리</span><span id="processingCount">${approvalHomeVo.cntAppVo.cntApprovalSave}</span></span></a>
+                    <a href="/approval/write"><span class="circle"><span>임시저장</span><span id="totalCount">${approvalHomeVo.cntAppVo.cntApprovalAll}</span></span></a>
 
                   </div>
                   <div class="approval_nav">
@@ -62,18 +62,30 @@
                     <span><span id="b-g">&#10073;</span> 검색</span>
                   </div>
                   <div id="list-content">
-                    <form action="/approval/response/search" method="post">
+                    <form action="/approval/all/search" method="post">
                       <table id="user-search" class="userList">
                         <tr>
                           <th>
-                            우선순위
+                            종류
                           </th>
                           <td class="search-field" style="text-align: left">
-                            <select name="pro">
+                            <select name="typeApp">
                               <option value="all">전체</option>
-                              <option value="1">긴급</option>
-                              <option value="2">보통</option>
-                              <option value="3">낮음</option>
+                              <option value="휴가">휴가</option>
+                              <option value="업무">업무</option>
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>
+                            사원
+                          </th>
+                          <td class="search-field" style="text-align: left">
+                            <select name="emp">
+                                <option value="all">전체</option>
+                                <c:forEach items="${empVo}" var="empVo">
+                                    <option value="${empVo.empId}">${empVo.empName}</option>
+                                </c:forEach>
                             </select>
                           </td>
                         </tr>
@@ -205,10 +217,6 @@
                             </tr>
                         </table>
 
-
-
-                        <button id="approveButton">승인하기</button>
-                        <button id="rejectButton">반려하기</button>
                     </div>
                 </div>
                 <div id="canvasModal" class="modal">

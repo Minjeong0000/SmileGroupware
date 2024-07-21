@@ -16,10 +16,11 @@ public class ApprovalDetailsDto {
     private String priority;
     private String startDate;
     private String endDate;
-    private int usageCount;
+    private String usageCount;
     private String reason;
     private String approvalDateDetail;
     private String approvalLine1;
     private String approvalLine2;
     private String approvalLine3;
+    private String tempContent;
 }

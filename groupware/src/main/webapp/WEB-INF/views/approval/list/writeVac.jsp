@@ -56,14 +56,15 @@
         <div class="column content">
             <div id="me">
                 <div>
-                  <form action="">
+                <h3>${loginEmployeeVo.empName}님의 잔여 연차 : ${loginEmployeeVo.remainVacCnt}</h3>
+                  <form action="/approval/vac" method="post">
                     <table id="user-search" class="userList">
                       <tr>
                         <th>
-                          결재재목
+                          결재제목
                         </th>
                         <td class="search-field" style="text-align: left">
-                          <input type="text" name="searchListText">
+                          <input type="text" name="appTitle" value="${vo.title}" required>
                         </td>
                       </tr>
                       <tr>
@@ -71,18 +72,18 @@
                           결재내용
                         </th>
                         <td class="search-field" style="text-align: left">
-                          <input type="text" name="searchListText">
+                          <input type="text" name="appContent" value="${vo.content}" required>
                         </td>
                       </tr>
                       <tr>
                         <th>
-                          보고서 양식
+                          휴가 양식
                         </th>
                         <td style="text-align: left">
-                          <select name="s-len">
-                                <option value="P.NAME">프로젝트</option>
-                                <option value="P.NAME">계획보고서</option>
-                                <option value="P.NAME">업무보고서</option>
+                          <select name="vacNo" >
+                                <c:forEach items="${writeVo.vacCateVo}" var="vacCate">
+                                    <option value="${vacCate.vacCateNo}">${vacCate.vacCateName}</option>
+                                </c:forEach>
                             </select>
                         </td>
                       </tr>
@@ -91,30 +92,34 @@
                           우선순위
                         </th>
                         <td style="text-align: left">
-                          <select name="s-len">
-                                <option value="P.NAME">긴급</option>
-                                <option value="P.NAME">보통</option>
-                                <option value="P.NAME">느림</option>
+                          <select name="prioritieNo" value="${vo.priorityNo}">
+                                <c:forEach items="${writeVo.prioritieVo}" var="prioritieVo">
+                                    <option value="${prioritieVo.priorityNo}">${prioritieVo.priorityName}</option>
+                                </c:forEach>
                             </select>
                         </td>
                       </tr>
                       <tr>
-                        <th>
-                          결재선1
-                        </th>
-                        <td class="search-field" style="text-align: left">
-                          <input type="text" name="searchListText" value="이용진" readonly>
-                        </td>
-                      </tr>
+                          <th>
+                            결재선1
+                          </th>
+                          <td class="search-field" style="text-align: left">
+                                <select name="appLine1">
+                                    <c:forEach items="${writeVo.employeeVo1}" var="employeeVo1">
+                                        <option value="${employeeVo1.empId}">${employeeVo1.empName}</option>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                        </tr>
                       <tr>
                         <th>
                           결재선2
                         </th>
                         <td class="search-field" style="text-align: left">
-                              <select name="s-status">
-                                  <option value="1">이부장</option>
-                                  <option value="2">김부장</option>
-                                  <option value="3">박부장</option>
+                              <select name="appLine2">
+                                  <c:forEach items="${writeVo.employeeVo2}" var="employeeVo2">
+                                      <option value="${employeeVo2.empId}">${employeeVo2.empName}</option>
+                                  </c:forEach>
                               </select>
                           </td>
                       </tr>
@@ -123,31 +128,31 @@
                           결재선3
                         </th>
                         <td class="search-field" style="text-align: left">
-                              <select name="s-status">
-                                  <option value="1">이이사</option>
-                                  <option value="2">김이사</option>
-                                  <option value="3">박이사</option>
-                              </select>
+                              <select name="appLine3">
+                                    <c:forEach items="${writeVo.employeeVo3}" var="employeeVo3">
+                                        <option value="${employeeVo3.empId}">${employeeVo3.empName}</option>
+                                    </c:forEach>
+                                </select>
                           </td>
                       </tr>
                       <tr>
                         <th>
-                          시작/종료일
+                          휴가일
                         </th>
                         <td class="search-field" style="text-align: left">
-                          <input type="date" name="searchListText">
-                          ~
-                          <input type="date" name="searchListText">
-                          &nbsp;&nbsp;
-                          <input type="text" name="searchListText" readonly>
+                            <input type="date" name="start" th:value="${dto.startDate}" />
+                            ~
+                            <input type="date" name="end" th:value="${dto.endDate}" />
+                            &nbsp;&nbsp;
+                            <input type="text" name="use" th:value="${dto.usageCount}" />
                         </td>
                       </tr>
                       <tr>
                         <th>
-                          내용
+                          휴가사유
                         </th>
                         <td class="search-field" style="text-align: left">
-                          <textarea name="searchListText"></textarea>
+                          <textarea name="vacContent" th:utext="${dto.tempContent}" required></textarea>
                         </td>
                       </tr>
                       <tr>
@@ -155,18 +160,39 @@
                           비고
                         </th>
                         <td class="search-field" style="text-align: left">
-                          <input type="text" name="searchListText">
+                          <input type="text" name="note" value="${dto.tempContent}">
                         </td>
                       </tr>
-
-
+                      <tr>
+                          <th>
+                            범위
+                          </th>
+                          <td class="search-field" style="text-align: left">
+                                <select name="range">
+                                    <option value="전체">전체</option>
+                                    <option value="부서">부서</option>
+                                    <option value="개인">개인</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="search-field" style="text-align: left">
+                              <input type="text" name="approvalNo" value="${vo.approvalNo}" hidden>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="search-field" style="text-align: left">
+                              <input type="text" name="leaveForm" value="${dto.leaveForm}" hidden>
+                            </td>
+                        </tr>
 
 
                     </table>
                     <div id="search-div">
-                      <button>결재 올리기</button>
-                      <button>임시저장</button>
+                        <button type="submit" name="action" value="submit1">결재 올리기</button>
+                        <button type="submit" name="action" value="save1">임시저장</button>
                     </div>
+
 
                   </form>
                 </div>

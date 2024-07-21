@@ -8,4 +8,5 @@ public class ApprovalResponseVo {
     private String approvalLineNo;
     private String responseText;
     private String respondedDate;
+    private String sign;
 }
