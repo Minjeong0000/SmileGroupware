@@ -57,38 +57,7 @@
 
         <div class="column content">
             <div id="me">
-                <div class="seller-div">
-                  <div>
-                    <span><span id="b-g">&#10073;</span> 검색</span>
-                  </div>
-                  <div id="list-content">
-                    <form action="/approval/response/search" method="post">
-                      <table id="user-search" class="userList">
-                        <tr>
-                          <th>
-                            우선순위
-                          </th>
-                          <td class="search-field" style="text-align: left">
-                            <select name="pro">
-                              <option value="all">전체</option>
-                              <option value="1">긴급</option>
-                              <option value="2">보통</option>
-                              <option value="3">낮음</option>
-                            </select>
-                          </td>
-                        </tr>
 
-                      </table>
-                      <div id="search-div">
-                        <input type="submit" value="검색">
-                        <input type="reset" value="초기화">
-                      </div>
-                    </form>
-                  </div>
-                </div>
-                <br />
-                <hr />
-                <br />
                 <div id="second">
                   <div id="s-title">
                     <span><span id="b-g">&#10073;</span> 결재중</span>
@@ -189,7 +158,7 @@
                                 <th>종료일</th>
                                 <td colspan="2"><span id="endDate"></span></td>
                             </tr>
-                            <c:if test="${appType eq '휴가'}">
+                            <c:if test="${appType == '휴가'}">
                                 <tr>
                                     <th>사용수</th>
                                     <td colspan="2"><span id="usageCount"></span></td>
@@ -207,25 +176,11 @@
 
 
 
-                        <button id="approveButton">승인하기</button>
-                        <button id="rejectButton">반려하기</button>
+                        <button id="approvalUpdate">수정하기</button>
                     </div>
                 </div>
-                <div id="canvasModal" class="modal">
-                  <div class="modal-content-2">
-                    <span class="close">&times;</span>
-                    <canvas id="myCanvas" width="600" height="400" style="border: 1px solid black;"></canvas><br />
-                    <input type="text" id="response" placeholder="답변을 입력하세요...">
-                    <button id="saveDrawingBtn">저장하기</button>
-                  </div>
-                </div>
-                <div id="responseModal" class="modal">
-                    <div class="modal-content-2">
-                      <span class="close">&times;</span>
-                      <input type="text" id="rejectResponse" placeholder="답변을 입력하세요...">
-                      <button id="saveResponseBtn">저장하기</button>
-                    </div>
-                </div>
+
+
             </div>
         </div>
     </div>

@@ -62,18 +62,30 @@
                     <span><span id="b-g">&#10073;</span> 검색</span>
                   </div>
                   <div id="list-content">
-                    <form action="/approval/response/search" method="post">
+                    <form action="/approval/my/search" method="post">
                       <table id="user-search" class="userList">
                         <tr>
                           <th>
-                            우선순위
+                            종류
                           </th>
                           <td class="search-field" style="text-align: left">
-                            <select name="pro">
+                            <select name="typeApp">
                               <option value="all">전체</option>
-                              <option value="1">긴급</option>
-                              <option value="2">보통</option>
-                              <option value="3">낮음</option>
+                              <option value="휴가">휴가</option>
+                              <option value="업무">업무</option>
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>
+                            상태
+                          </th>
+                          <td class="search-field" style="text-align: left">
+                            <select name="status">
+                              <option value="all">전체</option>
+                              <option value="1">진행중</option>
+                              <option value="2">승인</option>
+                              <option value="3">반려</option>
                             </select>
                           </td>
                         </tr>
@@ -205,10 +217,6 @@
                             </tr>
                         </table>
 
-
-
-                        <button id="approveButton">승인하기</button>
-                        <button id="rejectButton">반려하기</button>
                     </div>
                 </div>
                 <div id="canvasModal" class="modal">

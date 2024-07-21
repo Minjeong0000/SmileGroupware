@@ -1,16 +1,20 @@
 package smile.office.groupware.approval.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import smile.office.groupware.approval.vo.*;
+import smile.office.groupware.approval.vo.list.AlLVo;
+import smile.office.groupware.approval.vo.list.AlListResVo;
 import smile.office.groupware.approval.vo.list.AppAlListVo;
 import smile.office.groupware.approval.vo.write.AppVacVo;
+import smile.office.groupware.approvalLine.vo.ApprovalLineVo;
+import smile.office.groupware.approvalResponse.vo.ApprovalResponseVo;
+import smile.office.groupware.documentTemplate.vo.DocumentTemplateVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 import smile.office.groupware.prioritie.vo.PrioritieVo;
 import smile.office.groupware.vacCate.vo.VacCateVo;
+import smile.office.groupware.vacationTemplate.vo.VacationTemplateVo;
 
+import java.net.URL;
 import java.util.List;
 
 @Mapper
@@ -30,10 +34,11 @@ public interface ApprovalMapper {
             "    UNION ALL\n" +
             "    \n" +
             "    SELECT 0 AS cntApprovalIng, COUNT(*) AS cntApprovalSave, 0 AS cntApprovalAll\n" +
-            "    FROM APPROVALS A\n" +
-            "    JOIN EMPLOYEE E ON E.EMP_ID = A.EMP_ID\n" +
-            "    JOIN STATUSES S ON A.STATUS_NO = S.STATUS_NO\n" +
-            "    WHERE A.EMP_ID = #{empId} AND S.STATUS_NO IN(2,3)\n" +
+            "    FROM APPROVAL_LINES AL\n" +
+            "    JOIN STATUSES S ON S.STATUS_NO = AL.STATUS_NO\n" +
+            "    JOIN APPROVALS A ON A.APPROVAL_NO = AL.APPROVAL_NO\n" +
+            "    JOIN STATUSES S2 ON S2.STATUS_NO = A.STATUS_NO\n" +
+            "    WHERE AL.EMP_ID = #{empId} AND S.STATUS_NO = 1 AND S2.STATUS_NO != 4\n" +
             "    \n" +
             "    UNION ALL\n" +
             "    \n" +
@@ -92,7 +97,8 @@ public interface ApprovalMapper {
             "LEFT JOIN EMPLOYEE E2 ON E2.emp_id = AL.emp_id\n" +
             "WHERE A.EMP_ID = #{empId}\n" +
             "AND S.STATUS_NO != 4\n" +
-            "GROUP BY a.approval_no, p.priority_name, s.status_name, a.title, a.create_date, e.emp_name, VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME")
+            "GROUP BY a.approval_no, p.priority_name, s.status_name, a.title, a.create_date, e.emp_name, VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME\n"+
+            "ORDER BY a.approval_no DESC")
     List<ApprovalListVo> getAppList(String empId);
 
     @Select("SELECT \n" +
@@ -116,7 +122,8 @@ public interface ApprovalMapper {
             "LEFT JOIN DOCUMENT_CATEGORY DC ON DC.DOCUMENT_CATEGORY_NO = DT.DOCUMENT_CATEGORY_NO\n" +
             "LEFT JOIN EMPLOYEE E2 ON E2.EMP_ID = AL.EMP_ID\n" +
             "WHERE AL.EMP_ID = #{empId}\n" +
-            "AND S.STATUS_NO != 4")
+            "AND S.STATUS_NO != 4\n"+
+            "ORDER BY a.approval_no DESC")
     List<ApprovalProcessVo> getAppProList(String empId);
 
     @Select("SELECT \n" +
@@ -353,6 +360,187 @@ public interface ApprovalMapper {
             "    TO_CHAR(a.create_date, 'YY\"년\"MM\"월\"DD\"일\"') AS createDate,\n" +
             "    e.emp_name AS approver,\n" +
             "    LISTAGG(e2.emp_name, '|') WITHIN GROUP (ORDER BY e2.role_no DESC) AS approvalLine,\n" +
+            "    s2.status_name AS status\n" +
+            "FROM APPROVALS A\n" +
+            "JOIN EMPLOYEE E ON E.EMP_ID = A.EMP_ID\n" +
+            "JOIN priorities P ON P.priority_no = A.priority_no\n" +
+            "JOIN statuses S ON S.status_no = A.status_no\n" +
+            "JOIN approval_lines AL ON AL.approval_no = A.approval_no\n" +
+            "JOIN statuses S2 ON S2.status_no=AL.status_no\n"+
+            "LEFT JOIN VACATION_TEMPLATES VT ON VT.APPROVAL_NO = A.APPROVAL_NO\n" +
+            "LEFT JOIN VAC_CATE VC ON VC.VAC_CATE_NO = VT.VAC_CATE_NO\n" +
+            "LEFT JOIN DOCUMENT_TEMPLATES DT ON DT.APPROVAL_NO = A.APPROVAL_NO\n" +
+            "LEFT JOIN DOCUMENT_CATEGORY DC ON DC.DOCUMENT_CATEGORY_NO = DT.DOCUMENT_CATEGORY_NO\n" +
+            "LEFT JOIN EMPLOYEE E2 ON E2.emp_id = AL.emp_id\n" +
+            "WHERE Al.EMP_ID = #{empId}\n" +
+            "AND S.STATUS_NO = 1\n" +
+            "AND S2.STATUS_NO = 1\n"+
+            "GROUP BY a.approval_no, p.priority_name, s2.status_name, a.title, a.content,a.create_date, e.emp_name, VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME")
+    List<ApprovalListVo> getAppListIngRes(String empId);
+
+    @Select("SELECT APPROVAL_LINE_NO\n" +
+            "FROM APPROVAL_LINES \n" +
+            "WHERE APPROVAL_NO =#{appNo}\n" +
+            "AND EMP_ID =#{empId}")
+    String getLineNo(@Param("appNo") String appNo, @Param("empId") String empId);
+
+    @Insert("INSERT INTO APPROVAL_RESPONSES(RESPONSE_NO,APPROVAL_LINE_NO,RESPONSE_TEXT,SIGN)\n" +
+            "VALUES(SEQ_APPROVAL_RESPONSES_NO.NEXTVAL,#{lineNo},#{responseText},#{signUrl})")
+    void insertAppAl(@Param("lineNo") String lineNo, @Param("signUrl") String signUrl, @Param("responseText") String responseText, @Param("empId") String empId);
+
+    @Update("UPDATE APPROVAL_LINES \n" +
+            "SET STATUS_NO=2\n" +
+            "WHERE APPROVAL_LINE_NO=#{lineNo}")
+    void updateAl(@Param("lineNo") String lineNo);
+
+    @Select("SELECT AL.APPROVAL_LINE_NO AS APPROVAL_LINE_NO \n" +
+            "\t,AL.EMP_ID AS EMP_ID \n" +
+            "\t,E.EMP_NAME AS EMP_NAME\n" +
+            "\t,AL.SEQ AS SEQ\n"+
+            "FROM APPROVAL_LINES AL\n" +
+            "JOIN EMPLOYEE E ON E.EMP_ID =AL.EMP_ID \n" +
+            "WHERE APPROVAL_NO =#{approvalNo} \n"+
+            "ORDER BY al.APPROVAL_LINE_NO asc")
+    List<AlListResVo> getApprovalLine(@Param("approvalNo") String approvalNo);
+
+
+    @Select("<script>" +
+            "SELECT RESPONSE_TEXT, SIGN " +
+            "FROM APPROVAL_RESPONSES AR " +
+            "WHERE AR.APPROVAL_LINE_NO IN " +
+            "<foreach item='item' collection='approvalLineNos' open='(' separator=',' close=')'>" +
+            "#{item}" +
+            "</foreach>" +
+            "ORDER BY RESPONSE_NO ASC" +
+            "</script>")
+    List<ApprovalResponseVo> getResponseAl(@Param("approvalLineNos") List<String> approvalLineNos);
+
+    @Select("SELECT a.APPROVAL_NO , p.PRIORITY_NAME ,e.EMP_NAME ,a.TITLE ,a.CONTENT ,TO_CHAR(a.create_date, 'YY\"년\"MM\"월\"DD\"일\"') AS createDate ,a.APPROVAL_RANGE,a.APPROVAL_TYPE \n" +
+            "FROM APPROVALS a\n" +
+            "JOIN STATUSES s ON s.STATUS_NO =a.STATUS_NO\n" +
+            "JOIN PRIORITIES p ON p.PRIORITY_NO =a.PRIORITY_NO\n" +
+            "JOIN EMPLOYEE e ON e.EMP_ID =a.EMP_ID \n" +
+            "WHERE APPROVAL_NO =#{approvalNo}")
+    ApprovalVo getApprovalVo(@Param("approvalNo") String approvalNo);
+
+    @Select("SELECT VACATION_TEMPLATES_NO ,APPROVAL_NO ,VAC_CATE_NAME ,\n" +
+            "\tTEMPLATE_CONTENT ,TO_CHAR(START_DATE,'YY\"년\"MM\"월\"DD\"일\"') as START_DATE,TO_CHAR(END_DATE,'YY\"년\"MM\"월\"DD\"일\"') as END_DATE,USE_CNT ,\n" +
+            "\tTO_CHAR(CREATE_DATE,'YY\"년\"MM\"월\"DD\"일\"') as CREATE_DATE,TO_CHAR(UPDATE_DATE,'YY\"년\"MM\"월\"DD\"일\"') AS UPDATE_DATE ,TO_CHAR(DELETE_DATE,'YY\"년\"MM\"월\"DD\"일\"') as DELETE_DATE,NOTE \n" +
+            "FROM VACATION_TEMPLATES vt \n" +
+            "JOIN VAC_CATE vc ON vc.VAC_CATE_NO =vt.VAC_CATE_NO \n" +
+            "WHERE vt.APPROVAL_NO =#{approvalNo}")
+    VacationTemplateVo getVacTempVo(@Param("approvalNo") String approvalNo);
+
+    @Select("SELECT TEMPLATE_NO ,APPROVAL_NO,DOCUMENT_CATEGORY_NAME ,TEMPLATE_CONTENT,\n" +
+            "\tTO_CHAR(CREATE_DATE,'YY\"년\"MM\"월\"DD\"일\"') as CREATE_DATE,TO_CHAR(UPDATE_DATE,'YY\"년\"MM\"월\"DD\"일\"') AS UPDATE_DATE ,TO_CHAR(DELETE_DATE,'YY\"년\"MM\"월\"DD\"일\"') as DELETE_DATE,NOTE,\n" +
+            "\tTO_CHAR(START_DATE,'YY\"년\"MM\"월\"DD\"일\"') as START_DATE,TO_CHAR(END_DATE,'YY\"년\"MM\"월\"DD\"일\"') as END_DATE\n" +
+            "FROM DOCUMENT_TEMPLATES dt \n" +
+            "JOIN DOCUMENT_CATEGORY dc ON dc.DOCUMENT_CATEGORY_NO =dt.DOCUMENT_CATEGORY_NO \n" +
+            "WHERE dt.APPROVAL_NO =#{approvalNo}")
+    DocumentTemplateVo getDocTempVo(@Param("approvalNo") String approvalNo);
+
+    @Select("SELECT *\n" +
+            "FROM APPROVAL_LINES al \n" +
+            "WHERE APPROVAL_NO =#{approvalNo}\n" +
+            "AND EMP_ID =#{empId}")
+    String al(@Param("empId") String empId,@Param("approvalNo") String approvalNo);
+
+    @Update("UPDATE APPROVAL_LINES \n" +
+            "SET STATUS_NO =3\n" +
+            "WHERE EMP_ID =#{empId}\n" +
+            "AND APPROVAL_NO =#{approvalNo}")
+    void alDes(@Param("empId") String empId,@Param("approvalNo") String approvalNo);
+
+    @Insert("INSERT INTO APPROVAL_RESPONSES(RESPONSE_NO,APPROVAL_LINE_NO,RESPONSE_TEXT)\n" +
+            "VALUES(SEQ_APPROVAL_RESPONSES_NO.NEXTVAL,#{al},#{response})")
+    void setAlRes(@Param("al") String al,@Param("response") String response);
+
+    @Update("UPDATE APPROVALS \n" +
+            "SET STATUS_NO =3\n" +
+            "WHERE APPROVAL_NO =#{approvalNo}")
+    void aDes(@Param("approvalNo") String approvalNo);
+
+    @Select("SELECT seq\n" +
+            "FROM APPROVAL_LINES\n" +
+            "WHERE EMP_ID =#{empId}\n" +
+            "AND APPROVAL_NO =#{appNo}")
+    String getSeq(@Param("appNo") String appNo,@Param("empId") String empId);
+
+    @Update("UPDATE APPROVALS \n" +
+            "SET STATUS_NO =2\n" +
+            "WHERE APPROVAL_NO =#{appNo}")
+    void updateA(@Param("appNo") String appNo);
+
+    @Select("SELECT " +
+            "    a.approval_no AS approvalNo, " +
+            "    p.priority_name AS priority, " +
+            "    COALESCE(vc.vac_cate_name, dc.document_category_name) AS category, " +
+            "    a.title AS title, " +
+            "    a.content AS content, " +
+            "    TO_CHAR(a.create_date, 'YY\"년\"MM\"월\"DD\"일\"') AS createDate, " +
+            "    e.emp_name AS approver, " +
+            "    LISTAGG(e2.emp_name, '|') WITHIN GROUP (ORDER BY e2.role_no DESC) AS approvalLine, " +
+            "    s2.status_name AS status " +
+            "FROM approvals a " +
+            "JOIN employee e ON e.emp_id = a.emp_id " +
+            "JOIN priorities p ON p.priority_no = a.priority_no " +
+            "JOIN statuses s ON s.status_no = a.status_no " +
+            "JOIN approval_lines al ON al.approval_no = a.approval_no " +
+            "JOIN statuses s2 ON s2.status_no = al.status_no " +
+            "LEFT JOIN vacation_templates vt ON vt.approval_no = a.approval_no " +
+            "LEFT JOIN vac_cate vc ON vc.vac_cate_no = vt.vac_cate_no " +
+            "LEFT JOIN document_templates dt ON dt.approval_no = a.approval_no " +
+            "LEFT JOIN document_category dc ON dc.document_category_no = dt.document_category_no " +
+            "LEFT JOIN employee e2 ON e2.emp_id = al.emp_id " +
+            "WHERE al.emp_id = #{empId} " +
+            "AND s.status_no = 4 " +
+            "AND s2.status_no = 1 " +
+            "GROUP BY a.approval_no, p.priority_name, COALESCE(vc.vac_cate_name, dc.document_category_name), a.title, a.content, a.create_date, e.emp_name, s2.status_name")
+    List<ApprovalListVo> getAppListIngResIng(@Param("empId") String empId);
+
+    @Select("SELECT *\n" +
+            "FROM APPROVALS\n" +
+            "WHERE APPROVAL_NO =#{approvalNo}")
+    ApprovalVo getVoApp(@Param("approvalNo") String approvalNo);
+
+    @Delete("BEGIN\n" +
+            "    -- 자식 테이블에서 레코드 삭제\n" +
+            "    DELETE FROM APPROVAL_LINES\n" +
+            "    WHERE approval_no = #{approvalNo};\n" +
+            "\n" +
+            "    DELETE FROM VACATION_TEMPLATES\n" +
+            "    WHERE approval_no = #{approvalNo};\n" +
+            "\n" +
+            "    -- 부모 테이블에서 레코드 삭제\n" +
+            "    DELETE FROM APPROVALS\n" +
+            "    WHERE approval_no = #{approvalNo};\n" +
+            "END" +
+            ";")
+    void getDelApp(@Param("approvalNo") String approvalNo);
+
+    @Delete("BEGIN\n" +
+            "    -- 자식 테이블에서 레코드 삭제\n" +
+            "    DELETE FROM APPROVAL_LINES\n" +
+            "    WHERE approval_no = #{approvalNo};\n" +
+            "\n" +
+            "    DELETE FROM DOCUMENT_TEMPLATES\n" +
+            "    WHERE approval_no = #{approvalNo};\n" +
+            "\n" +
+            "    -- 부모 테이블에서 레코드 삭제\n" +
+            "    DELETE FROM APPROVALS\n" +
+            "    WHERE approval_no = #{approvalNo};\n" +
+            "END" +
+            ";")
+    void getDelApp2(@Param("approvalNo") String approvalNo);
+
+    @Select("SELECT\n" +
+            "    a.approval_no AS approvalNo,\n" +
+            "    p.priority_name AS priority,\n" +
+            "    COALESCE(VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME) AS category,\n" +
+            "    a.title AS title,\n" +
+            "    TO_CHAR(a.create_date, 'YY\"년\"MM\"월\"DD\"일\"') AS createDate,\n" +
+            "    e.emp_name AS approver,\n" +
+            "    LISTAGG(e2.emp_name, '|') WITHIN GROUP (ORDER BY e2.role_no DESC) AS approvalLine,\n" +
             "    s.status_name AS status\n" +
             "FROM APPROVALS A\n" +
             "JOIN EMPLOYEE E ON E.EMP_ID = A.EMP_ID\n" +
@@ -364,8 +552,98 @@ public interface ApprovalMapper {
             "LEFT JOIN DOCUMENT_TEMPLATES DT ON DT.APPROVAL_NO = A.APPROVAL_NO\n" +
             "LEFT JOIN DOCUMENT_CATEGORY DC ON DC.DOCUMENT_CATEGORY_NO = DT.DOCUMENT_CATEGORY_NO\n" +
             "LEFT JOIN EMPLOYEE E2 ON E2.emp_id = AL.emp_id\n" +
-            "WHERE Al.EMP_ID = #{empId}\n" +
-            "AND S.STATUS_NO = 1\n" +
-            "GROUP BY a.approval_no, p.priority_name, s.status_name, a.title, a.content,a.create_date, e.emp_name, VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME")
-    List<ApprovalListVo> getAppListIngRes(String empId);
+            "WHERE A.EMP_ID = #{empId}\n" +
+            "AND S.STATUS_NO in(1,2,3)\n" +
+            "GROUP BY a.approval_no, p.priority_name, s.status_name, a.title, a.create_date, e.emp_name, VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME")
+    List<ApprovalListVo> getAppListIng2(String empId);
+
+    @SelectProvider(type = ApprovalSqlProvider.class, method = "getAppListIngSea")
+    List<ApprovalListVo> getAppListIngSea(@Param("empId") String empId,@Param("typeApp") String typeApp,@Param("status") String status);
+
+    @Select("SELECT\n" +
+            "    a.approval_no AS approvalNo,\n" +
+            "    p.priority_name AS priority,\n" +
+            "    COALESCE(VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME) AS category,\n" +
+            "    a.title AS title,\n" +
+            "    TO_CHAR(a.create_date, 'YY\"년\"MM\"월\"DD\"일\"') AS createDate,\n" +
+            "    e.emp_name AS approver,\n" +
+            "    LISTAGG(e2.emp_name, '|') WITHIN GROUP (ORDER BY e2.role_no DESC) AS approvalLine,\n" +
+            "    s.status_name AS status\n" +
+            "FROM APPROVALS A\n" +
+            "JOIN EMPLOYEE E ON E.EMP_ID = A.EMP_ID\n" +
+            "JOIN priorities P ON P.priority_no = A.priority_no\n" +
+            "JOIN statuses S ON S.status_no = A.status_no\n" +
+            "JOIN approval_lines AL ON AL.approval_no = A.approval_no\n" +
+            "LEFT JOIN VACATION_TEMPLATES VT ON VT.APPROVAL_NO = A.APPROVAL_NO\n" +
+            "LEFT JOIN VAC_CATE VC ON VC.VAC_CATE_NO = VT.VAC_CATE_NO\n" +
+            "LEFT JOIN DOCUMENT_TEMPLATES DT ON DT.APPROVAL_NO = A.APPROVAL_NO\n" +
+            "LEFT JOIN DOCUMENT_CATEGORY DC ON DC.DOCUMENT_CATEGORY_NO = DT.DOCUMENT_CATEGORY_NO\n" +
+            "LEFT JOIN EMPLOYEE E2 ON E2.emp_id = AL.emp_id\n" +
+            "WHERE S.STATUS_NO in(2,3)\n" +
+            "GROUP BY a.approval_no, p.priority_name, s.status_name, a.title, a.create_date, e.emp_name, VC.VAC_CATE_NAME, DC.DOCUMENT_CATEGORY_NAME")
+    List<ApprovalListVo> getAppListIngAll(String empId);
+
+    @Select("SELECT *\n" +
+            "FROM EMPLOYEE")
+    List<EmployeeVo> getEmpVo();
+
+    @SelectProvider(type = ApprovalSqlProvider.class, method = "getAppListIngAllSearch")
+    List<ApprovalListVo> getAppListIngAllSearch(@Param("typeApp") String typeApp,@Param("emp") String emp,@Param("empId") String empId);
+
+    @Select("WITH RECURSIVE_DEPARTMENTS (DEPARTMENT_NO, DEPARTMENT_NAME, SUPERIOR_DEPARTMENT_NO) AS (\n" +
+            "    SELECT \n" +
+            "        DEPARTMENT_NO,\n" +
+            "        DEPARTMENT_NAME,\n" +
+            "        SUPERIOR_DEPARTMENT_NO\n" +
+            "    FROM \n" +
+            "        DEPARTMENTS\n" +
+            "    WHERE \n" +
+            "        DEPARTMENT_NO = #{empDept}\n" +
+            "    UNION ALL\n" +
+            "    SELECT \n" +
+            "        D.DEPARTMENT_NO,\n" +
+            "        D.DEPARTMENT_NAME,\n" +
+            "        D.SUPERIOR_DEPARTMENT_NO\n" +
+            "    FROM \n" +
+            "        DEPARTMENTS D\n" +
+            "    INNER JOIN \n" +
+            "        RECURSIVE_DEPARTMENTS RD ON D.DEPARTMENT_NO = RD.SUPERIOR_DEPARTMENT_NO\n" +
+            ")\n" +
+            "SELECT \n" +
+            "    E.EMP_ID AS empId,\n" +
+            "    E.EMP_NAME AS empName\n" +
+            "FROM \n" +
+            "    EMPLOYEE E\n" +
+            "JOIN \n" +
+            "    RECURSIVE_DEPARTMENTS D ON E.DEPARTMENT_NO = D.DEPARTMENT_NO\n" +
+            "LEFT JOIN \n" +
+            "    DEPARTMENTS SD ON D.SUPERIOR_DEPARTMENT_NO = SD.DEPARTMENT_NO\n" +
+            "JOIN \n" +
+            "    ROLES R ON E.ROLE_NO = R.ROLE_NO\n" +
+            "JOIN \n" +
+            "    POSITION P ON E.POSITION_NO = P.POSITION_NO")
+    List<EmployeeVo> getHighEmpVo(@Param("empId") String empId,@Param("empDept") String empDept);
+
+    @SelectProvider(type = ApprovalSqlProvider.class, method = "getAppListIngResSearch")
+    List<ApprovalListVo> getAppListIngResSearch(@Param("empId") String empId,@Param("pro") String pro);
+
+    @Select("SELECT APPROVAL_TYPE \n" +
+            "FROM APPROVALS\n" +
+            "WHERE APPROVAL_NO = #{appNo}")
+    String getVacType(@Param("appNo") String appNo);
+
+    @Select("SELECT USE_CNT \n" +
+            "FROM VACATION_TEMPLATES\n" +
+            "WHERE APPROVAL_NO = #{appNo}")
+    String getUseCnt(@Param("appNo") String appNo);
+
+    @Update("UPDATE EMPLOYEE \n" +
+            "SET REMAIN_VAC_CNT = REMAIN_VAC_CNT - #{use}\n" +
+            "WHERE EMP_ID = #{apEmp}")
+    void updateAppUse(@Param("apEmp") String apEmp,@Param("use") String use);
+
+    @Select("SELECT EMP_ID \n" +
+            "FROM APPROVALS\n" +
+            "WHERE APPROVAL_NO =#{appNo}")
+    String getApEmp(@Param("appNo") String appNo);
 }

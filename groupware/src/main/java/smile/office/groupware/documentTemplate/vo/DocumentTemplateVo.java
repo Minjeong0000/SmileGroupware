@@ -14,4 +14,5 @@ public class DocumentTemplateVo {
     private String startDate;
     private String endDate;
     private String note;
+    private String documentCategoryName;
 }
