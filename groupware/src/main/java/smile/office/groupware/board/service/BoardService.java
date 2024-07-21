@@ -99,7 +99,7 @@ public class BoardService {
 
     // 비속어 리스트
     private static final List<String> BAD_WORDS = Arrays.asList(
-            "사장놈", "사장ㅅㄲ", "부장놈", "부장ㅅㄲ", "이사놈", "이사ㅅㄲ","개새키"
+            "사장놈", "부장놈","이사놈","개새키","엄청난 나쁜말"
     );
     // 비속어가 포함되어 있는지 확인하는 메서드
     private boolean containsBadWords(String text) {
@@ -125,7 +125,7 @@ public class BoardService {
         }
         // 제목,내용이 비속어를 포함하고있는지 확인
         if (containsBadWords(vo.getTitle()) || containsBadWords(vo.getContent())) {
-            throw new Exception("부적절한 단어가 포함되어있습니다.");
+            throw new Exception("제목이나 내용에 부적절한 단어가 포함되어있습니다.");
         }
         return dao.edit(vo);
     }
@@ -156,7 +156,7 @@ public class BoardService {
         }
         // 제목,내용이 비속어를 포함하고있는지 확인
         if (containsBadWords(vo.getTitle()) || containsBadWords(vo.getContent())) {
-            throw new Exception("부적절한 단어가 포함되어있습니다.");
+            throw new Exception("제목이나 내용에 부적절한 단어가 포함되어있습니다.");
         }
 
 
