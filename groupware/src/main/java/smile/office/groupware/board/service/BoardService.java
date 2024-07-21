@@ -16,10 +16,6 @@ public class BoardService {
 
     private final BoardDao dao;
 
-    public int write(String writerNo,BoardVo vo) {
-        return dao.write(writerNo,vo);
-    }
-
 
     public BoardVo getBoardByNo(String no) {
         return dao.getBoardByNo(no);
@@ -66,19 +62,6 @@ public class BoardService {
 
     }
 
-    public int writeReply(BoardReplyVo replyVo) throws Exception {
-        if(replyVo.getWriterNo() == null){
-            throw new Exception("로그인 후 이용해주세요.");
-        }
-        if(replyVo.getContent() == null){
-            throw new Exception("내용을 작성해주세요.");
-        }
-        if(replyVo.getContent().contains("사장놈")){
-            throw new Exception("부적절한 단어가 포함되어있습니다.");
-        }
-        return dao.writeReply(replyVo);
-
-    }
 
     //제목으로검색
     public List<BoardVo> searchTitle(String title, PageVo pvo) {
@@ -114,29 +97,11 @@ public class BoardService {
 
     }
 
-    // 비속어 리스트를 정의.
+    // 비속어 리스트
     private static final List<String> BAD_WORDS = Arrays.asList(
             "사장놈", "사장ㅅㄲ", "부장놈", "부장ㅅㄲ", "이사놈", "이사ㅅㄲ","개새키"
     );
-
-    public int edit(BoardVo vo) throws Exception {
-        // 제목이 비어있으면 예외를 던집니다.
-        if (vo.getTitle() == null || vo.getTitle().trim().isEmpty()) {
-            throw new Exception("제목을 입력하세요.");
-        }
-        // 내용이 비어있으면 예외를 던집니다.
-        if (vo.getContent() == null || vo.getContent().trim().isEmpty()) {
-            throw new Exception("내용을 입력하세요.");
-        }
-        // 제목과 내용에서 비속어가 포함되어 있는지 검사합니다.
-        if (containsBadWords(vo.getTitle()) || containsBadWords(vo.getContent())) {
-            throw new Exception("부적절한 단어가 포함되어있습니다.");
-        }
-        // 비속어가 포함되지 않으면 정상 처리합니다.
-        return dao.edit(vo);
-    }
-
-    // 비속어가 포함되어 있는지 확인하는 메서드입니다.
+    // 비속어가 포함되어 있는지 확인하는 메서드
     private boolean containsBadWords(String text) {
         if (text == null) {
             return false;
@@ -148,4 +113,58 @@ public class BoardService {
         }
         return false;
     }
+    //게시글 수정
+    public int edit(BoardVo vo) throws Exception {
+        // 제목이 비어있음
+        if (vo.getTitle() == null || vo.getTitle().trim().isEmpty()) {
+            throw new Exception("제목을 입력하세요.");
+        }
+        // 내용이 비어있음
+        if (vo.getContent() == null || vo.getContent().trim().isEmpty()) {
+            throw new Exception("내용을 입력하세요.");
+        }
+        // 제목,내용이 비속어를 포함하고있는지 확인
+        if (containsBadWords(vo.getTitle()) || containsBadWords(vo.getContent())) {
+            throw new Exception("부적절한 단어가 포함되어있습니다.");
+        }
+        return dao.edit(vo);
+    }
+    //댓글 작성
+    public int writeReply(BoardReplyVo replyVo) throws Exception {
+        if(replyVo.getWriterNo() == null){
+            throw new Exception("로그인 후 이용해주세요.");
+        }
+        if(replyVo.getContent() == null|| replyVo.getContent().trim().isEmpty()){
+            throw new Exception("내용을 작성해주세요.");
+        }
+        if(containsBadWords(replyVo.getContent())){
+            throw new Exception("부적절한 단어가 포함되어있습니다.");
+        }
+        return dao.writeReply(replyVo);
+
+    }
+
+    //게시글 작성
+    public int write(String writerNo,BoardVo vo) throws Exception{
+        // 제목이 비어있음
+        if (vo.getTitle() == null || vo.getTitle().trim().isEmpty()) {
+            throw new Exception("제목을 입력하세요.");
+        }
+        // 내용이 비어있음
+        if (vo.getContent() == null || vo.getContent().trim().isEmpty()) {
+            throw new Exception("내용을 입력하세요.");
+        }
+        // 제목,내용이 비속어를 포함하고있는지 확인
+        if (containsBadWords(vo.getTitle()) || containsBadWords(vo.getContent())) {
+            throw new Exception("부적절한 단어가 포함되어있습니다.");
+        }
+
+
+        return dao.write(writerNo,vo);
+    }
+
+    
+    
+    
+    
 }

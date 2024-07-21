@@ -266,3 +266,64 @@ body {
 .container li {
   margin: 5px 0;
 }
+
+.search {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.search select {
+  padding: 10px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  color: #333;
+}
+
+.search input[type="text"] {
+  padding: 10px;
+  width: 250px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.search button {
+  padding: 10px 20px;
+  border: 1px solid #6f7bc9;
+  border-radius: 4px;
+  background-color: #6f7bc9;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.search button:hover {
+  background-color: #575fcf;
+  color: #fff;
+}
+
+.write {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.write button {
+  padding: 10px 20px;
+  border: 1px solid #6f7bc9;
+  border-radius: 4px;
+  background-color: #6f7bc9;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.write button:hover {
+  background-color: #575fcf;
+  color: #fff;
+}

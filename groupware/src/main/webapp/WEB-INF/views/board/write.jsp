@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>without bootstrap</title>
+    <title>게시글 작성</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
@@ -33,19 +33,17 @@
                 
                     <div class="write-area">
                         <div><h2>게시글 작성</h2></div>
-                        <form action="/board/write" method="post">
                             <p class="card-subtitle text-muted">제목</p>
-                            <input type="text" name="title" placeholder="제목을 입력하세요.">
+                            <input type="text" id="title" placeholder="제목을 입력하세요.">
                             <br />
                             <p class="card-subtitle text-muted">내용</p>
-                            <textarea id="summernote" name="content"></textarea>
+                            <textarea id="summernote" ></textarea>
                             <br />
                             <div class="submit-btn-wrap">
                                 <button type ="button" class="btn btn-secondary" onclick="location.href='/board/list'">취소</button>
-                                <button type="submit" class="btn btn-primary">게시글 작성</button>
+                                <button type ="button" id="submitBtn"  class="btn btn-primary">게시글 작성</button>
                             </div>
 
-                        </form>
 
 
                     </div>
@@ -59,49 +57,28 @@
 </html>
 
 <script>
-
-    $('#summernote').summernote({
-    placeholder: '내용을 입력하세요.',
-    tabsize: 2,
-    width: '100%',
-    height: 500,
-    minHeight: 450,
-    maxHeight: 600,
-    toolbar: [
-        ['style', ['style']],
-        ['font', ['bold', 'underline', 'clear']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'video']],
-        ['view', ['fullscreen', 'codeview', 'help']]
-    ],
-    callbacks: {
-        onImageUpload : handleImgUpload ,
-    } ,
-    });
-
-    function handleImgUpload(fileList) {
-    const fd = new FormData();
-
-    fd.append('fileList' , fileList[0]);
+   document.getElementById('submitBtn').addEventListener('click', function(event) {
+        event.preventDefault(); // 기본 동작 방지
+        console.log('작성버튼 클릭됨');
+        const title = $('#title').val();
+        console.log(title);
+        const content = $('#summernote').val();
+        console.log(content);
+        $.ajax({
+          url: '/board/write',
+          method: 'POST',
+          data: { title: title, content: content },
+          success: function(response) {
+            console.log('서버 응답:', response);
+            alert(response);
+            location.href = "/board/list";
+          },
+          error: function(xhr, status, error) {
+            console.log('AJAX 요청 실패:', xhr, status, error);
+            alert(xhr.responseText);
+          }
+        });
+      });
 
 
-    $.ajax({
-        url: "/board/upload",
-        method: "POST",
-        data: fd,
-        processData: false,
-        contentType: false,
-        success: function(resp) {
-            console.log("handleImgUpload 성공 ~~~ !");
-            console.log(resp);
-            $('#summernote').summernote('insertImage', resp);
-        },
-        error: function(err) {
-            console.error("handleImgUpload 실패 ㅠㅠ");
-            console.error(err);
-        }
-    });
-}
 </script>

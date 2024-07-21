@@ -408,6 +408,7 @@ $('#searchBtn').click(function() {
           'endDate': endDate
       },
       success: function(data) {
+            const pagination = $('.pagination');
 
 
           const tbody = $('#recordList tbody');
@@ -451,7 +452,7 @@ $('#searchBtn').click(function() {
               str += '<td>'+data[i].state+'</td>';
               str += "</tr>";
           }
-
+          pagination.empty();
           tbody.html(str); // 최종적으로 업데이트된 문자열 적용
       },
       error: function(e) {

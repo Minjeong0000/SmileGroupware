@@ -25,14 +25,14 @@
         <div class="column content">
             <div class="receive-msg-container">
 
-                <div class="msg-top"> <h1>보낸 쪽지함</h1></div>
+                <div class="msg-top"><h1>(${sessionScope.loginEmployeeVo.empName}) 님의 보낸 쪽지함</h1></div>
 
             </div>
 
           <table>
 
             <thead>
-              <div>
+              <div class="top-btn-wrap">
                   <button  onclick="deleteCheckedMessage();" id= "delete" ><i class="fa-solid fa-trash"></i>휴지통으로 이동</button>
                   <!-- <button  onclick="readCheckedMessage();" id= "read" ><i class="fa-solid fa-check"></i>읽음</button> -->
               </div>
