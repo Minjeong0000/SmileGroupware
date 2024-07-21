@@ -149,7 +149,7 @@
           </table>
           <hr>
 
-          <c:if test="${not empty pvo}">
+      
             <div class="pagination">
                 <c:if test="${pvo.currentPage > 1}">
                     <a href="?pno=1">&laquo;</a>
@@ -170,7 +170,7 @@
                     <a href="?pno=${pvo.maxPage}">Last</a>
                 </c:if>
             </div>
-         </c:if>
+    
 
 
         
