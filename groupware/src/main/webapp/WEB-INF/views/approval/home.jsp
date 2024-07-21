@@ -68,7 +68,7 @@
                     <table id="userCnt">
                     <tr>
                       <th>휴가</th>
-                      <th>프로젝트</th>
+                      <th>업무</th>
                       <th>긴급</th>
                       <th>보통</th>
                       <th>낮음</th>

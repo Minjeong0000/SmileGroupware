@@ -103,7 +103,7 @@
                 <br />
                 <div id="second">
                   <div id="s-title">
-                    <span><span id="b-g">&#10073;</span> 결재중</span>
+                    <span><span id="b-g">&#10073;</span> 결재</span>
                   </div>
                   <div>
                     <table id="productList" class="userList">
