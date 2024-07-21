@@ -99,7 +99,7 @@ public class BoardService {
 
     // 비속어 리스트
     private static final List<String> BAD_WORDS = Arrays.asList(
-            "사장놈", "부장놈","이사놈","개새키","엄청난 나쁜말"
+            "사장놈", "부장놈","이사놈","개새키","아주 나쁜말","엄청난 나쁜말","굉장히 나쁜말","대단히 나쁜말"
     );
     // 비속어가 포함되어 있는지 확인하는 메서드
     private boolean containsBadWords(String text) {

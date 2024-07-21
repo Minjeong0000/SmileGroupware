@@ -74,7 +74,7 @@
         <div class="column content">
 
             <div class="container">
-                <h1>게시글 상세조회</h1>
+                
                 <div class="card mt-4">
                     <div class="card-body">
                         <h3 class="card-title" id="title">${vo.title}</h3>
