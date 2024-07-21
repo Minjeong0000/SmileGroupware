@@ -33,7 +33,7 @@
           <table>
 
                 <thead>
-                        <div>
+                        <div class="top-btn-wrap">
                             <button onclick="deleteForever();" id="delete"><i class="fa-solid fa-trash"></i>영구삭제</button>
                             <button onclick="restoreMessage();"  id="read"><i class="fa-solid fa-trash-arrow-up"></i>복구하기</button>
                         </div>

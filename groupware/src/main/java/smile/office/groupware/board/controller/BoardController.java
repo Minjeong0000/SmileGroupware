@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
 import org.eclipse.tags.shaded.org.apache.regexp.RE;
+import org.eclipse.tags.shaded.org.apache.regexp.REDemo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -54,13 +55,22 @@ public class BoardController {
 
     //--------------------------게시글 작성하기---------------------------
     @PostMapping("write")
-    public String write(HttpServletRequest request,BoardVo vo){
-        HttpSession session = request.getSession();
-        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
-        String writerNo = loginEmployeeVo.getEmpId();
-        int result = service.write(writerNo,vo);
-        System.out.println("result = " + result);
-        return "redirect:/board/list";
+    public ResponseEntity<?> write(HttpServletRequest request,BoardVo vo){
+        try{
+            HttpSession session = request.getSession();
+            EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+            String writerNo = loginEmployeeVo.getEmpId();
+            int result = service.write(writerNo,vo);
+            if(result==1){
+                return ResponseEntity.ok("게시글 작성 성공");
+            }else{
+                return ResponseEntity.badRequest().body("게시글 작성 실패");
+            }
+            }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+        }
+
     }
     //------게시글 수정 화면
     @GetMapping("edit")
@@ -69,25 +79,35 @@ public class BoardController {
         model.addAttribute("vo",vo);
         return "board/edit";
     }
+    //게시글 수정 미리 작성된 내용 ajax불러오기(썸머노트용)
+    @GetMapping("edit/getPost")
+    public ResponseEntity<?> loadEditContent(String no){
+        BoardVo vo = service.getBoardByNo(no);
+        System.out.println("vo = " + vo);
+        if (vo!=null){
+            return ResponseEntity.ok(vo);
+        }
+        return ResponseEntity.badRequest().body("게시글 정보 불러오기 실패");
+    }
+
     //----------게시글 수정 기능
 
     @PostMapping("edit")
-    public String edit(BoardVo vo,Model model){
+    public ResponseEntity<?> edit(BoardVo vo){
         try{
 
             int result = service.edit(vo);
             System.out.println("result = " + result);
-            if(result!=1){
-                throw new Exception("게시글 수정 실패..");
-                
+            if(result==1){
+                return ResponseEntity.ok("게시글 수정 성공");
+            }else{
+                return ResponseEntity.badRequest().body("게시글 수정 실패");
             }
-            return "redirect:/board/list";
 
         }
         catch (Exception e){
-            model.addAttribute("errMsg",e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        return "redirect:/board/list";
     }
 
 
@@ -259,36 +279,6 @@ public class BoardController {
         response.put("pvo",pvo);
         return ResponseEntity.ok(response);
     }
-
-
-
-    // 여러 파일 업로드 처리
-    //TODO 이미지명랜덤바꾸기
-//    @PostMapping("/upload")
-//    @ResponseBody
-//    public String uploadFiles(@RequestParam("fileList") List<MultipartFile> fileList) throws IOException {
-//        MultipartFile file = fileList.get(0);
-//        String realPath = servletContext.getRealPath("/");
-//        String targetPath = "src\\main\\";
-//        int index = realPath.indexOf(targetPath);
-//        String desiredPath = realPath.substring(0, index + targetPath.length())+"resources\\static\\img\\board\\";
-//
-//        System.out.println("desiredPath = " + desiredPath);
-//
-//            // 파일 저장 경로 설정
-//            Path uploadPath = Paths.get(desiredPath);
-//            if (!Files.exists(uploadPath)) {
-//                Files.createDirectories(uploadPath);
-//            }
-//            // 파일을 지정된 경로로 저장
-//            File targetFile = new File(desiredPath + file.getOriginalFilename());
-//            file.transferTo(targetFile);
-//            // 업로드된 파일의 URL 생성
-//            String fileUrl = "http://192.168.40.105:5500/" + file.getOriginalFilename();
-//
-//
-//        return fileUrl;
-//    }
 
 //s3
     @PostMapping("/upload")

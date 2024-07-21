@@ -32,7 +32,7 @@
           <table>
 
             <thead>
-              <div>
+              <div class="top-btn-wrap">
                   <button  onclick="deleteCheckedMessage();" id= "delete" ><i class="fa-solid fa-trash"></i>휴지통으로 이동</button>
                   <button  onclick="readCheckedMessage();" id= "read" ><i class="fa-solid fa-check"></i>읽음</button>
               </div>

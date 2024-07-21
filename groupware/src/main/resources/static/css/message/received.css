@@ -389,3 +389,8 @@ button[type="submit"]:hover {
 .scroll {
   overflow: hidden;
 }
+
+.top-btn-wrap{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>without bootstrap</title>
+    <title>게시글 수정</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
@@ -26,34 +26,21 @@
     <body>
         <%@ include file="/WEB-INF/views/nav/sideNav.jsp" %>
         <div id="main" onclick="closeNav()">
-
-    
-    
             <div class="column">
-                
                     <div class="write-area">
-                        <div><h2>게시글 작성</h2></div>
-                        <form action="/board/edit" method="post">
-                            <input type="hidden" name="no" value="${vo.no}">
+                        <div><h2>게시글 수정</h2></div>
+                            <input type="hidden" id = "voNo" name="no" value="${vo.no}">
                             <p class="card-subtitle text-muted">제목</p>
-                            <input type="text" name="title" value="${vo.title}" placeholder="제목을 입력하세요.">
+                            <input type="text" id="title" name="title" placeholder="제목을 입력하세요.">
                             <br />
                             <p class="card-subtitle text-muted">내용</p>
-                            <textarea id="summernote" value="${vo.content}" name="content"></textarea>
+                            <textarea id="summernote"></textarea>
                             <br />
                             <div class="submit-btn-wrap">
                                 <button type ="button" class="btn btn-secondary" onclick="location.href='/board/list'">취소</button>
-                                <button type="submit" class="btn btn-primary">게시글 수정</button>
+                                <button type="button" onclick="edit(`${vo.no}`);" class="btn btn-primary">게시글 수정</button>
                             </div>
-
-                        </form>
-
-
                     </div>
-                    
-
-                
-
             </div>
         </div>
   </body>
@@ -61,48 +48,65 @@
 
 <script>
 
-    $('#summernote').summernote({
-    placeholder: '내용을 입력하세요.',
-    tabsize: 2,
-    width: '100%',
-    height: 500,
-    minHeight: 450,
-    maxHeight: 600,
-    toolbar: [
-        ['style', ['style']],
-        ['font', ['bold', 'underline', 'clear']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'video']],
-        ['view', ['fullscreen', 'codeview', 'help']]
-    ],
-    callbacks: {
-        onImageUpload : handleImgUpload ,
-    } ,
-    });
+function edit(no){
+            console.log('수정버튼클릭됨');
+            const title = $('#title').val();
+            const content = $('#summernote').val();
+            
+            $.ajax({
+                url:'/board/edit',
+                method:'POST',
+                data:{
+                    no:no,
+                    title:title,
+                    content:content
+                },
+                success:function(response){
+                    alert(response);
+                    location.href="/board/list";
+                },
+                error : function(xhr, status, error){
+                    alert(xhr.responseText);//예외메세지
+                }
 
-    function handleImgUpload(fileList) {
-    const fd = new FormData();
-
-    fd.append('fileList' , fileList[0]);
+            
 
 
-    $.ajax({
-        url: "/board/upload",
-        method: "POST",
-        data: fd,
-        processData: false,
-        contentType: false,
-        success: function(resp) {
-            console.log("handleImgUpload 성공 ~~~ !");
-            console.log(resp);
-            $('#summernote').summernote('insertImage', resp);
-        },
-        error: function(err) {
-            console.error("handleImgUpload 실패 ㅠㅠ");
-            console.error(err);
+            })
+
         }
-    });
-}
+
+
+
+
+    $(document).ready(function(){
+        var voNo = $('#voNo')
+        console.log(voNo);
+        
+
+
+        $.ajax({
+            url:'/board/edit/getPost',
+            method:"GET",
+            data:voNo,
+            success:function(vo){
+                console.log(vo);
+                const title = document.querySelector("#title")
+                title.innerHTML = vo.title;
+                $('#summernote').summernote("pasteHTML" , vo.content);
+
+            },
+            error:function(e){
+                alert(e.responseText);
+                location.href='/board/list'
+            }
+
+        })
+
+
+
+
+
+
+    })
 </script>
