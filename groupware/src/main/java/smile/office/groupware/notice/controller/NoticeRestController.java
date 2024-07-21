@@ -8,8 +8,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import smile.office.groupware.board.vo.BoardVo;
 import smile.office.groupware.employee.vo.EmployeeVo;
 import smile.office.groupware.notice.service.NoticeService;
 import smile.office.groupware.notice.vo.NoticeVo;
@@ -36,22 +39,23 @@ public class NoticeRestController {
     private String bucketName;
 
 
-    @GetMapping("list")
-    public List<NoticeVo> getNoticeList(){
-        List<NoticeVo> voList = service.getNoticeList();
-        return voList;
+    //공지사항 목록조회
+   @GetMapping("list")
+   public List<NoticeVo> getNoticeList(){
+       List<NoticeVo>voList = service.getNoticeList();
+       return voList;
 
         }
 
 
-    //공지사항 작성
+    //공지사항 작성하기
     @PostMapping
     public int write(HttpServletRequest request, NoticeVo vo) {
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
 
         String writerNo = loginEmployeeVo.getEmpId();
-        vo.setWriterNo(writerNo );
+        vo.setWriterNo(writerNo);
         int result = service.write(vo);
 
         if (result != 1) {
@@ -62,11 +66,29 @@ public class NoticeRestController {
     }
 
 
-    //공지사항 상세조회(번호)
+    //게시글 상세조회
     @GetMapping("detail")
-    public NoticeVo getNoticeByNo(NoticeVo vo){
+    public NoticeVo getNoticeByNo(HttpServletRequest request, @RequestParam("no") String no, Model model){
+        HttpSession session = request.getSession();
+        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+        NoticeVo vo = service.getNoticeByNo(no);
+        model.addAttribute("vo",vo);
+        return vo;
 
-        return service.getNoticeByNo(vo.getNo());
+    }
+
+    //삭제하기
+    @DeleteMapping("delete")
+    public int deleteNoticeByNo(String no){
+       int result = service.delete(no);
+       return result;
+    }
+
+    //수정하기
+    @PutMapping
+    public int edit(NoticeVo vo){
+       int result = service.edit(vo);
+       return result;
     }
 
 

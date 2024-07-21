@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>일정관리</title>
+
 <link rel="stylesheet" type="text/css" href="/css/event/personal/calendar.css">
 <script defer src="/js/event/personal.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -130,29 +131,57 @@
     height: 100%; /* 캘린더의 높이를 100%로 설정 */
 }
 
+#pp{
+    color: lightpink;
+}
+
+#dd{
+    color: lightskyblue;
+}
+
 </style>
 
 
 </head>
 <body>
-    <div id="mySidenav" class="sidenav">
-<a href="#" onclick="toggleNav(event)"><span class="menu-icon">&#9776;</span><span class="link-text">메뉴</span></a>
-            <a href="home.html"><span class="menu-icon">&#8962;</span><span class="link-text">홈</span></a>
-            <a href="/event/personal/calendar"><span class="menu-icon">&#128736;</span><span class="link-text">일정관리</span></a>
-            <a href="/emp/attendance/cal"><span class="menu-icon">&#128100;</span><span class="link-text">근태관리</span></a>
-            <a href="/approval/home"><span class="menu-icon">&#128203;</span><span class="link-text">결재</span></a>
-            <a href="/message/received"><span class="menu-icon">&#9742;</span><span class="link-text">연락처</span></a>
-            <a href="#"><span class="menu-icon">&#128101;</span><span class="link-text">커뮤니티</span></a>
-    </div>
+    
+    <%@ include file="/WEB-INF/views/nav/sideNav.jsp" %>
+
 
     <div id="main" onclick="closeNav()">
         <div class="column">
-           <button class="custom-button">일정관리</button>
-        </div>
+            <button class="custom-button">일정관리</button>
+        </br>
+            <div class="user-profile">
+               <img src="/img/userProfile/haEmp.jpg" alt="Profile Picture" class="profile-pic">
+               <br/>
+             
+              
+                  <div class="user-details">
+                   
+                    <br>
+                        <span>${sessionScope.loginEmployeeVo.empName}</span>|
+                        <span>${sessionScope.loginEmployeeVo.departmentName}</span>|
+                        <span>${sessionScope.loginEmployeeVo.roleName}</span>
+                        <span style="display: none;" id="empId">${sessionScope.loginEmployeeVo.empId}</span>
+                  <br>
+                        <span id="pp">● 개인업무</span>
+                        <span id="dd">● 부서업무</span>  
+                    </h3>
+                          
+                    </div>
+                       
+            
+
+         </div>        
+    </div>
         <div class="column content">
-          <div id='calendar'></div>
+            <div id='calendar'></div>
         </div>
     </div>
+</div>
+
+  
 
     <!-- 일정 등록/수정 모달창 구조 -->
     <div id="eventModal" class="modal">
