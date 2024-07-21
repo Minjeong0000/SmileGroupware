@@ -28,4 +28,12 @@ public class NoticeDao {
     public NoticeVo getNoticeByNo(String no) {
         return mapper.getNoticeByNo(no);
     }
+
+    public int delete(String no) {
+        return mapper.delete(no);
+    }
+
+    public int edit(NoticeVo vo) {
+        return mapper.edit(vo);
+    }
 }

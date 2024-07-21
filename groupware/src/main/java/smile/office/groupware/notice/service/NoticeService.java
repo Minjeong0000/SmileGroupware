@@ -27,4 +27,12 @@ public class NoticeService {
     public List<NoticeVo> getNoticeList() {
         return dao.getNoticeList();
     }
+
+    public int delete(String no) {
+        return dao.delete(no);
+    }
+
+    public int edit(NoticeVo vo) {
+        return dao.edit(vo);
+    }
 }

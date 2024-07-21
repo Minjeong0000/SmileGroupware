@@ -1,0 +1,124 @@
+/* 프로필 */
+.user-profile {
+  width: 100%; /* 전체 너비를 사용하도록 설정 */
+  padding: 20px; /* 내부 패딩 증가 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px; /* 요소 간 간격 설정 */
+}
+
+.date-time, .profile-pic, .user-details h3, .user-details p, .current-time {
+  margin-bottom: 5px; /* 마진 감소 */
+}
+
+.profile-pic {
+  width: 200px; /* 사진 크기 증가 */
+  height: 200px; /* 사진 크기 증가 */
+  border-radius: 50%;
+}
+
+.user-details h3, .user-details p {
+  margin-bottom: 2px; /* 내부 텍스트 간격 감소 */
+  font-size: 18px; /* 부서, 직급 글씨 크기 조정 */
+}
+
+/* common.css */
+
+/* 기존의 스타일 */
+body {
+  font-family: "Lato", sans-serif;
+  transition: margin-left .5s;
+  padding: 16px;
+  overflow-x: hidden;
+  margin: 0;  /* 기본 마진 제거 */
+}
+
+.sidenav {
+  height: 100%;
+  width: 70px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  border-radius: 4px;
+  background-color: #8d9cf5;
+  overflow-x: hidden;
+  transition: width 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  color: #000000;
+  padding: 10px;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
+  margin-bottom: 30px; /* 각 메뉴 아이템 사이의 간격 */
+  margin-left: 10px;
+}
+
+.sidenav a:hover {
+  color: #505050;
+}
+
+.sidenav .menu-icon {
+  font-size: 25px;
+  margin-right: 10px;
+}
+
+.link-text {
+  display: none; /* 처음에는 텍스트 숨김 */
+  white-space: nowrap;
+}
+
+.sidenav.open .link-text {
+  display: block; /* 사이드바가 열렸을 때 텍스트 표시 */
+}
+
+
+
+/* 공지사항 CSS 추가 */
+#noticeBoard {
+  width: 100%; /* 테이블 전체 너비를 부모 요소에 맞춤 */
+  margin-top: 20px; /* 상단 여백 추가 */
+  border-collapse: collapse; /* 테두리 겹침 방지 */
+}
+
+#noticeBoard th, #noticeBoard td {
+  border: 1px solid #ddd; /* 테두리 색 설정 */
+  text-align: center; /* 셀 내용을 중앙 정렬 */
+  padding: 8px; /* 셀 패딩 */
+}
+
+#noticeBoard th {
+  background-color: #8d9cf5; /* 헤더 배경색 설정 */
+  color: #fff; /* 헤더 텍스트 색상 */
+}
+
+#noticeBoard tr:nth-child(even) {
+  background-color: #f2f2f2; /* 짝수 행 배경색 */
+}
+
+#noticeBoard tr:hover {
+  background-color: #d3d9f7; /* 행에 호버 효과 추가 */
+}
+
+#writeButton {
+  padding: 10px 20px;
+  background-color: #8d9cf5;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  margin-bottom: 10px;
+}
+
+#writeButton:hover {
+  background-color: #6b78d1;
+}
