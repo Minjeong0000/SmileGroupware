@@ -46,6 +46,7 @@
   <a href="/approval/home"><span class="menu-icon">&#128203;</span><span class="link-text">결재</span></a>
   <a href="/message/received"><span class="menu-icon">&#9742;</span><span class="link-text">쪽지</span></a>
   <a href="/board/list"><span class="menu-icon">&#128101;</span><span class="link-text">커뮤니티</span></a>
+  <a href="/question/question"><span class="menu-icon">👀</span><span class="link-text">문의</span></a>
   <a href="/emp/logout" onclick="confirmLogout(event)" ><span class="menu-icon"><i class="fa-solid fa-right-from-bracket"></i></span><span class="link-text">로그아웃</span></a>
 </div>
 

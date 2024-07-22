@@ -13,7 +13,7 @@
     <div id="mySidenav" class="sidenav">
         <a href="#" onclick="toggleNav(event)"><span class="menu-icon">&#9776;</span><span class="link-text">메뉴</span></a>
         <a href="/admin/home"><span class="menu-icon">&#8962;</span><span class="link-text">홈</span></a>
-        <a href="/admin/notion"><span class="menu-icon">&#128196;</span><span class="link-text">공지사항 관리</span></a>
+        <a href="/notice/list"><span class="menu-icon">&#128196;</span><span class="link-text">공지사항 관리</span></a>
         <a href="/admin/adminQuestion"><span class="menu-icon">&#128172;</span><span class="link-text">문의사항</span></a>
         <a href="/admin/userEdit"><span class="menu-icon">&#128295;</span><span class="link-text">사용자 관리</span></a>
         <a href="#"><span class="menu-icon">🏢</span><span class="link-text">사원 조직도</span></a>
