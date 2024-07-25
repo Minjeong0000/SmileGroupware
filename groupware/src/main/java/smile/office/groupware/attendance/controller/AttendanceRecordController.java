@@ -34,21 +34,17 @@ public class AttendanceRecordController {
         System.out.println("출근기록 요청들어옴");
         // 이미 출근 기록이 있는지 확인
         if (service.hasCheckInToday(empId)) {
-            System.out.println("출근 기록 이미 있음");
             return "false";
         }
          // 출근 기록 저장
         int result = service.insertStartTime(empId);
         if (result != 1) {
-            System.out.println("출근기록 저장 실패");
             return "error";
 
         } else {
             System.out.println("result = " + result);
-            session.setAttribute("alertMsg","출근 기록 저장에 성공했습니다.");
             return "success";
         }
-
     }
 
 

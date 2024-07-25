@@ -67,9 +67,11 @@ document.addEventListener("DOMContentLoaded", function() {
             const pvo = response.pvo;
             let str = "";
             for (let i = 0; i < boardVoList.length; ++i) {
+                const highlightedTitle = boardVoList[i].title.replace(new RegExp(keyword, 'gi'), match => `<mark>${match}</mark>`);
+
                 str += '<div class="board-row">';
                 str += '<div class="board-column number">' + boardVoList[i].no + '</div>';
-                str += `<div class="board-column title"><a href="/board/detail?no=${boardVoList[i].no}">${boardVoList[i].title} (${boardVoList[i].replyCount}) </a></div>`;
+                str += `<div class="board-column title"><a href="/board/detail?no=${boardVoList[i].no}">${highlightedTitle} [${boardVoList[i].replyCount}] </a></div>`;
                 str += '<div class="board-column name">' + boardVoList[i].writerName + '</div>';
                 str += '<div class="board-column date">' + boardVoList[i].writeDate + '</div>';
                 str += '<div class="board-column views">' + boardVoList[i].hit + '</div>';

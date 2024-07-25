@@ -327,3 +327,8 @@ body {
   background-color: #575fcf;
   color: #fff;
 }
+
+mark{
+  background-color: #ffc267;
+  color: white;
+}
