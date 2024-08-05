@@ -133,7 +133,7 @@ function fetchMessageDetail(messageNo) {
         readYnTd.innerHTML = '<i class="fa-regular fa-envelope-open"></i>'; // 읽음 아이콘으로 변경
         readYnTd.setAttribute('data-readYn', 'Y'); // 데이터 속성 업데이트
       }
-      //상세 모달 띄우기
+      //상세 조회 모달 띄우기
       document.getElementById('msg-detail-modal').style.display = 'block';
       
     },

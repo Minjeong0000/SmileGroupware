@@ -140,18 +140,13 @@ public class MessageRestContoller {
 
     //쪽지 보내기
     @PostMapping
-    public ResponseEntity<?> insertMessage(HttpServletRequest request, MessageVo msgVo){
-        HttpSession session = request.getSession();
-        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+    public ResponseEntity<?> insertMessage(@SessionAttribute EmployeeVo loginEmployeeVo, MessageVo msgVo){
         String senderNo = loginEmployeeVo.getEmpId();
         System.out.println(senderNo);
-        int result = service.insertMessage(senderNo,msgVo);
+        int result0 = service.insertMessage(senderNo,msgVo);
         int result1 = service.insertSenderMessage(senderNo);
         int result2 = service.insertReceiverMessage(msgVo);
-        System.out.println("result = " + result);
-        System.out.println("result1 = " + result1);
-        System.out.println("result2 = " + result2);
-        if(result*result1*result2==1){
+        if(result0 * result1 * result2 == 1){
             return ResponseEntity.ok("쪽지 전송 성공");
         }
             return ResponseEntity.internalServerError().body("쪽지 전송 실패");
@@ -164,13 +159,10 @@ public class MessageRestContoller {
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();
         MessageVo vo = service.getMsgByNo(empId,num);
-        System.out.println("num = " + num);
         if(vo!=null && vo.getReceiverNo().equals(empId)){
             int result = service.readMessage(empId,num);
         }
-
         return ResponseEntity.ok(vo);
-
     }
 //중요쪽지지정(하나)
 @PutMapping("bookmark")

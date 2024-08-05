@@ -387,10 +387,6 @@ loadAttendanceList(1);
 
 
 $('#searchBtn').click(function() {
-
-
-
-
   var startDate = $('#startDate').val();
   var endDate = $('#endDate').val();
 

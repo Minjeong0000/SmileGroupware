@@ -101,7 +101,7 @@ public class BoardDao {
         int offset = pvo.getStartNum()-1;
         int limit = pvo.getBoardLimit();
         RowBounds rb = new RowBounds(offset,limit);
-        return mapper.searchWriterName(writerName,pvo);
+        return mapper.searchWriterName(writerName,rb);
     }
 
     public int getSearchTitleContentCnt(String titleContent) {
@@ -112,7 +112,7 @@ public class BoardDao {
         int offset = pvo.getStartNum()-1;
         int limit = pvo.getBoardLimit();
         RowBounds rb = new RowBounds(offset,limit);
-        return mapper.searchTitleContent(titleContent,pvo);
+        return mapper.searchTitleContent(titleContent,rb);
     }
 
     public int edit(BoardVo vo) {

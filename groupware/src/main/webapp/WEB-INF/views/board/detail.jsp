@@ -191,7 +191,7 @@ $(document).ready(function () {
                 }else{
                     alert('추천이 취소되었습니다.');
                 }
-                location.reload();//새로고침으로 추천수업데이트
+                location.reload();
             },
             error:function(e){
                 alert(e.responseText);

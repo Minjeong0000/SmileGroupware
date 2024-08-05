@@ -31,10 +31,9 @@ public class AttendanceRecordController {
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();
-        System.out.println("출근기록 요청들어옴");
         // 이미 출근 기록이 있는지 확인
         if (service.hasCheckInToday(empId)) {
-            return "false";
+            return "exist";
         }
          // 출근 기록 저장
         int result = service.insertStartTime(empId);
@@ -56,7 +55,7 @@ public class AttendanceRecordController {
         String empId = loginEmployeeVo.getEmpId();
 
         // 이미 퇴근 기록이 있는지 확인
-        if (service.hasCheckOutToday(empId)) {//true일때
+        if (service.hasCheckOutToday(empId)) {
            int endTimeOverWrite =  service. updateEndTimeAgain(empId);
             if(endTimeOverWrite == 1){
                 return "success";
@@ -84,9 +83,7 @@ public class AttendanceRecordController {
 
     // 출퇴근 기록 json으로 불러오기(리스트 페이지처리용)
     @GetMapping("history/list")
-    public ResponseEntity<?> getAttendanceListHistory(HttpServletRequest request,@RequestParam("pno") String pno) {
-        HttpSession session = request.getSession();
-        EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
+    public ResponseEntity<?> getAttendanceListHistory(@SessionAttribute EmployeeVo loginEmployeeVo,@RequestParam("pno") String pno) {
         String empId = loginEmployeeVo.getEmpId();
         int listCount = service.getTotalAttendanceCount(empId);
         int currentPage = Integer.parseInt(pno);
@@ -101,13 +98,15 @@ public class AttendanceRecordController {
         response.put("attendanceList", attendanceList);
         response.put("pvo", pvo);
         return ResponseEntity.ok(response);
-
     }
 
 
-    //기간선택해서 조회기능
+    //기간선택 조회기능
     @GetMapping("history")
-    public ResponseEntity <List<AttendanceVo>> getAttendanceHistory(HttpServletRequest request, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate){
+    public ResponseEntity <List<AttendanceVo>> getAttendanceHistory(HttpServletRequest request,
+                                                                    @RequestParam("startDate") String startDate,
+                                                                    @RequestParam("endDate") String endDate)
+    {
         HttpSession session = request.getSession();
         EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
         String empId = loginEmployeeVo.getEmpId();

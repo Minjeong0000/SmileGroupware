@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log(boardVoList[i].no);
                 str += '<div class="board-row">';
                 str += '<div class="board-column number">' + boardVoList[i].no + '</div>';
-                str += `<div class="board-column title"><a href="/board/detail?no=${boardVoList[i].no}">${boardVoList[i].title} (${boardVoList[i].replyCount}) </a></div>`;
+                str += `<div class="board-column title"><a href="/board/detail?no=${boardVoList[i].no}">${boardVoList[i].title} [${boardVoList[i].replyCount}] </a></div>`;
                 str += '<div class="board-column name">' + boardVoList[i].writerName + '</div>';
                 str += '<div class="board-column date">' + boardVoList[i].writeDate + '</div>';
                 str += '<div class="board-column views">' + boardVoList[i].hit + '</div>';

@@ -185,7 +185,7 @@ public interface BoardMapper {
               AND E.EMP_NAME LIKE '%'||#{writerName}||'%'
             ORDER BY B.B_NO DESC
             """)
-    List<BoardVo> searchWriterName(String writerName, PageVo pvo);
+    List<BoardVo> searchWriterName(String writerName, RowBounds rb);
 
     @Select("""
             SELECT COUNT(*)
@@ -206,7 +206,7 @@ public interface BoardMapper {
                 WHERE B.DEL_YN='N'
                   AND (B.TITLE LIKE '%'||#{titleContent}||'%' OR B.CONTENT LIKE '%'||#{titleContent}||'%')
             """)
-    List<BoardVo> searchTitleContent(String titleContent, PageVo pvo);
+    List<BoardVo> searchTitleContent(String titleContent, RowBounds rb);
     
 }
 
