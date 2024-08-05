@@ -130,18 +130,15 @@ public class BoardController {
 
     //추천토글
     @PostMapping("like")
-    public ResponseEntity<?>toggleLike(HttpServletRequest request, String no){
+    public ResponseEntity<?>toggleLike(@SessionAttribute EmployeeVo loginEmployeeVo,
+                                       String no){
         try{
-            HttpSession session = request.getSession();
-            EmployeeVo loginEmployeeVo = (EmployeeVo) session.getAttribute("loginEmployeeVo");
             String empId = loginEmployeeVo.getEmpId();
-
             boolean isLiked = service.toggleLike(no,empId);
             return ResponseEntity.ok(isLiked ? "liked":"unliked");
         }catch (Exception e){
             return ResponseEntity.badRequest().body("추천 혹은 추천 취소 실패");
         }
-
     }
     //게시글 삭제
     @PutMapping("delete")
@@ -173,8 +170,6 @@ public class BoardController {
     //------------댓글 삭제---------------
     @PutMapping("reply/delete")
     public ResponseEntity<?>deleteReply(@RequestParam("no")String no){
-
-
         int result = service.deleteReply(no);
         if(result==1){
             System.out.println("if문 no = " + no);
@@ -288,18 +283,13 @@ public class BoardController {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(file.getContentType());
         metadata.setContentLength(file.getSize());
-
         // 파일 이름을 UUID로 변경
         String randomFileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
-
         //s3에 업로드
         s3.putObject(bucketName,randomFileName,file.getInputStream(),metadata);
-
         // 파일을 지정된 경로로 저장
         URL url = s3.getUrl(bucketName,randomFileName);
-        System.out.println("url = " + url);
         return url.toString();
-
     }
 
 

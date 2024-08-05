@@ -113,6 +113,25 @@ public class BoardService {
         }
         return false;
     }
+    //게시글 작성
+    public int write(String writerNo,BoardVo vo) throws Exception{
+        // 제목이 비어있음
+        if (vo.getTitle() == null || vo.getTitle().trim().isEmpty()) {
+            throw new Exception("제목을 입력하세요.");
+        }
+        // 내용이 비어있음
+        if (vo.getContent() == null || vo.getContent().trim().isEmpty()) {
+            throw new Exception("내용을 입력하세요.");
+        }
+        // 제목,내용이 비속어를 포함하고있는지 확인
+        if (containsBadWords(vo.getTitle()) || containsBadWords(vo.getContent())) {
+            throw new Exception("제목이나 내용에 부적절한 단어가 포함되어있습니다.");
+        }
+        return dao.write(writerNo,vo);
+    }
+
+
+
     //게시글 수정
     public int edit(BoardVo vo) throws Exception {
         // 제목이 비어있음
@@ -144,24 +163,7 @@ public class BoardService {
 
     }
 
-    //게시글 작성
-    public int write(String writerNo,BoardVo vo) throws Exception{
-        // 제목이 비어있음
-        if (vo.getTitle() == null || vo.getTitle().trim().isEmpty()) {
-            throw new Exception("제목을 입력하세요.");
-        }
-        // 내용이 비어있음
-        if (vo.getContent() == null || vo.getContent().trim().isEmpty()) {
-            throw new Exception("내용을 입력하세요.");
-        }
-        // 제목,내용이 비속어를 포함하고있는지 확인
-        if (containsBadWords(vo.getTitle()) || containsBadWords(vo.getContent())) {
-            throw new Exception("제목이나 내용에 부적절한 단어가 포함되어있습니다.");
-        }
 
-
-        return dao.write(writerNo,vo);
-    }
 
     
     

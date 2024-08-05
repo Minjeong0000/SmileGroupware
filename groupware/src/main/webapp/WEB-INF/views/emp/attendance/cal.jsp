@@ -95,7 +95,7 @@
                 url: "/record/start",
                 type: "POST",
                 success: function(data) {
-                    if(data ==='false'){
+                    if(data ==='exist'){
                       alert('오늘은 이미 출근 기록이 있습니다.');
                       return;
                     }
@@ -128,12 +128,7 @@
                   if(data==='success'){
                   
                     alert('퇴근 기록에 성공했습니다.');
-                    // updateAttendanceStatus(); // 퇴근 기록 후 업데이트
                     location.href="/emp/attendance/cal";
-                    return;
-                  }
-                  if(data =='false'){
-                    alert('이미 퇴근 기록이 있습니다.')
                     return;
                   }
                   else{
