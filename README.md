@@ -64,6 +64,9 @@
 
 ## ERD
 
+![화면 캡처 2024-08-05 161008](https://github.com/user-attachments/assets/44f81fad-b541-434f-ac7b-c29b4f9b9a50)
+
+
 ## 발표 PPT
 https://www.canva.com/design/DAGH-OSfIFc/-gAZNZdmyM0Z_e1RwR_cfA/view?utm_content=DAGH-OSfIFc&utm_campaign=designshare&utm_medium=link&utm_source=editor
 
@@ -110,3 +113,24 @@ https://www.canva.com/design/DAGH-OSfIFc/-gAZNZdmyM0Z_e1RwR_cfA/view?utm_content
 
 
 ## 화면
+- 근태(캘린더)
+![근태기록](https://github.com/user-attachments/assets/f785cd72-15ed-4f5d-a837-4338a429bf28)
+- 근태(리스트)
+ ![23](https://github.com/user-attachments/assets/cf100ea8-c9c8-4b3c-b739-a3d9e84ceab5)
+  
+- 쪽지
+ ![24](https://github.com/user-attachments/assets/65872916-18f5-4f23-a940-73c267eb1d0b)
+ ![25](https://github.com/user-attachments/assets/4c17b50c-26ad-4bec-8aaa-07c79a274ed8)
+ ![26](https://github.com/user-attachments/assets/6ee3ab3a-5e35-47d5-af15-a5dbe63be8a6)
+
+ - 게시판
+    ![27](https://github.com/user-attachments/assets/b2b0341f-2609-42ae-a91b-28c7b98db314)
+    ![28](https://github.com/user-attachments/assets/b9d47473-1ad0-4bdf-a391-4a823c32c87f)
+    ![29](https://github.com/user-attachments/assets/2bb4a1d8-bcf4-4545-b82a-e06527557ea2)
+
+## 프로젝트 소감
+지난 프로젝트에서 아쉬웠던 점을 교훈 삼아, 이번 프로젝트에서는 최대한 많은 기능을 구현하기보다는 우선순위를 정해 필수적인 기능을 최우선으로 구현했습니다. 그 후에 다음 기능들을 순차적으로 구현하는 방식으로 작업하니, 시간도 단축되고 체계적으로 작업할 수 있었습니다.</br>
+
+ 작업에 들어가기 전 그날의 목표를 설정하고, 이를 노션 팀스페이스에 공유했습니다. 이렇게 주 단위와 일 단위로 계획을 세분화하니, 앞으로 나아가야 할 방향이 명확해졌고 각자의 작업 현황을 한눈에 확인할 수 있었습니다. 덕분에 일정 조정도 용이해져 프로젝트가 보다 체계적으로 진행되었습니다.</br>
+
+ 특히 이번 프로젝트에서는 AJAX를 최대한 활용하여 클라이언트와 서버 간의 통신을 깊이 이해하는 데 중점을 두었습니다. AJAX를 사용한 CRUD 작업을 통해 비동기적으로 데이터를 처리하고, 사용자 경험을 향상시킬 수 있었습니다. 이 과정에서 서버와의 실시간 데이터 통신과 상태 관리의 중요성을 깨닫게 되었고, 앞으로의 프로젝트에서 더욱 효과적으로 활용할 수 있을 것이라는 자신감도 얻었습니다. 이러한 경험은 클라이언트-서버 간의 원활한 상호작용을 이해하는 데 큰 도움이 되었고, 개발 작업에서의 기초를 더욱 확고히 할 수 있었습니다.
