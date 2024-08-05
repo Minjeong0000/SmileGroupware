@@ -14,7 +14,58 @@
 
 ## 개발 기간
 2024.06.11~2024.07.20
+
+## 개발 환경
+- IDE
+  
+  ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+![SQLDeveloper](https://img.shields.io/badge/SQL%20Developer-FF6F00.svg?style=for-the-badge&logo=oracle&logoColor=white
+)
+- DBMS
+  
+   ![Oracle](https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white)
+
+- WAS
+  
+  ![Apache Tomcat](https://img.shields.io/badge/apache%20tomcat-%23F8DC75.svg?style=for-the-badge&logo=apache-tomcat&logoColor=black)
+
+- Front
+
+   ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+  ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+  ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+
+
+- Back
+  
+  ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+
+- FrameWork&Library
+  
+  ![Spring](https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+  ![MyBatis](https://img.shields.io/badge/MyBatis-B4172C.svg?style=for-the-badge&logo=mybatis&logoColor=white)
+  ![summernote](https://img.shields.io/badge/Summernote-f3f3f3.svg?style=for-the-badge&logo=summernote&logoColor=black
+  )![fullcalendar](https://img.shields.io/badge/FullCalendar-007bff.svg?style=for-the-badge&logo=fullcalendar&logoColor=white
+  )
+
+- AWS
+ 
+  ![AWS](https://img.shields.io/badge/AWS%20S3-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white
+  )
+
+- 협업&ECT
+
+  ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
+  ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+  ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
+
+
+
 ## ERD
+
+## 발표 PPT
+https://www.canva.com/design/DAGH-OSfIFc/-gAZNZdmyM0Z_e1RwR_cfA/view?utm_content=DAGH-OSfIFc&utm_campaign=designshare&utm_medium=link&utm_source=editor
 
 # 담당 기능 목록
 
