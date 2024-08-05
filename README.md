@@ -114,7 +114,8 @@ https://www.canva.com/design/DAGH-OSfIFc/-gAZNZdmyM0Z_e1RwR_cfA/view?utm_content
 
 ## 화면
 - 근태(캘린더)
-![근태기록](https://github.com/user-attachments/assets/f785cd72-15ed-4f5d-a837-4338a429bf28)
+
+  ![근태기록](https://github.com/user-attachments/assets/f785cd72-15ed-4f5d-a837-4338a429bf28)
 - 근태(리스트)
  ![23](https://github.com/user-attachments/assets/cf100ea8-c9c8-4b3c-b739-a3d9e84ceab5)
   
